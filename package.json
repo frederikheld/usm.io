@@ -1,6 +1,6 @@
 {
   "name": "usm.io",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Represents an User Story Map and it's sub-components and can render it in HTML.",
   "main": "usm/usm.js",
   "scripts": {
