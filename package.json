@@ -1,0 +1,34 @@
+{
+  "name": "usm.io",
+  "version": "1.0.0",
+  "description": "Represents an User Story Map and it's sub-components and can render it in HTML.",
+  "main": "usm/usm.js",
+  "scripts": {
+    "test": "node node_modules/mocha/bin/mocha */tests/*.test.js",
+    "coverage": "node node_modules/nyc/bin/nyc npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frederikheld/usm.io.git"
+  },
+  "keywords": [
+    "html",
+    "json",
+    "reder",
+    "user-story-map",
+    "user-story-mapping",
+    "usm"
+  ],
+  "author": "Frederik S. Held (konten@frederikheld.de)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frederikheld/usm.io/issues"
+  },
+  "homepage": "https://github.com/frederikheld/usm.io#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-files": "^1.4.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
+  }
+}
