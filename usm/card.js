@@ -1,19 +1,41 @@
 'use strict'
 
-// const logger = require('../logger/logger')
-
 module.exports = Card
+
+const fsSync = require('fs')
 
 function Card (jsonCard) {
     if (jsonCard === undefined) {
-        throw new ReferenceError('No Card object given!')
+        throw new ReferenceError('Card description missing! Please pass json object or link to json file.')
     }
 
-    if (!(jsonCard instanceof Object) || Array.isArray(jsonCard)) {
-        throw new TypeError('Given Card object is not an object!')
+    if ((!(jsonCard instanceof Object) && !(typeof (jsonCard) === 'string')) || Array.isArray(jsonCard)) {
+        throw new TypeError('Card description missing! Please pass json object or link to json file.')
     }
 
-    this.jsonData = jsonCard
+    this.jsonData = {}
+
+    if (jsonCard instanceof Object) {
+        this.jsonData = jsonCard
+    } else {
+        // Load json from file
+        let jsonCardFromFileRaw
+        try {
+            jsonCardFromFileRaw = fsSync.readFileSync(jsonCard)
+        } catch (err) {
+            throw err
+        }
+        let jsonCardFromFile = JSON.parse(jsonCardFromFileRaw)
+
+        Object.assign(this.jsonData, jsonCardFromFile)
+        /**
+         * NOTE: It might be an anti-pattern to synchronously load
+         * from a file. But it is the most user-friendly and
+         * clean implementation I came up with. All async implementations
+         * would require another function besides the constructor to be
+         * called since the constructor itself can't be async.
+         */
+    }
 }
 
 Card.prototype.render = function () {
@@ -24,17 +46,21 @@ Card.prototype.render = function () {
     }
 
     result += '">'
+    const compareForEmptyTag = result
 
     if (this.jsonData.title) {
-        result += '\n    <h1>' + this.jsonData.title + '</h1>\n'
+        result += '\n    <h1>' + this.jsonData.title + '</h1>'
     }
 
     if (this.jsonData.description) {
-        result += '\n    <div class="description">\n'
-        result += this.jsonData.description
-        result += '\n    </div>\n'
+        result += '\n    <div class="description">'
+        result += '\n' + this.jsonData.description
+        result += '\n    </div>'
     }
 
+    if (result !== compareForEmptyTag) {
+        result += '\n'
+    }
     result += '</div>'
 
     return result

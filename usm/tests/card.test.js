@@ -1,5 +1,7 @@
 'use strict'
 
+const helpers = require('./helpers')
+
 const path = require('path')
 
 const chai = require('chai')
@@ -12,25 +14,44 @@ const Card = require('../card')
 
 describe('card', function () {
     describe('the constructor Card()', function () {
-        it('expects an object', function () {
-            expect(function () {
-                new Card({})
-            }).to.not.throw()
+        context('json object passed', function () {
+            it('takes an object', function () {
+                expect(function () {
+                    new Card({})
+                }).to.not.throw()
+            })
         })
 
-        it('throws an error if passed data is not a json object', function () {
-            expect(function () {
-                new Card('This is not an object')
-            }).to.throw(TypeError)
-            expect(function () {
-                new Card([])
-            }).to.throw(TypeError)
+        context('string passed', function () {
+            it('reads the json object from the file at the given relative location', async function () {
+                expect(function () {
+                    new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
+                }).to.not.throw()
+            })
+
+            it('throws an error if the string isn\'t a link to a file', function () {
+                expect(function () {
+                    new Card('blah blah')
+                }).to.throw(Error)
+            })
         })
 
-        it('throws an error if no data is passed at all', function () {
-            expect(function () {
-                new Card()
-            }).to.throw(ReferenceError)
+        context('invalid data type passed', function () {
+            it('throws an error if data is passed that is neither a string nor an object', function () {
+                expect(function () {
+                    new Card(5)
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Card([])
+                }).to.throw(TypeError)
+            })
+
+            it('throws an error if no data is passed at all', function () {
+                expect(function () {
+                    new Card()
+                }).to.throw(ReferenceError)
+            })
         })
     })
 
@@ -47,6 +68,7 @@ describe('card', function () {
             it('renders title field, if defined', async function () {
                 return cardRenderComparator('mock-card-title-only')
             })
+            it('')
 
             it('renders the description, if defined', function () {
                 return cardRenderComparator('mock-card-description-only')
@@ -54,6 +76,15 @@ describe('card', function () {
 
             it('assigns the release id as class with leading "release-"', function () {
                 return cardRenderComparator('mock-card-with-release')
+            })
+
+            it('renders card from json file', async function () {
+                const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
+                const htmlRendered = card.render()
+
+                const htmlMocked = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'mock-card-in-package.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlMocked))
             })
         })
     })
