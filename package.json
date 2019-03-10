@@ -5,6 +5,7 @@
   "main": "usm/usm.js",
   "scripts": {
     "test": "node node_modules/mocha/bin/mocha */tests/*.test.js",
+    "watch-test": "mocha --reporter=min --watch */tests/*.test.js",
     "coverage": "node node_modules/nyc/bin/nyc npm test"
   },
   "repository": {
