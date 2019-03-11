@@ -1,0 +1,190 @@
+body {
+    font-size: 10px;
+    font-family: Verdana, Helvetica, sans-serif;
+    margin: 0;
+    background-color: pink;
+}
+
+
+/* -- USM -- */
+
+.usm {
+    display: block;
+    padding: 0.4rem;
+    position: absolute;
+    /* left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, 0%); */
+}
+
+
+/* -- CARD -- */
+
+.card {
+    width: 9rem;
+    height: 6rem;
+    margin: 0.4rem ;
+    padding: 0.6rem;
+    box-sizing: border-box;
+    background-color: #ee9;
+    box-shadow: 0.2rem 0.2rem 0.2rem rgba(0,0,0,0.50);
+    cursor: pointer;
+}
+
+
+/* -- ACTIVITIES CONTAINER -- */
+
+.activities {
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* -- ACITIVITY -- */
+
+.activity {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-left: 1.2rem;
+}
+
+.activity:first-child {
+    margin-left: 0; 
+}
+
+.activity > .card {
+    background-color: #9ae;
+}
+
+
+/* -- STEPS CONTAINER -- */
+
+.steps {
+    /* background: darkgreen; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+
+/* -- STEP -- */
+
+.step {
+    /* background: lightgreen; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+
+.step > .card {
+    background-color: #9d9;
+    margin-bottom: 1.2rem;
+}
+
+
+/* -- CARDS CONTAINER -- */
+
+.cards {
+    display: grid;
+}
+
+
+/* -- CARD in general -- */
+
+.card {
+    /* background-image: linear-gradient(340deg, rgba(0,0,0,0.30) 0%,rgba(0,0,0,0) 20%); */
+    background-image: linear-gradient(340deg, rgba(255,255,255,0.50) 0%,rgba(255,255,255,0) 30%);
+}
+
+.card h1 {
+    font-size: 0.8rem;
+    line-height: 1.6em;
+    margin: 0;
+}
+
+.card .description {
+    visibility: hidden;
+}
+
+.modal {
+    visibility: hidden;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+}
+
+.modal-card {
+    overflow-y: scroll;
+
+    position: relative;
+    box-sizing: border-box;
+
+    width: 45rem;
+    height: 30rem;
+
+    top: 4rem;
+    max-height: calc(80% - 4rem);
+
+    left: 50%;
+    margin-left: -22.5rem;
+
+    z-index: 1;
+
+    font-size: 1rem;
+    box-shadow: 0 0 1rem rgba(0,0,0,0.25);
+    
+    padding: 1rem;
+
+    cursor: pointer;
+}
+
+.modal-card h1 {
+    margin-top: 0;
+}
+
+.card-is-selected {
+    background-color: #f66 !important;
+}
+
+.card-modal h1 {
+    margin-top: 0;
+}
+
+.show-modal {
+    visibility: visible;
+}
+
+/* -- timeline -- */
+
+.timeline {
+    height: 0.2rem;
+    width: calc(100% - 1.2rem);
+    background: #000;
+    position: absolute;
+    top: 14.3rem;
+    box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,0.50);
+}
+.timeline::after {
+    content: "";
+    position: absolute;
+    top: -0.3rem;
+    right: -0.4rem;
+    border-style: solid;
+    border-width: 0.4rem 0 0.4rem 1.2rem;
+    border-color: transparent transparent transparent #000;
+}
+
+/* == specific == */
+/* 
+.release-mvt2019 {
+    background-color: green;
+}
+
+.release-intermediate {
+    background-color: blue;
+} */
