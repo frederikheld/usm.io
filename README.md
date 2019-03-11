@@ -26,4 +26,4 @@ Make some changes in [example/input/usm-example.json](example/input/usm-example.
 
 ### Docs
 
-For more detailled information on the features of usm.io, read the tests. Start with [tests/usm.test.js](tests/usm.test.js).
+For more detailled information on the features of usm.io, read the tests. Start with [tests/usm.test.js](usm/tests/usm.test.js).
