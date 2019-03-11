@@ -4,7 +4,7 @@ const ActivitiesContainer = require('./activities')
 
 module.exports = Usm
 
-function Usm (jsonUsm, config) {
+function Usm (jsonUsm) {
     if (jsonUsm === undefined) {
         throw new ReferenceError('No USM object given!')
     }
@@ -18,11 +18,9 @@ function Usm (jsonUsm, config) {
     if (this.jsonUsm.activities) {
         this.activities = new ActivitiesContainer(this.jsonUsm.activities)
     }
-
-    this.config = config
 }
 
-Usm.prototype.render = function () {
+Usm.prototype.render = function (config) {
     // render header:
     let result = '<!DOCTYPE html>\n'
     result += '\n<html>\n'
@@ -30,15 +28,23 @@ Usm.prototype.render = function () {
     result += '\n    <meta charset="utf-8">'
     result += '\n    <title>usm.io</title>'
 
-    if (this.config) {
-        if (this.config.css) {
-            result += '\n   <link rel="stylesheet" type="text/css" href="' + this.config.css + '">'
+    if (config) {
+        if (typeof (config) !== 'object') {
+            throw new TypeError('Configuration object has to be an object!')
         }
-    }
 
-    if (this.config) {
-        if (this.config.js) {
-            result += '\n   <script src="' + this.config.js + '"></script>'
+        if (config.css) {
+            if (typeof (config.css) !== 'string') {
+                throw new TypeError('Key "css" of configuration object has to be a string!')
+            }
+            result += '\n    <link rel="stylesheet" type="text/css" href="' + config.css + '">'
+        }
+
+        if (config.js) {
+            if (typeof (config.js) !== 'string') {
+                throw new TypeError('Key "js" of configuration object has to be a string!')
+            }
+            result += '\n    <script src="' + config.js + '"></script>'
         }
     }
 
@@ -50,10 +56,18 @@ Usm.prototype.render = function () {
     if (this.activities) {
         result += '\n    ' + this.activities.render() + '\n'
     }
-    if (this.config) {
-        if (this.config.timeline === true) {
-            result += '\n    <div class="timeline"></div>\n'
+
+    let doRenderTimeline = false
+    if (config) {
+        if (config.timeline) {
+            if (typeof (config.timeline) !== 'boolean') {
+                throw new TypeError('Key "timeline" of configuration object has to be a boolean!')
+            }
+            doRenderTimeline = config.timeline
         }
+    }
+    if (doRenderTimeline) {
+        result += '\n    <div class="timeline"></div>\n'
     }
     result += '</div>'
 
