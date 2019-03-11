@@ -3,7 +3,7 @@
 const fs = require('fs').promises
 const path = require('path')
 
-const Usm = require('../../usm/usm')
+const Usm = require('../usm/usm')
 // If you have installed this package via npm, you do
 //      const Usm = require('usm.io')
 
