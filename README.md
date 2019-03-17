@@ -27,3 +27,8 @@ Make some changes in [example/input/usm-example.json](example/input/usm-example.
 ### Docs
 
 For more detailled information on the features of usm.io, read the tests. Start with [usm/tests/usm.test.js](usm/tests/usm.test.js).
+
+## Known Issues
+
+* Paths specified in json files have to be _relative to the script that is processing the json file_, not to the file itself. This is counter-intuitive and should be fixed soon.
+* There's a lot of duplication in all the modules that assemble the usm module. There should be one generic module for containers and one for cards. All the specific modules should extend one of those two basic modules.

@@ -1,12 +1,18 @@
 'use strict'
 
-const path = require('path')
-
 const chai = require('chai')
 const should = chai.should()
 const expect = chai.expect
 
+const chaiFiles = require('chai-files')
+chai.use(chaiFiles)
+const file = chaiFiles.file
+const dir = chaiFiles.dir
+
 const fs = require('fs').promises
+const fsSync = require('fs')
+const fsExtra = require('fs-extra')
+const path = require('path')
 
 const helpers = require('./helpers')
 
@@ -33,6 +39,49 @@ describe('usm', function () {
             expect(function () {
                 new Usm()
             }).to.throw(ReferenceError)
+        })
+    })
+
+    describe('Usm.prototype.renderPackages(outputPath, inputPath, config)', function () {
+        let outputPath = path.join(__dirname, 'output')
+
+        beforeEach(async function () {
+            try {
+                let stat = await fs.stat(outputPath)
+                if (stat.isDirectory()) {
+                    await fsExtra.remove(outputPath)
+                } else {
+                    throw new Error('"' + outputPath + '" is not a directory!')
+                }
+            } catch (err) {
+                if (err.code === 'ENOENT') {
+                    // directory doesn't exist yet. That's okay, we will create it some lines below.
+                } else {
+                    throw err
+                }
+            }
+            await fs.mkdir(outputPath)
+        })
+
+        it('copies all files from input directory to the output directory (for now, later it will convert everything that isn\'t html into html', async function () {
+            expect(dir(outputPath)).to.be.empty
+
+            const usm = new Usm({})
+
+            let inputPath = path.join(__dirname, 'mock-data', 'mock-packages-for-renderpackages')
+            let options = {}
+
+            await usm.renderPackages(outputPath, inputPath, options)
+
+            expect(dir(path.join(outputPath, 'package-1'))).to.exist
+            expect(file(path.join(outputPath, 'package-1', 'card.json'))).to.exist
+            expect(file(path.join(outputPath, 'package-1', 'index.html'))).to.exist
+
+            expect(dir(path.join(outputPath, 'package-2'))).to.exist
+            expect(file(path.join(outputPath, 'package-2', 'card.json'))).to.exist
+            expect(file(path.join(outputPath, 'package-2', 'entrypoint.html'))).to.exist
+            expect(dir(path.join(outputPath, 'package-2', 'more-files-to-copy'))).to.exist
+            expect(file(path.join(outputPath, 'package-2', 'more-files-to-copy', 'another-file.html'))).to.exist
         })
     })
 

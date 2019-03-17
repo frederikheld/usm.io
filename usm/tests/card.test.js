@@ -135,7 +135,6 @@ describe('card', function () {
             it('renders title field, if defined', async function () {
                 return cardRenderComparator('mock-card-title-only')
             })
-            it('')
 
             it('renders the description, if defined', function () {
                 return cardRenderComparator('mock-card-description-only')
@@ -145,14 +144,14 @@ describe('card', function () {
                 return cardRenderComparator('mock-card-with-release')
             })
 
-            // it('renders card from json file', async function () {
-            //     const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
-            //     const htmlRendered = card.render()
+            it('renders a button "open package", if field "entrypoint" is given. The button points to the given entrypoint.', async function () {
+                const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package-with-entrypoint', 'card.json'))
+                let htmlRendered = card.render()
 
-            //     const htmlMocked = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'mock-card-in-package.html'), 'utf8')
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'mock-card-in-package-with-entrypoint.html'), 'utf8')
 
-            //     helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlMocked))
-            // })
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
         })
     })
 })

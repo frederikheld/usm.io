@@ -1,5 +1,7 @@
 'use strict'
 
+const fsExtra = require('fs-extra')
+
 const ActivitiesContainer = require('./activities')
 
 module.exports = Usm
@@ -18,6 +20,15 @@ function Usm (jsonUsm) {
     if (this.jsonUsm.activities) {
         this.activities = new ActivitiesContainer(this.jsonUsm.activities)
     }
+}
+
+/**
+ * Right now this is just copying all files from the input directory
+ * to the output directory. Later it will convert everything that
+ * isn't html into html.
+ */
+Usm.prototype.renderPackages = async function (outputPath, inputPath, options) {
+    await fsExtra.copy(inputPath, outputPath)
 }
 
 Usm.prototype.render = function (config) {

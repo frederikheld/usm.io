@@ -100,6 +100,13 @@ Card.prototype.render = function () {
     if (this.jsonData.description) {
         result += '\n    <div class="description">'
         result += '\n' + this.jsonData.description
+
+        if (this.jsonData.entrypoint) {
+            result += '\n        <input type="button" class="btn_open_package" onclick="location.href=\''
+            result += this.jsonData.entrypoint
+            result += '\'" value="Open Package"></input>'
+        }
+
         result += '\n    </div>'
     }
 
