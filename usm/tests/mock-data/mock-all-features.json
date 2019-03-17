@@ -1,0 +1,23 @@
+{
+    "activities": [
+        {
+            "title": "activity 1",
+            "description": "description of activity 1",
+            "steps": [
+                {
+                    "title": "step 1-1",
+                    "description": "description of step 1-1",
+                    "cards": [
+                        {
+                            "title": "card 1-1-1",
+                            "description": "description of card 1-1-1"
+                        },
+                        {
+                            "link": "./tests/mock-data/cards/card_1-1-2/card.json"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

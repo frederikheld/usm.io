@@ -20,10 +20,23 @@ describe('card', function () {
                     new Card({})
                 }).to.not.throw()
             })
+
+            context('field "link" in object', function () {
+                it('reads the json object from the file at the absolute location given by "link" and renders the card as it would render the directly passed card', async function () {
+                    const card = new Card({
+                        'link': './tests/mock-data/mock-card-in-package/card-package/card.json'
+                    })
+                    let htmlRendered = card.render()
+
+                    let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'mock-card-in-package.html'), 'utf-8')
+
+                    helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+                })
+            })
         })
 
         context('string passed', function () {
-            it('reads the json object from the file at the given relative location', async function () {
+            it('reads the json object from the file at a given absolute location', async function () {
                 expect(function () {
                     new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
                 }).to.not.throw()
@@ -33,6 +46,15 @@ describe('card', function () {
                 expect(function () {
                     new Card('blah blah')
                 }).to.throw(Error)
+            })
+
+            it('renders the card from the file as it would render the directly passed card', async function () {
+                const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
+                let htmlRendered = card.render()
+
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-rendered-from-file.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
         })
 
@@ -78,14 +100,14 @@ describe('card', function () {
                 return cardRenderComparator('mock-card-with-release')
             })
 
-            it('renders card from json file', async function () {
-                const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
-                const htmlRendered = card.render()
+            // it('renders card from json file', async function () {
+            //     const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
+            //     const htmlRendered = card.render()
 
-                const htmlMocked = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'mock-card-in-package.html'), 'utf8')
+            //     const htmlMocked = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'mock-card-in-package.html'), 'utf8')
 
-                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlMocked))
-            })
+            //     helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlMocked))
+            // })
         })
     })
 })
