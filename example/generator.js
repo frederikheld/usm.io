@@ -11,10 +11,13 @@ let main = async function () {
     const usmJson = JSON.parse(await fs.readFile(path.join('input', 'usm-example.json')))
 
     const options = {
-        'css': './web/styles.css',
-        'js': './web/scripts.js',
+        'css': './styles.css',
+        'js': './scripts.js',
         'timeline': true
     }
+    // NOTE: usm.io will put the links to css and js files into the respective tags
+    //       exactly as they are given here.
+    //       So they need to be relative to the output file!
     const usm = new Usm(usmJson)
 
     const usmHtml = usm.render(options)
