@@ -11,8 +11,8 @@ let main = async function () {
     const usmJson = JSON.parse(await fs.readFile(path.join('input', 'usm-example.json')))
 
     const options = {
-        'css': path.join(__dirname, 'styles.css'),
-        'js': path.join(__dirname, 'scripts.js'),
+        'css': './web/styles.css',
+        'js': './web/scripts.js',
         'timeline': true
     }
     const usm = new Usm(usmJson)
@@ -20,7 +20,7 @@ let main = async function () {
     const usmHtml = usm.render(options)
 
     await fs.writeFile(
-        path.join('output', 'usm-example.html'),
+        path.join('web', 'usm-example.html'),
         usmHtml,
         {
             encoding: 'utf-8'
