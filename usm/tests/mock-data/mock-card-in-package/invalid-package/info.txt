@@ -1,0 +1,2 @@
+A valid package needs a card.json file.
+This package is lacking a card.json file.
