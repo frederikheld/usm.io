@@ -12,7 +12,7 @@ const fs = require('fs').promises
 
 const Card = require('../card')
 
-describe.only('card', function () {
+describe('card', function () {
     describe('the constructor Card()', function () {
         context('json object passed', function () {
             it('takes an object', function () {
@@ -80,28 +80,28 @@ describe.only('card', function () {
             })
         })
 
-        // context('string passed', function () {
-        // it('reads the json object from the file at a given absolute location', async function () {
-        //     expect(function () {
-        //         new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
-        //     }).to.not.throw()
-        // })
+        context('string passed', function () {
+            it('reads the json object from the file at a given absolute location', async function () {
+                expect(function () {
+                    new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
+                }).to.not.throw()
+            })
 
-        // it('throws an error if the string isn\'t a link to a file', function () {
-        //     expect(function () {
-        //         new Card('blah blah')
-        //     }).to.throw(Error)
-        // })
+            it('throws an error if the string isn\'t a link to a file', function () {
+                expect(function () {
+                    new Card('blah blah')
+                }).to.throw(RangeError)
+            })
 
-        //     it('renders the card from the file as it would render the directly passed card', async function () {
-        //         const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
-        //         let htmlRendered = card.render()
+            it('renders the card from the file as it would render the directly passed card', async function () {
+                const card = new Card(path.join(__dirname, 'mock-data', 'mock-card-in-package', 'card-package', 'card.json'))
+                let htmlRendered = card.render()
 
-        //         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-rendered-from-file.html'), 'utf8')
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-card-rendered-from-file.html'), 'utf8')
 
-        //         helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
-        //     })
-        // })
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+        })
 
         context('invalid data type passed', function () {
             it('throws a TypeError if data is passed that is neither a string nor an object', function () {
