@@ -52,21 +52,18 @@
                     "cards": [
                         {
                             "title": "Enter personal info",
-                            "description": "Enter my basic personal info like name, post code, and email address",
-                            "cards": [
-                                {
-                                    "title": "Describe proferences",
-                                    "description": "Describe my movie proferences"
-                                },
-                                {
-                                    "title": "Connect to Social Networks",
-                                    "description": "Connect to Social networks like Facebook & Twitter"
-                                },
-                                {
-                                    "title": "Connect to streaming accounts",
-                                    "description": "Connect to my streaming accounts like Netflix, Hulu, or Amazon"
-                                }
-                            ]
+                            "description": "Enter my basic personal info like name, post code, and email address"
+                        },
+                        {
+                            "title": "Describe proferences",
+                            "description": "Describe my movie proferences"
+                        },
+                        {
+                            "title": "Connect to Social Networks",
+                            "description": "Connect to Social networks like Facebook & Twitter"
+                        },
+                        {
+                            "link": "./../example/input/packages/connect-to-streaming-accounts"
                         }
                     ]
                 }

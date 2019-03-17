@@ -1,1 +1,3 @@
-web/usm-example.html
+web/
+!web/scripts.js
+!web/styles.css

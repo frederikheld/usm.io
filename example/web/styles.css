@@ -54,7 +54,7 @@ body {
 }
 
 .activity > .card {
-    background-color: #9ae;
+    background-color: #9d9;
 }
 
 
@@ -78,7 +78,7 @@ body {
 }
 
 .step > .card {
-    background-color: #9d9;
+    background-color: #9ae;
     margin-bottom: 1.2rem;
 }
 
@@ -178,13 +178,3 @@ body {
     border-width: 0.4rem 0 0.4rem 1.2rem;
     border-color: transparent transparent transparent #000;
 }
-
-/* == specific == */
-/* 
-.release-mvt2019 {
-    background-color: green;
-}
-
-.release-intermediate {
-    background-color: blue;
-} */
