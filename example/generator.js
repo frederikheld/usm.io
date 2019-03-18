@@ -9,21 +9,6 @@ const Usm = require('../usm/usm')
 //      const Usm = require('usm.io')
 
 let main = async function () {
-    const usmJson = JSON.parse(await fs.readFile(path.join('input', 'usm-example.json')))
-
-    const options = {
-        'css': './styles.css',
-        'js': './scripts.js',
-        'timeline': true
-    }
-    // NOTE: usm.io will put the links to css and js files into the respective tags
-    //       exactly as they are given here.
-    //       So they need to be relative to the output file!
-    const usm = new Usm(usmJson)
-
-    // render usm:
-    const usmHtml = usm.render(options)
-
     // Prepare output directory for packages:
     const outputPackagesPath = path.join(__dirname, 'web', 'packages')
     try {
@@ -41,8 +26,23 @@ let main = async function () {
     }
     await fs.mkdir(outputPackagesPath)
 
+    const usmJson = JSON.parse(await fs.readFile(path.join('input', 'usm-example.json')))
+
+    const options = {
+        'css': './styles.css',
+        'js': './scripts.js',
+        'timeline': true
+    }
+    // NOTE: usm.io will put the links to css and js files into the respective tags
+    //       exactly as they are given here.
+    //       So they need to be relative to the output file!
+    const usm = new Usm(usmJson, path.join(__dirname, 'input', 'packages'), outputPackagesPath)
+
+    // render usm:
+    const usmHtml = usm.renderMap(options)
+
     // render packages:
-    usm.renderPackages(outputPackagesPath, path.join(__dirname, 'input', 'packages'))
+    usm.renderPackages()
 
     await fs.writeFile(
         path.join('web', 'usm-example.html'),

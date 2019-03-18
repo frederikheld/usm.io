@@ -1,15 +1,14 @@
 window.onload = function () {
-
     let cards = document.querySelectorAll('.card')
     let modal
 
-    function createModal() {
+    function createModal () {
         let body = document.querySelector('body')
 
         let modal = document.createElement('div')
         modal.classList.add('modal')
         body.appendChild(modal)
-        
+
         modal.addEventListener('click', hideModal)
 
         let modalCard = document.createElement('div')
@@ -20,8 +19,7 @@ window.onload = function () {
     }
     modal = createModal()
 
-    function showModal() {
-
+    function showModal () {
         hideModal()
 
         // empty modal card:
@@ -43,17 +41,16 @@ window.onload = function () {
             descriptionHtml.innerHTML = description.innerHTML
             modalCard.appendChild(descriptionHtml)
         }
-        modalCard.style.backgroundColor = getComputedStyle(this).backgroundColor
+        modalCard.style.backgroundColor = window.getComputedStyle(this).backgroundColor
 
         // highlight active card:
         this.classList.add('card-is-selected')
 
         // show modal:
         modal.classList.add('show-modal')
-
     }
 
-    function hideModal() {
+    function hideModal () {
         modal.classList.remove('show-modal')
         for (let i = 0; i < cards.length; i++) {
             cards[i].classList.remove('card-is-selected')
@@ -66,5 +63,4 @@ window.onload = function () {
         }
     }
     attachEventListeners(cards)
-
 }
