@@ -20,30 +20,82 @@ const Usm = require('../usm')
 
 describe('usm', function () {
     describe('the constructor Usm(jsonUsm)', function () {
-        it('expects a JSON object', function () {
-            expect(function () {
-                new Usm({})
-            }).to.not.throw()
+        describe('parameter "jsonObject"', function () {
+            it('expects a JSON object', function () {
+                expect(function () {
+                    new Usm({})
+                }).to.not.throw()
+            })
+
+            it('throws an error if the passed data is not a json object', function () {
+                expect(function () {
+                    new Usm('This is not an object')
+                }).to.throw(TypeError)
+                expect(function () {
+                    new Usm([])
+                }).to.throw(TypeError)
+            })
+
+            it('throws an error if no data is passed at all', function () {
+                expect(function () {
+                    new Usm()
+                }).to.throw(ReferenceError)
+            })
         })
 
-        it('throws an error if the passed data is not a json object', function () {
-            expect(function () {
-                new Usm('This is not an object')
-            }).to.throw(TypeError)
-            expect(function () {
-                new Usm([])
-            }).to.throw(TypeError)
+        describe('the parameter "inputDir"', function () {
+            it('accepts a string that is a valid absolute path to a directory', function () {
+                let inputDir = path.join(__dirname, 'mock-data', 'input', 'existing-folder')
+                const usm = new Usm({}, inputDir)
+                usm.getInputDir().should.equal(inputDir)
+            })
+
+            it('throws an error if the string isn\'t a valid path to a directory', function () {
+                let inputDir = path.join(__dirname, 'mock-data', 'input', 'non-existing-folder')
+                expect(function () {
+                    new Usm({}, inputDir)
+                }).to.throw(RangeError)
+
+                let inputDir2 = path.join(__dirname, 'mock-data', 'input', 'existing-file.txt')
+                expect(function () {
+                    new Usm({}, inputDir2)
+                }).to.throw(RangeError)
+            })
+
+            it('defaults to "./input" relative to where Usm() is called, if no value is given', function () {
+                const usm = new Usm({})
+                usm.getInputDir().should.equal(path.join(__dirname, '..', 'input'))
+            })
         })
 
-        it('throws an error if no data is passed at all', function () {
-            expect(function () {
-                new Usm()
-            }).to.throw(ReferenceError)
+        describe('the parameter "outputDir"', function () {
+            it('accepts a string that is a valid absolute path to a directory', function () {
+                let outputDir = path.join(__dirname, 'mock-data', 'output', 'existing-folder')
+                const usm = new Usm({}, outputDir)
+                usm.getInputDir().should.equal(outputDir)
+            })
+
+            it('throws an error if the string isn\'t a valid path to a directory', function () {
+                let outputDir = path.join(__dirname, 'mock-data', 'output', 'non-existing-folder')
+                expect(function () {
+                    new Usm({}, outputDir)
+                }).to.throw(RangeError)
+
+                let outputDir2 = path.join(__dirname, 'mock-data', 'output', 'existing-file.txt')
+                expect(function () {
+                    new Usm({}, outputDir2)
+                }).to.throw(RangeError)
+            })
+
+            it('defaults to "./output" relative to where Usm() is called, if no value is given', function () {
+                const usm = new Usm({})
+                usm.getOutputDir().should.equal(path.join(__dirname, '..', 'output'))
+            })
         })
     })
 
-    describe('Usm.prototype.renderPackages(outputPath, inputPath, config)', function () {
-        let outputPath = path.join(__dirname, 'output')
+    describe('Usm.prototype.renderPackages(config)', function () {
+        let outputPath = path.join(__dirname, 'temp', 'output')
 
         beforeEach(async function () {
             try {
@@ -51,7 +103,7 @@ describe('usm', function () {
                 if (stat.isDirectory()) {
                     await fsExtra.remove(outputPath)
                 } else {
-                    throw new Error('"' + outputPath + '" is not a directory!')
+                    throw new Error('"' + outputPath + '" exists and is not a directory!')
                 }
             } catch (err) {
                 if (err.code === 'ENOENT') {
@@ -60,18 +112,17 @@ describe('usm', function () {
                     throw err
                 }
             }
-            await fs.mkdir(outputPath)
+            await fsExtra.mkdirp(outputPath)
         })
 
         it('copies all files from input directory to the output directory (for now, later it will convert everything that isn\'t html into html', async function () {
             expect(dir(outputPath)).to.be.empty
 
-            const usm = new Usm({})
+            let inputPath = path.join(__dirname, 'mock-data', 'usm.renderPackages')
+            const usm = new Usm({}, inputPath, outputPath)
 
-            let inputPath = path.join(__dirname, 'mock-data', 'mock-packages-for-renderpackages')
             let options = {}
-
-            await usm.renderPackages(outputPath, inputPath, options)
+            await usm.renderPackages(options)
 
             expect(dir(path.join(outputPath, 'package-1'))).to.exist
             expect(file(path.join(outputPath, 'package-1', 'card.json'))).to.exist
@@ -85,7 +136,7 @@ describe('usm', function () {
         })
     })
 
-    describe('Usm.prototype.render(config)', function () {
+    describe('Usm.prototype.renderMap(config)', function () {
         // context('stored json object is invalid', function () {
 
         // })
@@ -98,7 +149,7 @@ describe('usm', function () {
 
                     const usm = new Usm(jsonUsm)
 
-                    let htmlRendered = usm.render()
+                    let htmlRendered = usm.renderMap()
 
                     let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                     htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'), 'utf8')
@@ -115,7 +166,7 @@ describe('usm', function () {
 
             const usm = new Usm(jsonUsm)
 
-            let htmlRendered = usm.render()
+            let htmlRendered = usm.renderMap()
 
             let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-activities-empty.html'), 'utf8')
@@ -137,7 +188,7 @@ describe('usm', function () {
                                 let config = {
                                     css: './path/to/stylesheet.css'
                                 }
-                                let htmlRendered = usm.render(config)
+                                let htmlRendered = usm.renderMap(config)
 
                                 let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-with-stylesheet.html'), 'utf8')
                                 htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'), 'utf8')
@@ -156,7 +207,7 @@ describe('usm', function () {
                                 }
 
                                 expect(function () {
-                                    usm.render(config)
+                                    usm.renderMap(config)
                                 }).to.throw(TypeError)
                             })
                         })
@@ -171,7 +222,7 @@ describe('usm', function () {
                                 htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'), 'utf8')
                                 htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'), 'utf8')
 
-                                let htmlRendered = usm.render({})
+                                let htmlRendered = usm.renderMap({})
 
                                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
                             })
@@ -188,7 +239,7 @@ describe('usm', function () {
                                 let config = {
                                     js: './path/to/script.js'
                                 }
-                                let htmlRendered = usm.render(config)
+                                let htmlRendered = usm.renderMap(config)
 
                                 let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-with-script.html'), 'utf8')
                                 htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'), 'utf8')
@@ -207,7 +258,7 @@ describe('usm', function () {
                                 }
 
                                 expect(function () {
-                                    usm.render(config)
+                                    usm.renderMap(config)
                                 }).to.throw(TypeError)
                             })
                         })
@@ -222,7 +273,7 @@ describe('usm', function () {
                                 htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'), 'utf8')
                                 htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'), 'utf8')
 
-                                let htmlRendered = usm.render({})
+                                let htmlRendered = usm.renderMap({})
 
                                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
                             })
@@ -234,15 +285,15 @@ describe('usm', function () {
                             const usm = new Usm({})
 
                             expect(function () {
-                                usm.render({ 'timeline': true })
+                                usm.renderMap({ 'timeline': true })
                             }).to.not.throw()
 
                             expect(function () {
-                                usm.render({ 'timeline': 'blah' })
+                                usm.renderMap({ 'timeline': 'blah' })
                             }).to.throw()
 
                             expect(function () {
-                                usm.render({ 'timeline': [] })
+                                usm.renderMap({ 'timeline': [] })
                             }).to.throw()
                         })
 
@@ -257,7 +308,7 @@ describe('usm', function () {
                             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'))
                             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'))
 
-                            let htmlRendered = usm.render(config)
+                            let htmlRendered = usm.renderMap(config)
 
                             helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
                         })
@@ -273,7 +324,7 @@ describe('usm', function () {
                             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-with-timeline.html'))
                             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'))
 
-                            let htmlRendered = usm.render(config)
+                            let htmlRendered = usm.renderMap(config)
 
                             helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
                         })
@@ -285,7 +336,7 @@ describe('usm', function () {
                             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-empty.html'))
                             htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'))
 
-                            let htmlRendered = usm.render()
+                            let htmlRendered = usm.renderMap()
 
                             helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
                         })
@@ -300,7 +351,7 @@ describe('usm', function () {
                     let config = 3
 
                     expect(function () {
-                        usm.render(config)
+                        usm.renderMap(config)
                     }).to.throw(TypeError)
                 })
             })

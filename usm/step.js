@@ -1,8 +1,6 @@
 'use strict'
 
-// const logger = require('../logger/logger')
-
-const Cards = require('./cards')
+const Stories = require('./stories')
 const Card = require('./card')
 
 module.exports = Step
@@ -18,8 +16,8 @@ function Step (jsonStep) {
 
     this.jsonData = jsonStep
 
-    if (this.jsonData.cards) {
-        this.cards = new Cards(this.jsonData.cards)
+    if (this.jsonData.stories) {
+        this.stories = new Stories(this.jsonData.stories)
     }
 }
 
@@ -40,8 +38,8 @@ Step.prototype.render = function () {
         result += '\n    ' + card.render()
     }
 
-    if (this.cards) {
-        result += '\n    ' + this.cards.render() + '\n'
+    if (this.stories) {
+        result += '\n    ' + this.stories.render() + '\n'
     }
 
     result += '</div>'

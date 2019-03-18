@@ -1,0 +1,33 @@
+{
+    "activities": [
+        {
+            "title": "activity 1",
+            "description": "description of activity 1",
+            "steps": [
+                {
+                    "title": "step 1-1",
+                    "description": "description of step 1-1",
+                    "stories": [
+                        {
+                            "title": "Story description in main json file",
+                            "description": "You can describe a story in the main json file (here)."
+                        },
+                        {
+                            "title": "Direct link to story description",
+                            "description": "You can describe a story in a spearate json file that is linked from within the main json file. The fields from the linked story description will overwrite the ones given here. You don't need to give any other fields than 'link' unless you want to.",
+                            "link": "./tests/mock-data/integration/stories/story_1-1-2/story.json"
+                        },
+                        {
+                            "link": "./tests/mock-data/integration/stories/story_1-1-2/story.json"
+                        },
+                        {
+                            "title": "Link to package",
+                            "description": "If you are working with packages, you can just link to the package directory. usm.io will automatically load 'story.json' from there.",
+                            "link": "./tests/mock-data/integration/stories/story_1-1-2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
