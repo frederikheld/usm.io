@@ -112,7 +112,7 @@ Story.prototype.render = function () {
     if (this.jsonData.entrypoint) {
         result += '\n    <input type="button" class="btn_open_story" onclick="location.href=\''
         result += this.jsonData.entrypoint
-        result += '\'" value="Open Story"></input>'
+        result += '\'" value="Open Story">'
     }
 
     if (result !== compareForEmptyTagCompensation) {
