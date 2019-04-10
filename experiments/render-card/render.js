@@ -4,6 +4,7 @@ const md = require('markdown-it')()
 // const fs = require('fs').promises
 const fs = require('fs-extra')
 const path = require('path')
+const readdirp = require('readdirp')
 
 async function main () {
     // find all files in input directory tree:
@@ -32,52 +33,88 @@ main()
  * Reads a directory recursively and returns a
  * list of all file paths.
  *
+ * Paths are relative to the given directory.
+ *
  * Source: https://ourcodeworld.com/articles/read/420/how-to-read-recursively-a-directory-in-node-js
  *
  * @param {path} dir
  * @param {callback} done
  */
-async function readdirRecursive (dir, done) {
-    let results = []
+function readdirRecursive (dir, done) {
+    let readdirpSettings = {
+        root: dir,
+        entryType: 'files'
+    }
 
-    fs.readdir(dir, function (err, list) {
-        if (err) {
-            done(err)
-        }
+    let allFilePaths = []
 
-        var pending = list.length
-
-        if (!pending) {
-            return done(null, results)
-        }
-
-        list.forEach(function (file) {
-            file = path.resolve(dir, file)
-
-            fs.stat(file, function (err, stat) {
-                if (err) {
-                    done(err, null)
-                }
-
-                if (stat && stat.isDirectory()) {
-                    // results.push(file) // don't add directories to results because we don't need them
-
-                    readdirRecursive(file, function (err, res) {
-                        if (err) {
-                            done(err, null)
-                        }
-
-                        results = results.concat(res)
-                        if (!--pending) done(null, results)
-                    })
-                } else {
-                    results.push(file)
-
-                    if (!--pending) {
-                        done(null, results)
-                    }
-                }
-            })
+    readdirp(readdirpSettings)
+        .on('data', (entry) => {
+            allFilePaths.push(entry.path)
         })
-    })
+        .on('warn', (warning) => {
+            console.log('Warning: ', warning)
+        })
+        .on('error', (error) => {
+            done(new Error(error), null)
+        })
+        .on('end', () => {
+            done(null, allFilePaths)
+        })
 }
+
+/**
+ * Reads a directory recursively and returns a
+ * list of all file paths.
+ *
+ * Paths are absolute
+ *
+ * Source: https://ourcodeworld.com/articles/read/420/how-to-read-recursively-a-directory-in-node-js
+ *
+ * @param {path} dir
+ * @param {callback} done
+ */
+// async function readdirRecursive (dir, done) {
+//     let results = []
+
+//     fs.readdir(dir, function (err, list) {
+//         if (err) {
+//             done(err)
+//         }
+
+//         var pending = list.length
+
+//         if (!pending) {
+//             return done(null, results)
+//         }
+
+//         list.forEach(function (file) {
+//             file = path.resolve(dir, file)
+
+//             fs.stat(file, function (err, stat) {
+//                 if (err) {
+//                     done(err, null)
+//                 }
+
+//                 if (stat && stat.isDirectory()) {
+//                     // results.push(file) // don't add directories to results because we don't need them
+
+//                     readdirRecursive(file, function (err, res) {
+//                         if (err) {
+//                             done(err, null)
+//                         }
+
+//                         results = results.concat(res)
+//                         if (!--pending) done(null, results)
+//                     })
+//                 } else {
+//                     results.push(file)
+
+//                     if (!--pending) {
+//                         done(null, results)
+//                     }
+//                 }
+//             })
+//         })
+//     })
+// }
