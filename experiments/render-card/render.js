@@ -1,39 +1,84 @@
 'use strict'
 
 const md = require('markdown-it')()
-// const fs = require('fs').promises
 const fs = require('fs-extra')
 const path = require('path')
 const readdirp = require('readdirp')
 
+const config = {
+    'inputDir': path.join(__dirname, 'cards'),
+    'outputDir': path.join(__dirname, 'dist')
+}
+
 async function main () {
     // find all files in input directory tree:
-    readdirRecursive(path.join(__dirname, 'cards'), (err, res) => {
+    readdirRecursive(config.inputDir, async (err, res) => {
         if (err) {
             throw err
         }
 
-        console.log(res)
+        let allFiles = res
+
+        console.log(allFiles)
+
+        // render each file
+        allFiles.forEach(async (file) => {
+            // skip card.json as this file contains only meta data of the card:
+            if (file.name === 'card.json') {
+                return
+            }
+
+            // create target file tree in ouputDir:
+            await fs.mkdirp(path.join(config.outputDir, file.parentDirRelative))
+
+            // render or copy & paste files:
+            if (file.extension === 'md') {
+                // read markdown from file
+                let markdownInput = await fs.readFile(file.pathAbsolute, { encoding: 'utf-8' })
+
+                // replace all .md file extensions in relative links with .html:
+                const regex = /(\[.*\]\((?!.*:\/\/).*)(\.md)(.*\))/gmi
+                markdownInput = markdownInput.replace(regex, '$1.html$3')
+
+                // render markdown to html:
+                var htmlOutput = md.render(markdownInput)
+
+                // write into file:
+                let outputFileName = file.name.split('.').shift() + '.html'
+                let outputPath = path.join(config.outputDir, file.parentDirRelative, outputFileName)
+                await fs.writeFile(outputPath, htmlOutput)
+
+                console.log("RENDERED '" + file.pathAbsolute + "' to '" + outputPath + "'")
+            } else {
+                let outputPath = path.join(config.outputDir, file.parentDirRelative, file.name)
+                await fs.copyFile(file.pathAbsolute, outputPath, (err) => {
+                    if (err) {
+                        throw err
+                    }
+
+                    console.log("COPIED '" + file.pathAbsolute + "' to '" + outputPath + "'")
+                })
+            }
+        })
+
+        // // render markdown files, copy & paste all other files:
+        // let markdownInput = await fs.readFile(path.join(__dirname, 'cards', 'markdown-card', 'index.md'), { encoding: 'utf-8' })
+        // console.log(markdownInput)
+
+        // // render markdown to html:
+        // var htmlOutput = md.render(markdownInput)
+
+        // // write into file:
+        // await fs.mkdirp(path.join(__dirname, 'dist', 'markdown-card'))
+        // await fs.writeFile(path.join(__dirname, 'dist', 'markdown-card', 'index.html'), htmlOutput)
     })
-
-    // load from file:
-    let markdownInput = await fs.readFile(path.join(__dirname, 'cards', 'markdown-card', 'index.md'), { encoding: 'utf-8' })
-    console.log(markdownInput)
-
-    // render markdown to html:
-    var htmlOutput = md.render(markdownInput)
-
-    // write into file:
-    await fs.mkdirp(path.join(__dirname, 'dist', 'markdown-card'))
-    await fs.writeFile(path.join(__dirname, 'dist', 'markdown-card', 'index.html'), htmlOutput)
 }
 main()
 
 /**
  * Reads a directory recursively and returns a
- * list of all file paths.
- *
- * Paths are relative to the given directory.
+ * list of objects that contain different representations
+ * of their path for each file.
  *
  * Source: https://ourcodeworld.com/articles/read/420/how-to-read-recursively-a-directory-in-node-js
  *
@@ -50,7 +95,14 @@ function readdirRecursive (dir, done) {
 
     readdirp(readdirpSettings)
         .on('data', (entry) => {
-            allFilePaths.push(entry.path)
+            allFilePaths.push({
+                'name': entry.name,
+                'extension': entry.name.split('.').pop(),
+                'pathRelative': entry.path,
+                'pathAbsolute': entry.fullPath,
+                'parentDirRelative': entry.parentDir,
+                'parentDirAbsolute': entry.fullParentDir
+            })
         })
         .on('warn', (warning) => {
             console.log('Warning: ', warning)
