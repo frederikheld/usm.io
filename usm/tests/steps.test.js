@@ -12,7 +12,7 @@ const helpers = require('./helpers')
 
 const Steps = require('../steps')
 
-describe.only('steps', function () {
+describe('steps', function () {
     describe('the constructor Steps()', function () {
         it('expects an array', function () {
             expect(function () {
