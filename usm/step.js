@@ -33,6 +33,11 @@ Step.prototype.render = function () {
         cardInfo.description = this.jsonData.description
     }
 
+    // let cardInfo = {
+    //     title: this.jsonData.title || undefined,
+    //     description: this.jsonData.description || undefined
+    // }
+
     if (this.jsonData.title || this.jsonData.description) {
         const card = new Card(cardInfo)
         result += '\n    ' + card.render()

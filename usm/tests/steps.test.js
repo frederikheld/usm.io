@@ -12,7 +12,7 @@ const helpers = require('./helpers')
 
 const Steps = require('../steps')
 
-describe('steps', function () {
+describe.only('steps', function () {
     describe('the constructor Steps()', function () {
         it('expects an array', function () {
             expect(function () {
@@ -20,16 +20,17 @@ describe('steps', function () {
             }).to.not.throw()
         })
 
-        it('throws an error if passed data is not a list', function () {
+        it('throws an TypeError, if passed data is not a list', function () {
             expect(function () {
                 new Steps('This is not a list')
             }).to.throw(TypeError)
+
             expect(function () {
                 new Steps({})
             }).to.throw(TypeError)
         })
 
-        it('throws an error if no data is passed at all', function () {
+        it('throws an ReferenceError, if no data is passed at all', function () {
             expect(function () {
                 new Steps()
             }).to.throw(ReferenceError)
@@ -37,32 +38,32 @@ describe('steps', function () {
     })
 
     describe('Steps.prototype.render()', function () {
-        // context('this.jsonData is invalid', function() {
-
-        // })
-
         context('this.jsonData is valid', function () {
             it('can render an empty Steps container', async function () {
-                const rawSteps = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-steps-empty.json'))
-                const jsonSeps = JSON.parse(rawSteps)
-                const steps = new Steps(jsonSeps)
-                let htmlRendered = steps.render()
+                const steps = new Steps([])
 
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-steps-empty.html'), 'utf8')
+                let htmlRendered = steps.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'steps', 'mock-steps-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
 
             it('can render multiple empty Steps into the container', async function () {
-                const rawSteps = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-steps-multiple-empty.json'))
-                const jsonSeps = JSON.parse(rawSteps)
-                const steps = new Steps(jsonSeps)
-                let htmlRendered = steps.render()
+                const steps = new Steps([
+                    {},
+                    {},
+                    {}
+                ])
 
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-steps-multiple-empty.html'), 'utf8')
+                let htmlRendered = steps.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'steps', 'mock-steps-multiple-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
+
+            // context('this.jsonData is invalid', function() {
+
+            // })
         })
     })
 })

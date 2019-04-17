@@ -20,16 +20,21 @@ describe('step', function () {
             }).to.not.throw()
         })
 
-        it('throws an error if passed data is not a json object', function () {
+        it('throws a TypeError, if passed data is not a json object', function () {
             expect(function () {
                 new Step('This is not an object')
             }).to.throw(TypeError)
+
+            expect(function () {
+                new Step('a string')
+            }).to.throw(TypeError)
+
             expect(function () {
                 new Step([])
             }).to.throw(TypeError)
         })
 
-        it('throws an error if no data is passed at all', function () {
+        it('throws a ReferenceError, if no data is passed at all', function () {
             expect(function () {
                 new Step()
             }).to.throw(ReferenceError)
@@ -37,32 +42,32 @@ describe('step', function () {
     })
 
     describe('Step.prototype.render()', function () {
-        // context('this.jsonData is invalid', function() {
+        context('valid data was passed to the constructor', function () {
+            it('renders an empty Step, if the object is empty', async function () {
+                const step = new Step({})
 
-        // })
-
-        context('this.jsonData is valid', function () {
-            it('renders an empty Step container', async function () {
-                const rawStep = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-step-empty.json'))
-                const jsonSep = JSON.parse(rawStep)
-                const step = new Step(jsonSep)
                 let htmlRendered = step.render()
-
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-step-empty.html'), 'utf8')
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'step', 'mock-step-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
 
-            it('renders an Step card with empty Cards container', async function () {
-                const rawStep = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-step-stories-empty.json'))
-                const jsonSep = JSON.parse(rawStep)
-                const step = new Step(jsonSep)
-                let htmlRendered = step.render()
+            it('renders a Step card if title and/or description are given. Stories container is empty, if no stories given.', async function () {
+                const step = new Step({
+                    title: 'Awesome Step',
+                    description: 'Lorem ipsum dolor sit amet ...',
+                    stories: []
+                })
 
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-step-stories-empty.html'), 'utf8')
+                let htmlRendered = step.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'step', 'mock-step-stories-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
         })
+
+        // context('this.jsonData is invalid', function() {
+
+        // })
     })
 })
