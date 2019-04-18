@@ -12,7 +12,7 @@ const helpers = require('./helpers')
 
 const Activity = require('../activity')
 
-describe.only('activity', function () {
+describe('activity', function () {
     describe('the constructor Activity()', function () {
         it('expects an object', function () {
             expect(function () {

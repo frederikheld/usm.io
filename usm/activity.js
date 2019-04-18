@@ -1,7 +1,5 @@
 'use strict'
 
-// const logger = require('../logger/logger')
-
 const Steps = require('./steps')
 const Card = require('./card')
 

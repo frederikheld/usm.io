@@ -2,8 +2,6 @@
 
 module.exports = Activities
 
-// const logger = require('../logger/logger')
-
 const Activity = require('./activity')
 
 function Activities (jsonActivities) {
