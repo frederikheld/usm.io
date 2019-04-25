@@ -5,7 +5,7 @@ const Card = require('./card')
 
 module.exports = Step
 
-function Step (jsonStep) {
+function Step (jsonStep, context) {
     if (jsonStep === undefined) {
         throw new ReferenceError('No Step object given!')
     }
@@ -15,6 +15,16 @@ function Step (jsonStep) {
     }
 
     this.jsonData = jsonStep
+
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
 
     if (this.jsonData.stories) {
         this.stories = new Stories(this.jsonData.stories)
