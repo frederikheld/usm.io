@@ -1,91 +1,64 @@
 'use strict'
 
-const fs = require('fs')
-const fsExtra = require('fs-extra')
+const fs = require('fs').promises
+const fsSync = require('fs')
 const path = require('path')
 
 const ActivitiesContainer = require('./activities')
+const RenderEngine = require('../render-engine/render-engine')
 
 module.exports = Usm
 
-function Usm (jsonUsm, inputDir = undefined, outputDir = undefined) {
-    // -- process parameter jsonUsm
+function Usm (context) {
+    this.context = context
 
-    if (jsonUsm === undefined) {
-        throw new ReferenceError('No USM object given!')
-    }
+    // -- load usm object from "usm.json" in context.inputDir
 
-    if (!(jsonUsm instanceof Object) || Array.isArray(jsonUsm)) {
-        throw new TypeError('Given USM object is not an object!')
-    }
+    if (this.context && this.context.inputDir) {
+        this.jsonUsm = this._loadUsmObjectFromFile(path.join(this.context.inputDir, 'usm.json'))
 
-    this.jsonUsm = jsonUsm
+        // -- prepare activities container
 
-    // -- process parameter inputDir
-
-    this.inputDir = path.join(__dirname, 'input') // default
-    if (inputDir) {
-        try {
-            let stat = fs.statSync(inputDir)
-            if (stat.isDirectory()) {
-                this.inputDir = inputDir // given parameter meets all criteria and can be used
-            } else {
-                throw new RangeError('ERROR: "' + inputDir + '" is not a valid path to a directory!')
-            }
-        } catch (err) {
-            if (err.code === 'ENOENT') {
-                throw new RangeError('ERROR: "' + inputDir + '" is not a valid path to a directory!')
-            } else {
-                throw err
-            }
+        if (this.jsonUsm.activities) {
+            this.activities = new ActivitiesContainer(this.jsonUsm.activities)
         }
-    }
-
-    // -- process parameter outputDir
-
-    this.outputDir = path.join(__dirname, 'output') // default
-    if (outputDir) {
-        try {
-            let stat = fs.statSync(outputDir)
-            if (stat.isDirectory()) {
-                this.outputDir = outputDir // given parameter meets all criteria and can be used
-            } else {
-                throw new RangeError('ERROR: "' + outputDir + '" is not a valid path to a directory!')
-            }
-        } catch (err) {
-            if (err.code === 'ENOENT') {
-                throw new RangeError('ERROR: "' + outputDir + '" is not a valid path to a directory!')
-            } else {
-                throw err
-            }
-        }
-    }
-
-    // -- prepare activities container
-
-    if (this.jsonUsm.activities) {
-        this.activities = new ActivitiesContainer(this.jsonUsm.activities)
     }
 }
 
-Usm.prototype.getInputDir = function () {
-    return this.inputDir
+Usm.prototype._loadUsmObjectFromFile = function (jsonUsmPath) {
+    const jsonUsmRaw = fsSync.readFileSync(jsonUsmPath)
+    return JSON.parse(jsonUsmRaw)
 }
 
-Usm.prototype.getOutputDir = function () {
-    return this.outputDir
+Usm.prototype.getActivities = function () {
+    return this.activities
+}
+
+Usm.prototype.getContext = function (field = undefined) {
+    if (undefined === field) {
+        return this.context
+    } else {
+        if (this.context[field]) {
+            return this.context[field]
+        } else {
+            throw new RangeError('ERROR: Field "' + field + '" doesn\'t exist!')
+        }
+    }
+}
+
+Usm.prototype.getUsm = function () {
+    return this.jsonUsm
 }
 
 /**
- * Right now this is just copying all files from the input directory
- * to the output directory. Later it will convert everything that
- * isn't html into html.
+ * Renders all Cards in inputDir to outputDir.
  */
-Usm.prototype.renderPackages = async function (options) {
-    await fsExtra.copy(this.inputDir, this.outputDir)
+Usm.prototype.renderCards = async function (options) {
+    const re = new RenderEngine(this.context.inputDir, this.context.outputDir)
+    await re.renderAllCards()
 }
 
-Usm.prototype.renderMap = function (config) {
+Usm.prototype.renderMap = async function (config) {
     // render header:
     let result = '<!DOCTYPE html>\n'
     result += '\n<html>\n'
@@ -100,14 +73,14 @@ Usm.prototype.renderMap = function (config) {
 
         if (config.css) {
             if (typeof (config.css) !== 'string') {
-                throw new TypeError('Key "css" of configuration object has to be a string!')
+                throw new TypeError('Value of field "css" in configuration object has to be a string!')
             }
             result += '\n    <link rel="stylesheet" type="text/css" href="' + config.css + '">'
         }
 
         if (config.js) {
             if (typeof (config.js) !== 'string') {
-                throw new TypeError('Key "js" of configuration object has to be a string!')
+                throw new TypeError('Value of field "js" in configuration object has to be a string!')
             }
             result += '\n    <script src="' + config.js + '"></script>'
         }
@@ -140,5 +113,5 @@ Usm.prototype.renderMap = function (config) {
     result += '\n</body>\n'
     result += '\n</html>'
 
-    return result
+    await fs.writeFile(path.join(this.context.outputDir, 'index.html'), result)
 }
