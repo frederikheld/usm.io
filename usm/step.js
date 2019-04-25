@@ -49,7 +49,7 @@ Step.prototype.render = function () {
     // }
 
     if (this.jsonData.title || this.jsonData.description) {
-        const card = new Card(cardInfo)
+        const card = new Card(cardInfo, this.context)
         result += '\n    ' + card.render()
     }
 
