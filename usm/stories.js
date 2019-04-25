@@ -4,7 +4,7 @@ module.exports = Stories
 
 const Story = require('./story')
 
-function Stories (jsonStories) {
+function Stories (jsonStories, context) {
     if (jsonStories === undefined) {
         throw new ReferenceError('No list of Stories given!')
     }
@@ -14,10 +14,25 @@ function Stories (jsonStories) {
     }
 
     this.jsonData = jsonStories
+
+    if (context === undefined) {
+        throw new ReferenceError('No context given')
+    }
+
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
+
     this.stories = []
 
     for (let i = 0; i < this.jsonData.length; i++) {
-        this.stories.push(new Story(this.jsonData[i]))
+        this.stories.push(new Story(this.jsonData[i], this.context))
     }
 }
 
