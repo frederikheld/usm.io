@@ -27,7 +27,7 @@ function Step (jsonStep, context) {
     this.context = context
 
     if (this.jsonData.stories) {
-        this.stories = new Stories(this.jsonData.stories)
+        this.stories = new Stories(this.jsonData.stories, this.context)
     }
 }
 
