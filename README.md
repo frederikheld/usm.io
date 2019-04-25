@@ -1,15 +1,9 @@
 # usm.io
 
 ## What is this?
-This module can represent an User Story Map.
+This module can render a User Story Map and all related cards from a structured data and markup representation into an interactive website.
 
-It takes the data representation of an User Story Map as input and returns the visual representation of the said User Story map as output.
-
-### Supported input types
-* JSON
-
-### Supported output types
-* HTML
+Data representation (meta information) is done with JSON, for content description the supported markup languages currently are Markdown and HTML.
 
 ### Installation
 
@@ -17,9 +11,52 @@ It takes the data representation of an User Story Map as input and returns the v
 
 ### How to use
 
-This modules comes with an [example](example) on how usm.io can be used. The example includes stylesheets and scripts that bring the generated html file to life. They are a good starter for your own project.
+The entry point for your User Story Map is the Usm object. It expects a context object as parameter, that contains all information about where to look for sources and where to put the rendered output:
 
-Make some changes in [example/input/usm-example.json](example/input/usm-example.json), then re-generate the html file in [example/web](example/web) by running
+```javascript
+const path = require('path')
+
+const context = {
+    inputDir: path.join(__dirname, 'root', 'input-directory'),
+    outputDir: path.join(__dirname, 'root', 'output-directory')
+}
+const usm = new Usm(context)
+```
+
+The Usm has two main features:
+1. it can render the User Story Map in an HTML page
+1. it can render all Card packages into websites.
+
+It also generates the links from the USM to the Card websites so that the user can seamlessly jump from a card in the User Story Map into the websites that describe the respective Card.
+
+The expected directory tree is as follows:
+
+```
+ .
+ ├─ [folder] root
+     ├─ [folder] input-directory (variable name; will be referenced in inputDir in the context object)
+     ├─ [file] usm.json (fixed name; this is where you describe the User Story Map)
+     └─ [folder] cards (fixed name; this is where usm.renderAllCards() will look for packages to render)
+         ├─ [folder] card-id-1 (variable name; this the name you use in usm.json to reference the card)
+             ├─ [file] card.json (fixed name)
+             ├─ [file] index.md (fixed name)
+             └─ <...> optional additional files and directories that are linked from index.md
+         └─ <...> you can put here as many cards as you like
+ └─ [folder] output-directory (variable name; will be referenced in outputDir in the context object)
+     └─ <...> usm.RenderAllCards() will create the same file system tree as in inputDir with the rendered Card packages
+```
+
+For each rendering feature there's an asynchrnous function:
+```javascript
+await usm.renderUsm()
+await usm.renderAllCards()
+```
+
+
+
+~~This modules comes with an [example](example) on how usm.io can be used. The example includes stylesheets and scripts that bring the generated html file to life. They are a good starter for your own project.~~
+
+~~Make some changes in [example/input/usm-example.json](example/input/usm-example.json), then re-generate the html file in [example/web](example/web) by running~~
 
     $ cd example
     $ node generator.js
