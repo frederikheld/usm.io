@@ -5,7 +5,7 @@ module.exports = Card
 const fs = require('fs').promises
 const path = require('path')
 
-function Card (jsonCard) {
+function Card (jsonCard, context) {
     if (jsonCard === undefined) {
         throw new ReferenceError('Card information missing! Please pass json object!')
     }
@@ -15,6 +15,18 @@ function Card (jsonCard) {
     }
 
     this.jsonData = jsonCard
+
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
+
+    this.packageIsLoaded = false
 }
 
 /**
@@ -31,29 +43,48 @@ Card.prototype.load = async function () {
     return new Promise(async (resolve, reject) => {
         if (this.jsonData) {
             if (this.jsonData.package) {
-                if (!this.jsonData.package.inputDir) {
-                    reject(new ReferenceError('"package" given but "package.inputDir" missing!'))
-                } else {
-                    try {
-                        const cardRaw = await fs.readFile(path.join(process.cwd(), this.jsonData.package.inputDir, 'card.json'))
+                const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+                try {
+                    const cardRaw = await fs.readFile(jsonCardPath)
+                    const cardJson = JSON.parse(cardRaw)
 
-                        const cardJson = JSON.parse(cardRaw)
+                    this.jsonData = Object.assign(cardJson, this.jsonData)
 
-                        // NOTE: The usual __dirname won't work in this case as we are dealing with paths relative
-                        //       to the calling file. This is why process.cwd() is used here.
+                    this.packageIsLoaded = true
 
-                        this.jsonData = Object.assign(cardJson, this.jsonData)
-
-                        this.packageLoaded = true
-
-                        resolve()
-                    } catch (err) {
-                        reject(new ReferenceError('Could not read from "card.json" in ' + this.jsonData.package.inputDir))
-                    }
+                    resolve()
+                } catch (err) {
+                    reject(new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"'))
                 }
             }
         }
     })
+    // return new Promise(async (resolve, reject) => {
+    //     if (this.jsonData) {
+    //         if (this.jsonData.package) {
+    //             if (!this.jsonData.package.inputDir) {
+    //                 reject(new ReferenceError('"package" given but "package.inputDir" missing!'))
+    //             } else {
+    //                 try {
+    //                     const cardRaw = await fs.readFile(path.join(process.cwd(), this.jsonData.package.inputDir, 'card.json'))
+
+    //                     const cardJson = JSON.parse(cardRaw)
+
+    //                     // NOTE: The usual __dirname won't work in this case as we are dealing with paths relative
+    //                     //       to the calling file. This is why process.cwd() is used here.
+
+    //                     this.jsonData = Object.assign(cardJson, this.jsonData)
+
+    //                     this.packageLoaded = true
+
+    //                     resolve()
+    //                 } catch (err) {
+    //                     reject(new ReferenceError('Could not read from "card.json" in ' + this.jsonData.package.inputDir))
+    //                 }
+    //             }
+    //         }
+    //     }
+    // })
 }
 
 Card.prototype.render = function () {
@@ -71,13 +102,10 @@ Card.prototype.render = function () {
     }
 
     if (this.jsonData.package) {
-        if (!this.packageLoaded) {
-            throw new Error('Your json card description contains a link to a package that needs to be loaded before it can be rendered. Please run Card.load() before you run Card.render()!')
-        }
-        if (this.jsonData.package.outputDir) {
+        if (this.packageIsLoaded) {
             result += '\n    <button onclick="window.location.href=\'./temp/card/card-package/index.html\'">Open Package</button>'
         } else {
-            result += '\n    <button disabled>Open Package</button>'
+            throw new Error('Your json card description contains a link to a package that needs to be loaded before it can be rendered. Please run Card.load() before you run Card.render()!')
         }
     }
 
