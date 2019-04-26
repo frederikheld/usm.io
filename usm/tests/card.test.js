@@ -18,7 +18,7 @@ const Card = require('../card')
 describe('card', function () {
     const cardContext = {
         inputDir: path.join(__dirname, 'mock-data', 'card', 'input'),
-        outputDir: path.join(__dirname, 'mock-data', 'card', 'output')
+        outputDir: path.join(__dirname, 'temp')
     }
     describe('the constructor Card(jsonCard, context)', function () {
         describe('the first parameter "jsonCard"', function () {
@@ -194,31 +194,20 @@ describe('card', function () {
             })
 
             context('the card object passed to the constructor contains a field "package"', async function () {
-                it('renders a button that links to "index.html" in the card\'s package directory in "context.outputDir"', async function () {
-                    const card = new Card({
+                it('renders a button that links to "index.html" in the card\'s package directory generated in "context.outputDir"', async function () {
+                    const jsonCard = {
                         package: 'card-package'
-                    }, cardContext)
+                    }
+
+                    const card = new Card(jsonCard, cardContext)
 
                     await card.load()
 
                     let htmlRendered = card.render()
-                    let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'mock-card-snippet-button.html'), 'utf8')
+                    let htmlSnippetExpected = '<button onclick="window.location.href=\'' + cardContext.outputDir + '/cards/' + jsonCard.package + '/index.html\'">Open Package</button>'
 
-                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlExpected)).should.be.true
+                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetExpected)).should.be.true
                 })
-
-                // it('renders the button in a deactivated state if "context.outputDir" isn\'t defined', async function () {
-                //     const card = new Card({
-                //         package: 'card-package'
-                //     }, {})
-
-                //     await card.load()
-
-                //     let htmlRendered = card.render()
-                //     let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'mock-card-snippet-button-disabled.html'), 'utf8')
-
-                //     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlExpected)).should.be.true
-                // })
 
                 it('throws an error if Card.load() wasn\'t called before Card.render() was called', async function () {
                     const card = new Card({
@@ -238,9 +227,11 @@ describe('card', function () {
                     }, {})
 
                     let htmlRendered = card.render()
-                    let htmlNotExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'mock-card-snippet-button.html'), 'utf8')
+                    let htmlSnippetNotExpected1 = '<button onclick="window.location.href=\'' + cardContext.outputDir + '/cards/'
+                    let htmlSnippetNotExpected2 = '/index.html\'">Open Package</button>'
 
-                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlNotExpected)).should.be.false
+                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected1)).should.be.false
+                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected2)).should.be.false
                 })
             })
         })

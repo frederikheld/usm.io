@@ -103,7 +103,7 @@ Card.prototype.render = function () {
 
     if (this.jsonData.package) {
         if (this.packageIsLoaded) {
-            result += '\n    <button onclick="window.location.href=\'./temp/card/card-package/index.html\'">Open Package</button>'
+            result += '\n    <button onclick="window.location.href=\'' + this.context.outputDir + '/cards/' + this.jsonData.package + '/index.html\'">Open Package</button>'
         } else {
             throw new Error('Your json card description contains a link to a package that needs to be loaded before it can be rendered. Please run Card.load() before you run Card.render()!')
         }
