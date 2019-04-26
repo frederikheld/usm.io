@@ -33,17 +33,17 @@ The expected directory tree is as follows:
 
 ```
  .
- ├─ [folder] root
-     ├─ [folder] input-directory (variable name; will be referenced in inputDir in the context object)
-     ├─ [file] usm.json (fixed name; this is where you describe the User Story Map)
-     └─ [folder] cards (fixed name; this is where usm.renderAllCards() will look for packages to render)
-         ├─ [folder] card-id-1 (variable name; this the name you use in usm.json to reference the card)
-             ├─ [file] card.json (fixed name)
-             ├─ [file] index.md (fixed name)
-             └─ <...> optional additional files and directories that are linked from index.md
-         └─ <...> you can put here as many cards as you like
- └─ [folder] output-directory (variable name; will be referenced in outputDir in the context object)
-     └─ <...> usm.RenderAllCards() will create the same file system tree as in inputDir with the rendered Card packages
+ └─ [d] root
+     ├─ [d] input-directory (mandatory, variable name; will be referenced in inputDir in the context object)
+     |   ├─ [f] usm.json (mandatory, fixed name; this is where you describe the User Story Map)
+     |   └─ [d] cards (mandatory, fixed-name; this is where usm.renderAllCards() will look for packages to render)
+     |       ├─ [d] card-id-1 (optional, variable name; this the name you use in usm.json to reference the card)
+     |       |   ├─ [f] card.json (mandatory, fixed name)
+     |       |   ├─ [f] index.md (madatory, fixed name)
+     |       |   └─ <...> optional additional files and directories that are linked from index.md
+     |       └─ <...> you can put here as many cards as you like
+     └─ [d] output-directory (mandatory, variable name; will be referenced in outputDir in the context object)
+         └─ <...> usm.RenderAllCards() will create the same file system tree as in inputDir with the rendered Card packages
 ```
 
 For each rendering feature there's an asynchrnous function:
