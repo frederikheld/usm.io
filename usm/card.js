@@ -2,7 +2,7 @@
 
 module.exports = Card
 
-const fs = require('fs').promises
+const fsSync = require('fs')
 const path = require('path')
 
 function Card (jsonCard, context) {
@@ -26,7 +26,9 @@ function Card (jsonCard, context) {
 
     this.context = context
 
-    this.packageIsLoaded = false
+    // this.packageIsLoaded = false
+
+    this._load()
 }
 
 /**
@@ -39,53 +41,45 @@ function Card (jsonCard, context) {
  * Fields that already exist in this.jsonData will not be
  * overwritten.
  */
-Card.prototype.load = async function () {
-    return new Promise(async (resolve, reject) => {
-        if (this.jsonData) {
-            if (this.jsonData.package) {
-                const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
-                try {
-                    const cardRaw = await fs.readFile(jsonCardPath)
-                    const cardJson = JSON.parse(cardRaw)
 
-                    this.jsonData = Object.assign(cardJson, this.jsonData)
+Card.prototype._load = function () {
+    if (this.jsonData) {
+        if (this.jsonData.package) {
+            const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+            try {
+                const cardRaw = fsSync.readFileSync(jsonCardPath)
+                const cardJson = JSON.parse(cardRaw)
 
-                    this.packageIsLoaded = true
+                this.jsonData = Object.assign(cardJson, this.jsonData)
 
-                    resolve()
-                } catch (err) {
-                    reject(new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"'))
-                }
+                // this.packageIsLoaded = true
+            } catch (err) {
+                throw new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"')
             }
         }
-    })
-    // return new Promise(async (resolve, reject) => {
-    //     if (this.jsonData) {
-    //         if (this.jsonData.package) {
-    //             if (!this.jsonData.package.inputDir) {
-    //                 reject(new ReferenceError('"package" given but "package.inputDir" missing!'))
-    //             } else {
-    //                 try {
-    //                     const cardRaw = await fs.readFile(path.join(process.cwd(), this.jsonData.package.inputDir, 'card.json'))
-
-    //                     const cardJson = JSON.parse(cardRaw)
-
-    //                     // NOTE: The usual __dirname won't work in this case as we are dealing with paths relative
-    //                     //       to the calling file. This is why process.cwd() is used here.
-
-    //                     this.jsonData = Object.assign(cardJson, this.jsonData)
-
-    //                     this.packageLoaded = true
-
-    //                     resolve()
-    //                 } catch (err) {
-    //                     reject(new ReferenceError('Could not read from "card.json" in ' + this.jsonData.package.inputDir))
-    //                 }
-    //             }
-    //         }
-    //     }
-    // })
+    }
 }
+// Card.prototype.load = async function () {
+//     return new Promise(async (resolve, reject) => {
+//         if (this.jsonData) {
+//             if (this.jsonData.package) {
+//                 const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+//                 try {
+//                     const cardRaw = await fs.readFile(jsonCardPath)
+//                     const cardJson = JSON.parse(cardRaw)
+
+//                     this.jsonData = Object.assign(cardJson, this.jsonData)
+
+//                     this.packageIsLoaded = true
+
+//                     resolve()
+//                 } catch (err) {
+//                     reject(new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"'))
+//                 }
+//             }
+//         }
+//     })
+// }
 
 Card.prototype.render = function () {
     let result = '<div class="card">'
@@ -102,11 +96,7 @@ Card.prototype.render = function () {
     }
 
     if (this.jsonData.package) {
-        if (this.packageIsLoaded) {
-            result += '\n    <button onclick="window.location.href=\'' + this.context.outputDir + '/cards/' + this.jsonData.package + '/index.html\'">Open Package</button>'
-        } else {
-            throw new Error('Your json card description contains a link to a package that needs to be loaded before it can be rendered. Please run Card.load() before you run Card.render()!')
-        }
+        result += '\n    <button class="open-package" onclick="window.location.href=\'' + this.context.outputDir + '/cards/' + this.jsonData.package + '/index.html\'">Open Package</button>'
     }
 
     if (result !== compareForEmptyTag) {

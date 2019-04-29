@@ -32,24 +32,8 @@ function Story (jsonStory, context) {
 Story.prototype.render = function () {
     let result = '<div class="story">'
 
-    let cardInfo = {}
-    if (this.jsonData.title) {
-        cardInfo.title = this.jsonData.title
-    }
-
-    if (this.jsonData.description) {
-        cardInfo.description = this.jsonData.description
-    }
-
-    // let cardInfo = {
-    //     title: this.jsonData.title || undefined,
-    //     description: this.jsonData.description || undefined
-    // }
-
-    if (this.jsonData.title || this.jsonData.description) {
-        const card = new Card(cardInfo, context)
-        result += '\n    ' + card.render()
-    }
+    const card = new Card(this.jsonData, this.context)
+    result += '\n    ' + card.render()
 
     result += '</div>'
 

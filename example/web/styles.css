@@ -107,6 +107,10 @@ body {
     visibility: hidden;
 }
 
+.card .open-package {
+    visibility: hidden;
+}
+
 .modal {
     visibility: hidden;
 
@@ -145,6 +149,18 @@ body {
 
 .modal-card h1 {
     margin-top: 0;
+}
+
+.modal-card button.open-package {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: calc(100% - 10rem);
+    padding: 0.4rem;
+    margin: 2rem 5rem 1rem 5rem;
+    border: 0;
+    cursor: pointer;
 }
 
 .card-is-selected {

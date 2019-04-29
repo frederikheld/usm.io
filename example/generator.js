@@ -1,58 +1,41 @@
 'use strict'
 
-const fs = require('fs').promises
-const fsExtra = require('fs-extra')
+// -- imports
+
 const path = require('path')
 
 const Usm = require('../usm/usm')
 // If you have installed this package via npm, you do
 //      const Usm = require('usm.io')
 
+// -- context
+
+const context = {
+    inputDir: path.join(__dirname, 'input'),
+    outputDir: path.join(__dirname, 'web')
+}
+
+// -- main
+
 let main = async function () {
-    // Prepare output directory for packages:
-    const outputPackagesPath = path.join(__dirname, 'web', 'packages')
-    try {
-        let stat = await fs.stat(outputPackagesPath)
-        if (stat.isDirectory()) {
-            await fsExtra.remove(outputPackagesPath)
-        } else {
-            throw new Error('ERROR: "' + outputPackagesPath + '" is not a directory!')
-        }
-    } catch (err) {
-        if (err.code === 'ENOENT') {
-        } else {
-            throw err
-        }
-    }
-    await fs.mkdir(outputPackagesPath)
-
-    const usmJson = JSON.parse(await fs.readFile(path.join('input', 'usm-example.json')))
-
+    // NOTE: usm.io will put the links to css and js files into the respective tags
+    //       exactly as they are given here.
+    //       So they need to be relative to the output file!
     const options = {
         'css': './styles.css',
         'js': './scripts.js',
         'timeline': true
     }
-    // NOTE: usm.io will put the links to css and js files into the respective tags
-    //       exactly as they are given here.
-    //       So they need to be relative to the output file!
-    const usm = new Usm(usmJson, path.join(__dirname, 'input', 'packages'), outputPackagesPath)
+
+    const usm = new Usm(context)
 
     // render usm:
-    const usmHtml = usm.renderMap(options)
+    await usm.renderMap(options)
 
-    // render packages:
-    usm.renderPackages()
+    // render card packages.
+    await usm.renderCards()
 
-    await fs.writeFile(
-        path.join('web', 'usm-example.html'),
-        usmHtml,
-        {
-            encoding: 'utf-8'
-        }
-    )
-
-    console.log('json data was rendered and written into a html file in the "web" folder.')
+    console.log('json data was rendered and written into a html file in the "' + context.outputDir + '" folder.')
     console.log('Open it in your browser to see the result!')
 }
 main()

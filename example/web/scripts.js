@@ -31,16 +31,22 @@ window.onload = function () {
         // fill modal card:
         let title = this.querySelector('h1')
         if (title) {
-            let titleHtml = document.createElement('h1')
-            titleHtml.innerHTML = title.innerHTML
-            modalCard.appendChild(titleHtml)
+            let titleClone = title.cloneNode(true)
+            modalCard.appendChild(titleClone)
         }
+
         let description = this.querySelector('.description')
         if (description) {
-            let descriptionHtml = document.createElement('div')
-            descriptionHtml.innerHTML = description.innerHTML
-            modalCard.appendChild(descriptionHtml)
+            let descriptionClone = description.cloneNode(true)
+            modalCard.appendChild(descriptionClone)
         }
+
+        let button = this.querySelector('.open-package')
+        if (button) {
+            let buttonClone = button.cloneNode(true)
+            modalCard.appendChild(buttonClone)
+        }
+
         modalCard.style.backgroundColor = window.getComputedStyle(this).backgroundColor
 
         // highlight active card:

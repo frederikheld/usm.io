@@ -34,17 +34,8 @@ function Activity (jsonActivity, context) {
 Activity.prototype.render = function () {
     let result = '<div class="activity">'
 
-    let cardInfo = {}
-    if (this.jsonData.title) {
-        cardInfo.title = this.jsonData.title
-    }
-
-    if (this.jsonData.description) {
-        cardInfo.description = this.jsonData.description
-    }
-
     if (this.jsonData.title || this.jsonData.description) {
-        const card = new Card(cardInfo, this.context)
+        const card = new Card(this.jsonData, this.context)
         result += '\n    ' + card.render()
     }
 

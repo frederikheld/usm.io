@@ -20,7 +20,7 @@ function Usm (context) {
         // -- prepare activities container
 
         if (this.jsonUsm.activities) {
-            this.activities = new ActivitiesContainer(this.jsonUsm.activities)
+            this.activities = new ActivitiesContainer(this.jsonUsm.activities, context)
         }
     }
 }
