@@ -116,17 +116,31 @@ Starting from `index`, you can add additional pages and ressources as you would 
 
 ## Example
 
-~~This modules comes with an [example](example) on how usm.io can be used. The example includes stylesheets and scripts that bring the generated html file to life. They are a good starter for your own project.~~
+This modules comes with an [example](example) on how usm.io can be used. The example includes stylesheets and scripts that bring the generated html map to life. They are a good starter for your own project.
 
-~~Make some changes in [example/input/usm-example.json](example/input/usm-example.json), then re-generate the html file in [example/web](example/web) by running~~
+Make some changes in [example/input/usm-example.json](example/input/usm-example.json) or one of the packages, then re-generate the html file in [example/web](example/web) by running
 
     $ cd example
     $ node generator.js
 
 ### Docs
 
-For more detailled information on the features of usm.io, read the tests. Start with [usm/tests/usm.test.js](usm/tests/usm.test.js).
+For more detailled information on the features of usm.io read the tests. [usm/tests/usm.test.js](usm/tests/usm.test.js) is good for a start.
 
-## Known Issues
+## Next Steps in Development
 
-* There's a lot of duplication in all the modules that assemble Usm. There should be one generic module for containers and one for cards derivatives. All the specific modules should extend one of those two basic modules.
+### Features
+
+- [ ] Implement releases in map
+
+### Styling
+- [ ] Stylesheet for rendered packages
+- [ ] Package title in title of web page (at least for md which doesn't allow to define meta data)
+- [ ] Common footer & header for packages and map. Package header should have a link back to the USM.
+
+### Under the hood
+
+- [ ] Improve test coverage (a lot of cases aren't testet yet) 
+- [ ] Clean up test suites (make structure more suitable as a documentation)
+- [ ] Remove duplication: There's a lot of duplication in all the modules. There should be one generic module for containers and one for card representations. All the specific modules should extend one of those two basic modules.
+- [ ] Remove unused mocks
