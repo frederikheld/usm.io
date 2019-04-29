@@ -34,10 +34,8 @@ function Step (jsonStep, context) {
 Step.prototype.render = function () {
     let result = '<div class="step">'
 
-    if (this.jsonData) {
-        const card = new Card(this.jsonData, this.context)
-        result += '\n    ' + card.render()
-    }
+    const card = new Card(this.jsonData, this.context)
+    result += '\n    ' + card.render()
 
     if (this.stories) {
         result += '\n    ' + this.stories.render() + '\n'

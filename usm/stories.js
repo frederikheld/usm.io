@@ -16,10 +16,6 @@ function Stories (jsonStories, context) {
     this.jsonData = jsonStories
 
     if (context === undefined) {
-        throw new ReferenceError('No context given')
-    }
-
-    if (context === undefined) {
         throw new ReferenceError('No context object given!')
     }
 

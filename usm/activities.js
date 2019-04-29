@@ -16,10 +16,6 @@ function Activities (jsonActivities, context) {
     this.jsonData = jsonActivities
 
     if (context === undefined) {
-        throw new ReferenceError('No context given')
-    }
-
-    if (context === undefined) {
         throw new ReferenceError('No context object given!')
     }
 

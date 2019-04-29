@@ -43,43 +43,20 @@ function Card (jsonCard, context) {
  */
 
 Card.prototype._load = function () {
-    if (this.jsonData) {
-        if (this.jsonData.package) {
-            const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
-            try {
-                const cardRaw = fsSync.readFileSync(jsonCardPath)
-                const cardJson = JSON.parse(cardRaw)
+    if (this.jsonData.package) {
+        const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+        try {
+            const cardRaw = fsSync.readFileSync(jsonCardPath)
+            const cardJson = JSON.parse(cardRaw)
 
-                this.jsonData = Object.assign(cardJson, this.jsonData)
+            this.jsonData = Object.assign(cardJson, this.jsonData)
 
-                // this.packageIsLoaded = true
-            } catch (err) {
-                throw new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"')
-            }
+            // this.packageIsLoaded = true
+        } catch (err) {
+            throw new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"')
         }
     }
 }
-// Card.prototype.load = async function () {
-//     return new Promise(async (resolve, reject) => {
-//         if (this.jsonData) {
-//             if (this.jsonData.package) {
-//                 const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
-//                 try {
-//                     const cardRaw = await fs.readFile(jsonCardPath)
-//                     const cardJson = JSON.parse(cardRaw)
-
-//                     this.jsonData = Object.assign(cardJson, this.jsonData)
-
-//                     this.packageIsLoaded = true
-
-//                     resolve()
-//                 } catch (err) {
-//                     reject(new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"'))
-//                 }
-//             }
-//         }
-//     })
-// }
 
 Card.prototype.render = function () {
     let result = '<div class="card">'

@@ -18,10 +18,6 @@ function Steps (jsonSteps, context) {
     this.jsonData = jsonSteps
 
     if (context === undefined) {
-        throw new ReferenceError('No context given')
-    }
-
-    if (context === undefined) {
         throw new ReferenceError('No context object given!')
     }
 

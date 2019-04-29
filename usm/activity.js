@@ -34,10 +34,8 @@ function Activity (jsonActivity, context) {
 Activity.prototype.render = function () {
     let result = '<div class="activity">'
 
-    if (this.jsonData) {
-        const card = new Card(this.jsonData, this.context)
-        result += '\n    ' + card.render()
-    }
+    const card = new Card(this.jsonData, this.context)
+    result += '\n    ' + card.render()
 
     if (this.steps) {
         result += '\n    ' + this.steps.render() + '\n'
