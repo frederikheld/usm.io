@@ -73,7 +73,7 @@ describe('activity', function () {
 
     describe('Activity.prototype.render()', function () {
         context('valid data was passed to the constructor', function () {
-            it('renders an empty Activity container, if the object is empty', async function () {
+            it('renders a Activity with empt Card if the object is empty', async function () {
                 const activity = new Activity({}, {})
 
                 let htmlRendered = activity.render()
@@ -82,27 +82,7 @@ describe('activity', function () {
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
 
-            it('renders an Activity card if title and/or description is given', async function () {
-                const activity = new Activity({
-                    title: 'Awesome Activity'
-                }, {})
-
-                let htmlRendered = activity.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-title-only.html'), 'utf8')
-
-                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
-
-                const activity2 = new Activity({
-                    description: 'Lorem ipsum dolor sit amet ...'
-                }, {})
-
-                let htmlRendered2 = activity2.render()
-                let htmlExpected2 = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-description-only.html'), 'utf8')
-
-                helpers.stripWhitespaces(htmlRendered2).should.equal(helpers.stripWhitespaces(htmlExpected2))
-            })
-
-            it('renders an empty steps container, if empty list is given', async function () {
+            it('renders an empty steps container if empty list is given', async function () {
                 const activity = new Activity({
                     steps: []
                 }, {})

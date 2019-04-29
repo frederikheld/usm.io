@@ -34,21 +34,8 @@ function Step (jsonStep, context) {
 Step.prototype.render = function () {
     let result = '<div class="step">'
 
-    // let cardInfo = {
-    //     title: this.jsonData.title || undefined,
-    //     description: this.jsonData.description || undefined
-    // }
-
-    // if (this.jsonData.title || this.jsonData.description) {
-    // const card = new Card(this.jsonData, this.context)
-    // result += '\n    ' + card.render()
-    // }
-
     if (this.jsonData) {
         const card = new Card(this.jsonData, this.context)
-        // if (this.jsonData.package) {
-        //     await card.load()
-        // }
         result += '\n    ' + card.render()
     }
 

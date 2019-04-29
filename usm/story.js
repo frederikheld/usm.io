@@ -9,21 +9,21 @@ const path = require('path')
 
 function Story (jsonStory, context) {
     if (jsonStory === undefined) {
-        throw new ReferenceError('Card description missing! Please pass a json.')
+        throw new ReferenceError('ERROR: No card description given! Please pass a json object.')
     }
 
     if ((!(jsonStory instanceof Object)) || Array.isArray(jsonStory)) {
-        throw new TypeError('Card description missing! Please pass json object or link to json file.')
+        throw new TypeError('ERROR: Given card description is not a json object.')
     }
 
     this.jsonData = jsonStory
 
     if (context === undefined) {
-        throw new ReferenceError('No context object given!')
+        throw new ReferenceError('ERROR: No context object given!')
     }
 
     if (!(context instanceof Object) || Array.isArray(context)) {
-        throw new TypeError('Given context is not an object!')
+        throw new TypeError('ERROR: Given context is not a json object!')
     }
 
     this.context = context
