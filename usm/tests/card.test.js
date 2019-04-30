@@ -78,14 +78,6 @@ describe('card', function () {
         })
 
         context('the object has a field "package"', function () {
-            // it('throws an ReferenceError if "package.inputDir" is not given', function () {
-            //     const card = new Card({
-            //         package: { }
-            //     }, {})
-
-            //     card.load().should.be.rejectedWith(ReferenceError, '"package" given but "package.inputDir" missing!')
-            // })
-
             it('loads the json object from "card.json" in the directory with the given package-id in "inputDir/cards"', function () {
                 const jsonCard = {
                     package: 'card-package'

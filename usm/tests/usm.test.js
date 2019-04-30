@@ -51,12 +51,10 @@ describe('usm', function () {
             outputDir: path.join(__dirname, 'temp', 'output')
         }
 
-        it('returns the usm object that was loaded from "usm.json" in the "inputDir"', function () {
-            const usmObjectExpected = {
-                'activities': []
-            }
-
+        it('returns the usm object that was loaded from "usm.json" in the "inputDir"', async function () {
             const usm = new Usm(context)
+
+            let usmObjectExpected = JSON.parse(await fs.readFile(path.join(context.inputDir, 'usm.json')))
             usm.getUsm().should.eql(usmObjectExpected)
         })
     })

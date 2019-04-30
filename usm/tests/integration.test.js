@@ -16,14 +16,12 @@ describe('integration', function () {
         await helpers.cleanUpDir(path.join(__dirname, 'temp', 'output'))
     })
 
+    const usmContext = {
+        inputDir: path.join(__dirname, 'mock-data', 'integration', 'input'),
+        outputDir: path.join(__dirname, 'temp', 'output')
+    }
+
     it('can render an user story map with all of its elements', async function () {
-        const usmContext = {
-            inputDir: path.join(__dirname, 'mock-data', 'integration', 'input'),
-            outputDir: path.join(__dirname, 'temp', 'output')
-        }
-
-        console.log(usmContext.inputDir)
-
         const usm = new Usm(usmContext)
 
         const mapOptions = {
@@ -39,5 +37,7 @@ describe('integration', function () {
         helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
     })
 
-    // Rendering card packages is already tested in usm.test.js.
+    // TODO: Rendering card packages is already tested in usm.test.js but might better be tested here?
+    // TODO: Linking between card in map and card package is somehow tested in render-engine,
+    //       but those tests just check the output and don't really check if the link is leading to the right location.
 })
