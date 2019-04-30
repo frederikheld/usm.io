@@ -143,4 +143,4 @@ For more detailled information on the features of usm.io read the tests. [usm/te
 - [ ] Improve test coverage (a lot of cases aren't testet yet) 
 - [ ] Clean up test suites (make structure more suitable as a documentation)
 - [ ] Remove duplication: There's a lot of duplication in all the modules. There should be one generic module for containers and one for card representations. All the specific modules should extend one of those two basic modules.
-- [ ] Remove unused mocks
+- [x] Remove unused mocks
