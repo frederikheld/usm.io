@@ -110,6 +110,16 @@ describe('card', function () {
                 }).throw(ReferenceError, 'Could not read from "card.json" in package "' + jsonCard.package + '"')
             })
 
+            it('throws a SyntaxError if "card.json" doesn\'t contain a valid object', function () {
+                const jsonCard = {
+                    package: 'card-package-with-invalid-card-json'
+                }
+
+                expect(function () {
+                    new Card(jsonCard, cardContext)
+                }).throw(SyntaxError, 'Object in "card.json" in package "' + jsonCard.package + '" is malformed')
+            })
+
             it('overwrites fields from "card.json" with fields from the object', function () {
                 const jsonCard = {
                     title: 'Title from the object',

@@ -45,16 +45,22 @@ function Card (jsonCard, context) {
 Card.prototype._load = function () {
     if (this.jsonData.package) {
         const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+
+        let cardRaw
         try {
-            const cardRaw = fsSync.readFileSync(jsonCardPath)
-            const cardJson = JSON.parse(cardRaw)
-
-            this.jsonData = Object.assign(cardJson, this.jsonData)
-
-            // this.packageIsLoaded = true
+            cardRaw = fsSync.readFileSync(jsonCardPath)
         } catch (err) {
             throw new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"')
         }
+
+        let cardJson
+        try {
+            cardJson = JSON.parse(cardRaw)
+        } catch (err) {
+            throw new SyntaxError('Object in "card.json" in package "' + this.jsonData.package + '" is malformed')
+        }
+
+        this.jsonData = Object.assign(cardJson, this.jsonData)
     }
 }
 
