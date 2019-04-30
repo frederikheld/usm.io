@@ -6,7 +6,7 @@ module.exports = Steps
 
 const Step = require('./step')
 
-function Steps (jsonSteps) {
+function Steps (jsonSteps, context) {
     if (jsonSteps === undefined) {
         throw new ReferenceError('No list of Steps given!')
     }
@@ -16,10 +16,21 @@ function Steps (jsonSteps) {
     }
 
     this.jsonData = jsonSteps
+
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
+
     this.steps = []
 
     for (let i = 0; i < this.jsonData.length; i++) {
-        this.steps.push(new Step(this.jsonData[i]))
+        this.steps.push(new Step(this.jsonData[i], this.context))
     }
 }
 

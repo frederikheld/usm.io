@@ -2,11 +2,9 @@
 
 module.exports = Activities
 
-// const logger = require('../logger/logger')
-
 const Activity = require('./activity')
 
-function Activities (jsonActivities) {
+function Activities (jsonActivities, context) {
     if (jsonActivities === undefined) {
         throw new ReferenceError('No list of Activities given!')
     }
@@ -16,10 +14,21 @@ function Activities (jsonActivities) {
     }
 
     this.jsonData = jsonActivities
+
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
+
     this.activities = []
 
     for (let i = 0; i < this.jsonData.length; i++) {
-        this.activities.push(new Activity(this.jsonData[i]))
+        this.activities.push(new Activity(this.jsonData[i], this.context))
     }
 }
 

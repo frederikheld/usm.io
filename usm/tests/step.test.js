@@ -3,91 +3,112 @@
 const path = require('path')
 
 const chai = require('chai')
-// const should = chai.should()
+chai.should()
 const expect = chai.expect
 
 const fs = require('fs').promises
 
+const helpers = require('./helpers')
+
 const Step = require('../step')
 
-describe('step', () => {
-    describe('the constructor Step()', () => {
-        it('expects an object', () => {
-            expect(() => { new Step({}) }).to.not.throw()
+describe('step', function () {
+    describe('the constructor Step(jsonStep, context)', function () {
+        describe('the first parameter "jsonStep"', function () {
+            it('expects an object', function () {
+                expect(function () {
+                    new Step({}, {})
+                }).to.not.throw()
+            })
+
+            it('throws a TypeError if passed data is not a json object', function () {
+                expect(function () {
+                    new Step('This is not an object', {})
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Step('a string', {})
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Step([], {})
+                }).to.throw(TypeError)
+            })
+
+            it('throws a ReferenceError if no data is passed at all', function () {
+                expect(function () {
+                    new Step(undefined, {})
+                }).to.throw(ReferenceError)
+            })
         })
 
-        it('throws an error if passed data is not a json object', () => {
-            expect(() => { new Step('This is not an object') }).to.throw(TypeError)
-            expect(() => { new Step([]) }).to.throw(TypeError)
-        })
+        describe('the second parameter "context"', function () {
+            it('expects an object', function () {
+                expect(function () {
+                    new Step({}, {})
+                }).to.not.throw()
+            })
 
-        it('throws an error if no data is passed at all', () => {
-            expect(() => { new Step() }).to.throw(ReferenceError)
+            it('throws an TypeError if passed data is not a json object', function () {
+                expect(function () {
+                    new Step({}, 'This is not an object')
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Step({}, 'a string')
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Step({}, [])
+                }).to.throw(TypeError)
+            })
+
+            it('throws an ReferenceError if no data is passed at all', function () {
+                expect(function () {
+                    new Step({})
+                }).to.throw(ReferenceError)
+            })
         })
     })
 
-    describe('Step.prototype.render()', () => {
-        // context('this.jsonData is invalid', () => {
+    describe('Step.prototype.render()', function () {
+        context('valid data was passed to the constructor', function () {
+            it('renders a Step with an empty Card if the object is empty', async function () {
+                const step = new Step({}, {})
+
+                let htmlRendered = step.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'step', 'mock-step-empty.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+
+            it('renders an empty Stories container if empty list given', async function () {
+                const step = new Step({
+                    stories: []
+                }, {})
+
+                let htmlRendered = step.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'step', 'mock-step-stories-empty.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+
+            it('can render all features', async function () {
+                const activity = new Step({
+                    title: 'Awesome Step',
+                    description: 'Lorem ipsum dolor sit amet ...',
+                    stories: []
+                }, {})
+
+                let htmlRendered = activity.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'step', 'mock-step-all-features.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+        })
+
+        // context('this.jsonData is invalid', function() {
 
         // })
-
-        context('this.jsonData is valid', () => {
-            it('renders an empty Step container', async () => {
-                return stepRenderComparator('mock-step-empty')
-            })
-
-            it('renders an Step card with empty Cards container', async () => {
-                return stepRenderComparator('mock-step-cards-empty', true)
-            })
-        })
     })
 })
-
-/**
- * This function takes the name of a mock data file
- * and returns an Step object prepared with the data.
- *
- * This function is asynchronous due to the async
- * file operation that loads the mock data!
- *
- * @param {string} mockFilename
- */
-async function stepMockupFactory (mockFilename) {
-    const rawStep = await fs.readFile(path.join(__dirname, 'mock-data', mockFilename))
-    const jsonStep = JSON.parse(rawStep)
-    return new Step(jsonStep)
-}
-
-/**
- * This function takes the name of a mock data file
- * and returns it's contents as a string.
- *
- * Can be used to load the expected result created
- * by Step.render() from a prepared mock file.
- *
- * @param {string} mockFilename
- */
-async function getMockString (mockFilename) {
-    const html = await fs.readFile(path.join(__dirname, 'mock-data', mockFilename), 'utf8')
-    return html
-}
-
-/**
- * Compares the rendered result of Step.render()
- * with a prepared mock result.
- *
- * @param {string} mockName
- */
-async function stepRenderComparator (mockName, ignoreWhitespaces = false) {
-    const step = await stepMockupFactory(mockName + '.json')
-    let mockHtml = await getMockString(mockName + '.html')
-    let htmlRendered = step.render()
-
-    if (ignoreWhitespaces) {
-        const regex = new RegExp(/\r*\s*(.*)\r*$/gm)
-        mockHtml = mockHtml.replace(regex, '$1')
-        htmlRendered = htmlRendered.replace(regex, '$1')
-    }
-
-    return htmlRendered.should.equal(mockHtml)
-}

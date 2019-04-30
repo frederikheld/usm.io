@@ -1,13 +1,11 @@
 'use strict'
 
-// const logger = require('../logger/logger')
-
-const Cards = require('./cards')
+const Stories = require('./stories')
 const Card = require('./card')
 
 module.exports = Step
 
-function Step (jsonStep) {
+function Step (jsonStep, context) {
     if (jsonStep === undefined) {
         throw new ReferenceError('No Step object given!')
     }
@@ -18,30 +16,29 @@ function Step (jsonStep) {
 
     this.jsonData = jsonStep
 
-    if (this.jsonData.cards) {
-        this.cards = new Cards(this.jsonData.cards)
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
+
+    if (this.jsonData.stories) {
+        this.stories = new Stories(this.jsonData.stories, this.context)
     }
 }
 
 Step.prototype.render = function () {
     let result = '<div class="step">'
 
-    let cardInfo = {}
-    if (this.jsonData.title) {
-        cardInfo.title = this.jsonData.title
-    }
+    const card = new Card(this.jsonData, this.context)
+    result += '\n    ' + card.render()
 
-    if (this.jsonData.description) {
-        cardInfo.description = this.jsonData.description
-    }
-
-    if (this.jsonData.title || this.jsonData.description) {
-        const card = new Card(cardInfo)
-        result += '\n    ' + card.render()
-    }
-
-    if (this.cards) {
-        result += '\n    ' + this.cards.render() + '\n'
+    if (this.stories) {
+        result += '\n    ' + this.stories.render() + '\n'
     }
 
     result += '</div>'

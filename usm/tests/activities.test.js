@@ -3,84 +3,93 @@
 const path = require('path')
 
 const chai = require('chai')
-// const should = chai.should()
+chai.should()
 const expect = chai.expect
 
 const fs = require('fs').promises
 
+const helpers = require('./helpers')
+
 const Activities = require('../activities')
 
-describe('activities', () => {
-    describe('the constructor Activities()', () => {
-        it('expects an array', () => {
-            expect(() => { new Activities([]) }).to.not.throw()
+describe('activities', function () {
+    describe('the constructor Activities(listActivities, context)', function () {
+        describe('the first parameter "listActivities"', function () {
+            it('expects an array', function () {
+                expect(function () {
+                    new Activities([], {})
+                }).to.not.throw()
+            })
+
+            it('throws an TypeError if passed data is not a list', function () {
+                expect(function () {
+                    new Activities('This is not a list', {})
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Activities({}, {})
+                }).to.throw(TypeError)
+            })
+
+            it('throws an ReferenceError if no data is passed at all', function () {
+                expect(function () {
+                    new Activities(undefined, {})
+                }).to.throw(ReferenceError)
+            })
         })
 
-        it('throws an error if passed data is not a list', () => {
-            expect(() => { new Activities('This is not a list') }).to.throw(TypeError)
-            expect(() => { new Activities({}) }).to.throw(TypeError)
-        })
+        describe('the second parameter "context"', function () {
+            it('expects an object', function () {
+                expect(function () {
+                    new Activities([], {})
+                }).to.not.throw()
+            })
 
-        it('throws an error if no data is passed at all', () => {
-            expect(() => { new Activities() }).to.throw(ReferenceError)
+            it('throws an TypeError if passed data is not an object', function () {
+                expect(function () {
+                    new Activities([], 'This is not an object')
+                }).to.throw(TypeError)
+
+                expect(function () {
+                    new Activities([], [])
+                }).to.throw(TypeError)
+            })
+
+            it('throws an ReferenceError if no data is passed at all', function () {
+                expect(function () {
+                    new Activities([])
+                }).to.throw(ReferenceError)
+            })
         })
     })
 
-    describe('Activities.prototype.render()', () => {
-        // context('this.jsonData is invalid', () => {
+    describe('Activities.prototype.render()', function () {
+        context('listActivities object given with the constructor is valid', function () {
+            it('can render an empty Activities container', async function () {
+                const activities = new Activities([], {})
+
+                let htmlRendered = activities.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activities', 'mock-activities-empty.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+
+            it('can render multiple empty Activities into the container', async function () {
+                const activities = new Activities([
+                    {},
+                    {},
+                    {}
+                ], {})
+
+                let htmlRendered = activities.render()
+                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activities', 'mock-activities-multiple-empty.html'), 'utf8')
+
+                helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+        })
+
+        // context('this.jsonData is invalid', function() {
 
         // })
-
-        context('this.jsonData is valid', () => {
-            it('can render an empty Activities container', async () => {
-                return activitiesRenderComparator('mock-activities-empty')
-            })
-
-            it('can render multiple empty Activities into the container', async () => {
-                return activitiesRenderComparator('mock-activities-multiple-empty')
-            })
-        })
     })
 })
-
-/**
- * This function takes the name of a mock data file
- * and returns an Activities object prepared with the data.
- *
- * This function is asynchronous due to the async
- * file operation that loads the mock data!
- *
- * @param {string} mockFilename
- */
-async function activitiesMockupFactory (mockFilename) {
-    const rawActivities = await fs.readFile(path.join(__dirname, 'mock-data', mockFilename))
-    const jsonACtivities = JSON.parse(rawActivities)
-    return new Activities(jsonACtivities)
-}
-
-/**
- * This function takes the name of a mock data file
- * and returns it's contents as a string.
- *
- * Can be used to load the expected result created
- * by Activities.render() from a prepared mock file.
- *
- * @param {string} mockFilename
- */
-async function getMockString (mockFilename) {
-    const html = await fs.readFile(path.join(__dirname, 'mock-data', mockFilename), { encoding: 'utf8' })
-    return html
-}
-
-/**
- * Compares the rendered result of Activities.render()
- * with a prepared mock result.
- *
- * @param {string} mockName
- */
-async function activitiesRenderComparator (mockName) {
-    const activities = await activitiesMockupFactory(mockName + '.json')
-    const mockHtml = await getMockString(mockName + '.html')
-    const htmlRendered = activities.render()
-    return htmlRendered.should.equal(mockHtml)
-}

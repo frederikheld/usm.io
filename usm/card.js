@@ -5,64 +5,67 @@ module.exports = Card
 const fsSync = require('fs')
 const path = require('path')
 
-function Card (jsonCard) {
+function Card (jsonCard, context) {
     if (jsonCard === undefined) {
-        throw new ReferenceError('Card description missing! Please pass json object or link to json file.')
+        throw new ReferenceError('Card information missing! Please pass json object!')
     }
 
-    if ((!(jsonCard instanceof Object) && !(typeof (jsonCard) === 'string')) || Array.isArray(jsonCard)) {
-        throw new TypeError('Card description missing! Please pass json object or link to json file.')
+    if ((!(jsonCard instanceof Object)) || Array.isArray(jsonCard)) {
+        throw new TypeError('Card information is not a json object!')
     }
 
-    // load json data from somewhere:
-    this.jsonData = {}
-    if (jsonCard instanceof Object) {
-        this.jsonData = jsonCard
-    } else {
-        // Load json from file
-        let jsonCardFromFileRaw
+    this.jsonData = jsonCard
+
+    if (context === undefined) {
+        throw new ReferenceError('No context object given!')
+    }
+
+    if (!(context instanceof Object) || Array.isArray(context)) {
+        throw new TypeError('Given context is not an object!')
+    }
+
+    this.context = context
+
+    // this.packageIsLoaded = false
+
+    this._load()
+}
+
+/**
+ * This function needs to be run if the object passed into
+ * the constructor contains a link to a package.
+ *
+ * It will load "card.json" from the package and merge it
+ * with this.jsonData.
+ *
+ * Fields that already exist in this.jsonData will not be
+ * overwritten.
+ */
+
+Card.prototype._load = function () {
+    if (this.jsonData.package) {
+        const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+
+        let cardRaw
         try {
-            jsonCardFromFileRaw = fsSync.readFileSync(jsonCard)
+            cardRaw = fsSync.readFileSync(jsonCardPath)
         } catch (err) {
-            throw err
+            throw new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"')
         }
-        let jsonCardFromFile = JSON.parse(jsonCardFromFileRaw)
 
-        Object.assign(this.jsonData, jsonCardFromFile)
-        /**
-         * FIXIT: It is an anti-pattern to synchronously load
-         * from a file. But it is the most user-friendly and
-         * clean implementation I came up with. All async implementations
-         * would require another function besides the constructor to be
-         * called since the constructor itself can't be async.
-         * As there are many cards in an usm, this should be made
-         * async in some way!
-         */
-    }
-
-    // resolve link if given:
-    if ('link' in this.jsonData) {
-        let jsonCardFromFileRaw
+        let cardJson
         try {
-            jsonCardFromFileRaw = fsSync.readFileSync(path.join(__dirname, this.jsonData['link']))
+            cardJson = JSON.parse(cardRaw)
         } catch (err) {
-            throw err
+            throw new SyntaxError('Object in "card.json" in package "' + this.jsonData.package + '" is malformed')
         }
-        let jsonCardFromFile = JSON.parse(jsonCardFromFileRaw)
 
-        Object.assign(this.jsonData, jsonCardFromFile)
+        this.jsonData = Object.assign(cardJson, this.jsonData)
     }
-    // NOTE: This will also resolve links in a file that was given direktly as a link.
 }
 
 Card.prototype.render = function () {
-    let result = '<div class="card'
-
-    if (this.jsonData.inRelease) {
-        result += ' release-' + this.jsonData.inRelease
-    }
-
-    result += '">'
+    let result = '<div class="card">'
     const compareForEmptyTag = result
 
     if (this.jsonData.title) {
@@ -75,10 +78,18 @@ Card.prototype.render = function () {
         result += '\n    </div>'
     }
 
+    if (this.jsonData.package) {
+        result += '\n    <button class="open-package" onclick="window.location.href=\'' + this.context.outputDir + '/cards/' + this.jsonData.package + '/index.html\'">Open Package</button>'
+    }
+
     if (result !== compareForEmptyTag) {
         result += '\n'
     }
     result += '</div>'
 
     return result
+}
+
+Card.prototype.get = function (key) {
+    return this.jsonData[key]
 }

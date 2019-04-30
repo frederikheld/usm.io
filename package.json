@@ -4,7 +4,7 @@
   "description": "Represents an User Story Map and it's sub-components and can render it in HTML.",
   "main": "usm/usm.js",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha */tests/*.test.js",
+    "test": "node -v && node node_modules/mocha/bin/mocha */tests/*.test.js",
     "watch-test": "mocha --reporter=min --watch */tests/*.test.js",
     "coverage": "node node_modules/nyc/bin/nyc npm test"
   },
@@ -28,13 +28,19 @@
   "homepage": "https://github.com/frederikheld/usm.io#readme",
   "devDependencies": {
     "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "chai-files": "^1.4.0",
     "eslint": "^5.15.1",
     "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-mocha": "^5.3.0",
     "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.0.2",
+    "mocha": "^6.1.4",
     "nyc": "^13.3.0",
     "standard": "^12.0.1"
+  },
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "markdown-it": "^8.4.2",
+    "readdirp": "^2.2.1"
   }
 }

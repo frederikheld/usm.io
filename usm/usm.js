@@ -1,26 +1,64 @@
 'use strict'
 
+const fs = require('fs').promises
+const fsSync = require('fs')
+const path = require('path')
+
 const ActivitiesContainer = require('./activities')
+const RenderEngine = require('../render-engine/render-engine')
 
 module.exports = Usm
 
-function Usm (jsonUsm) {
-    if (jsonUsm === undefined) {
-        throw new ReferenceError('No USM object given!')
-    }
+function Usm (context) {
+    this.context = context
 
-    if (!(jsonUsm instanceof Object) || Array.isArray(jsonUsm)) {
-        throw new TypeError('Given USM object is not an object!')
-    }
+    // -- load usm object from "usm.json" in context.inputDir
 
-    this.jsonUsm = jsonUsm
+    if (this.context && this.context.inputDir) {
+        this.jsonUsm = this._loadUsmObjectFromFile(path.join(this.context.inputDir, 'usm.json'))
 
-    if (this.jsonUsm.activities) {
-        this.activities = new ActivitiesContainer(this.jsonUsm.activities)
+        // -- prepare activities container
+
+        if (this.jsonUsm.activities) {
+            this.activities = new ActivitiesContainer(this.jsonUsm.activities, context)
+        }
     }
 }
 
-Usm.prototype.render = function (config) {
+Usm.prototype._loadUsmObjectFromFile = function (jsonUsmPath) {
+    const jsonUsmRaw = fsSync.readFileSync(jsonUsmPath)
+    return JSON.parse(jsonUsmRaw)
+}
+
+Usm.prototype.getActivities = function () {
+    return this.activities
+}
+
+Usm.prototype.getContext = function (field = undefined) {
+    if (undefined === field) {
+        return this.context
+    } else {
+        if (this.context[field]) {
+            return this.context[field]
+        } else {
+            throw new RangeError('ERROR: Field "' + field + '" doesn\'t exist!')
+        }
+    }
+}
+
+Usm.prototype.getUsm = function () {
+    return this.jsonUsm
+}
+
+/**
+ * Renders all Cards in inputDir to outputDir.
+ */
+Usm.prototype.renderCards = async function (options) {
+    const re = new RenderEngine(this.context.inputDir, this.context.outputDir)
+    await re.renderAllCards()
+}
+
+Usm.prototype.renderMap = async function (config) {
     // render header:
     let result = '<!DOCTYPE html>\n'
     result += '\n<html>\n'
@@ -35,14 +73,14 @@ Usm.prototype.render = function (config) {
 
         if (config.css) {
             if (typeof (config.css) !== 'string') {
-                throw new TypeError('Key "css" of configuration object has to be a string!')
+                throw new TypeError('Value of field "css" in configuration object has to be a string!')
             }
             result += '\n    <link rel="stylesheet" type="text/css" href="' + config.css + '">'
         }
 
         if (config.js) {
             if (typeof (config.js) !== 'string') {
-                throw new TypeError('Key "js" of configuration object has to be a string!')
+                throw new TypeError('Value of field "js" in configuration object has to be a string!')
             }
             result += '\n    <script src="' + config.js + '"></script>'
         }
@@ -75,5 +113,5 @@ Usm.prototype.render = function (config) {
     result += '\n</body>\n'
     result += '\n</html>'
 
-    return result
+    await fs.writeFile(path.join(this.context.outputDir, 'index.html'), result)
 }

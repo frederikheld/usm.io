@@ -1,15 +1,14 @@
 window.onload = function () {
-
     let cards = document.querySelectorAll('.card')
     let modal
 
-    function createModal() {
+    function createModal () {
         let body = document.querySelector('body')
 
         let modal = document.createElement('div')
         modal.classList.add('modal')
         body.appendChild(modal)
-        
+
         modal.addEventListener('click', hideModal)
 
         let modalCard = document.createElement('div')
@@ -20,8 +19,7 @@ window.onload = function () {
     }
     modal = createModal()
 
-    function showModal() {
-
+    function showModal () {
         hideModal()
 
         // empty modal card:
@@ -33,27 +31,32 @@ window.onload = function () {
         // fill modal card:
         let title = this.querySelector('h1')
         if (title) {
-            let titleHtml = document.createElement('h1')
-            titleHtml.innerHTML = title.innerHTML
-            modalCard.appendChild(titleHtml)
+            let titleClone = title.cloneNode(true)
+            modalCard.appendChild(titleClone)
         }
+
         let description = this.querySelector('.description')
         if (description) {
-            let descriptionHtml = document.createElement('div')
-            descriptionHtml.innerHTML = description.innerHTML
-            modalCard.appendChild(descriptionHtml)
+            let descriptionClone = description.cloneNode(true)
+            modalCard.appendChild(descriptionClone)
         }
-        modalCard.style.backgroundColor = getComputedStyle(this).backgroundColor
+
+        let button = this.querySelector('.open-package')
+        if (button) {
+            let buttonClone = button.cloneNode(true)
+            modalCard.appendChild(buttonClone)
+        }
+
+        modalCard.style.backgroundColor = window.getComputedStyle(this).backgroundColor
 
         // highlight active card:
         this.classList.add('card-is-selected')
 
         // show modal:
         modal.classList.add('show-modal')
-
     }
 
-    function hideModal() {
+    function hideModal () {
         modal.classList.remove('show-modal')
         for (let i = 0; i < cards.length; i++) {
             cards[i].classList.remove('card-is-selected')
@@ -66,5 +69,4 @@ window.onload = function () {
         }
     }
     attachEventListeners(cards)
-
 }

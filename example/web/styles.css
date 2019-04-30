@@ -54,7 +54,7 @@ body {
 }
 
 .activity > .card {
-    background-color: #9ae;
+    background-color: #9d9;
 }
 
 
@@ -78,14 +78,14 @@ body {
 }
 
 .step > .card {
-    background-color: #9d9;
+    background-color: #9ae;
     margin-bottom: 1.2rem;
 }
 
 
-/* -- CARDS CONTAINER -- */
+/* -- STORIES CONTAINER -- */
 
-.cards {
+.stories {
     display: grid;
 }
 
@@ -107,6 +107,10 @@ body {
     visibility: hidden;
 }
 
+.card .open-package {
+    visibility: hidden;
+}
+
 .modal {
     visibility: hidden;
 
@@ -116,6 +120,8 @@ body {
     width: 100%;
     height: 100%;
     background: rgba(255,255,255,0.5);
+
+    cursor: pointer;
 }
 
 .modal-card {
@@ -139,12 +145,22 @@ body {
     box-shadow: 0 0 1rem rgba(0,0,0,0.25);
     
     padding: 1rem;
-
-    cursor: pointer;
 }
 
 .modal-card h1 {
     margin-top: 0;
+}
+
+.modal-card button.open-package {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    width: calc(100% - 10rem);
+    padding: 0.4rem;
+    margin: 2rem 5rem 1rem 5rem;
+    border: 0;
+    cursor: pointer;
 }
 
 .card-is-selected {
@@ -178,13 +194,3 @@ body {
     border-width: 0.4rem 0 0.4rem 1.2rem;
     border-color: transparent transparent transparent #000;
 }
-
-/* == specific == */
-/* 
-.release-mvt2019 {
-    background-color: green;
-}
-
-.release-intermediate {
-    background-color: blue;
-} */
