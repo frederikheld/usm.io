@@ -1,0 +1,29 @@
+.map {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.card {
+    width: 100px;
+    height: 80px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+.release-1 {
+    background-color: #f90;
+}
+
+.release-2 {
+    background-color: #0a0;
+}
+
+.release-3 {
+    background-color: #0af;
+}
