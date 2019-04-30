@@ -4,9 +4,6 @@ module.exports = Story
 
 const Card = require('./card')
 
-const fsSync = require('fs')
-const path = require('path')
-
 function Story (jsonStory, context) {
     if (jsonStory === undefined) {
         throw new ReferenceError('ERROR: No card description given! Please pass a json object.')

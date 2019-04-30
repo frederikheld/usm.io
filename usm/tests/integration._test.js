@@ -3,8 +3,7 @@
 const path = require('path')
 
 const chai = require('chai')
-const should = chai.should()
-const expect = chai.expect
+chai.should()
 
 const fs = require('fs').promises
 

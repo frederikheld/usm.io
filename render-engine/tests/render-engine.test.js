@@ -1,11 +1,9 @@
 'use strict'
 
-// const helpers = require('./helpers')
-
 const path = require('path')
 
 const chai = require('chai')
-const should = chai.should()
+chai.should()
 const expect = chai.expect
 
 const chaiFiles = require('chai-files')

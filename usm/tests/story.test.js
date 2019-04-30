@@ -6,7 +6,7 @@ const path = require('path')
 const fs = require('fs').promises
 
 const chai = require('chai')
-const should = chai.should()
+chai.should()
 const expect = chai.expect
 
 const Story = require('../story')
