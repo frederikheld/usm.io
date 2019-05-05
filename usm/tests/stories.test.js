@@ -61,6 +61,9 @@ describe('stories', function () {
                 }).to.throw(ReferenceError)
             })
         })
+
+        // TODO: It puts all stories that are not tagged with a release into the generic release "__future"
+        // TODO: It puts all stories that are tagged with a release that was not defined in context.releases into the generic release "__future"
     })
 
     describe('Stories.prototype.render()', function () {
