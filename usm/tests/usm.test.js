@@ -43,6 +43,8 @@ describe('usm', function () {
                 usm.getContext('nonExistentField')
             }).to.throw(RangeError, 'ERROR: Field "nonExistentField" doesn\'t exist!')
         })
+
+        // TODO: context object gets enriched with releases, if releases given with map
     })
 
     describe('Usm.prototype.getUsm()', function () {

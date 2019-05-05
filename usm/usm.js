@@ -17,10 +17,16 @@ function Usm (context) {
     if (this.context && this.context.inputDir) {
         this.jsonUsm = this._loadUsmObjectFromFile(path.join(this.context.inputDir, 'usm.json'))
 
+        // -- adds releases to context
+
+        if (this.jsonUsm.releases) {
+            this.context.releases = this.jsonUsm.releases
+        }
+
         // -- prepare activities container
 
         if (this.jsonUsm.activities) {
-            this.activities = new ActivitiesContainer(this.jsonUsm.activities, context)
+            this.activities = new ActivitiesContainer(this.jsonUsm.activities, this.context)
         }
     }
 }
