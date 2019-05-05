@@ -6,7 +6,10 @@
 
 /* calc( [card.height + card.margin-top + card.margin-bottom] * [max number of cards in release]) */
 
+
 /* -- RELEASE CONTAINER -- */
+
+/* positioning */
 
 .release-mvp {
     grid-row-start: 1;
@@ -21,4 +24,34 @@
 .release-release-2 {
     grid-row-start: 3;
     grid-row-end: 4;
+}
+
+
+/* -- RELEASE NAMES -- */
+
+.release-mvp::before {
+    content: "Minimal Viable Product";
+
+    margin-top: calc(6.8rem * 3/2 - 0.4rem);
+    width: calc(6.8rem * 3);
+
+    left: calc(-3.42rem * 3 + 0.8rem);
+}
+
+.release-release-1::before {
+    content: "Release 1";
+
+    margin-top: calc(6.8rem * 2/2 - 0.4rem);
+    width: calc(6.8rem * 2);
+    
+    left: calc(-3.42rem * 2 + 0.8rem);
+}
+
+.release-release-2::before {
+    content: "Release 2";
+
+    margin-top: calc(6.8rem * 1/2 - 0.4rem);
+    width: calc(6.8rem * 1);
+
+    left: calc(-3.42rem * 1 + 0.8rem);
 }

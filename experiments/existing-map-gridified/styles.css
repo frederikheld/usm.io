@@ -11,6 +11,7 @@ body {
 .usm {
     display: block;
     margin: 0.4rem;
+    padding-left: 1.8rem;
     padding-bottom: 0.4rem;
     position: absolute;
     /* left: 50%;
@@ -100,7 +101,7 @@ body {
 } */
 
 
-/* TRENNLINIE zwischen Releases */
+/* -- RELEASE SEPARATORS -- */
 
 .release::after {
     content: "";
@@ -129,6 +130,35 @@ body {
         given release, the release separator still goes through
         all steps from the first to the last.
 */
+
+
+/* -- RELEASE NAMES -- */
+
+.release::before {
+    display: block;
+    position: absolute;
+
+    text-align: center;
+    font-size: 0.8rem;
+
+    transform: rotate(-90deg);
+
+    /* background: red; */
+
+}
+
+/* 
+    ^-- Another rotten hack that should be burnt with fire.
+
+        This displays release names in front of _all_ release
+        blocks in each step!
+        So for each release you have as many release names as
+        there are steps in the map.
+        With some calc magic for the position from the left
+        (see styles-dynamic.css) they are all displayed on top
+        of each others on the left edge of the map.
+*/
+
 
 /* -- STORY -- */
 
@@ -240,8 +270,10 @@ body {
     background: #000;
     position: absolute;
     top: 13.9rem;
+    margin-left: -1.8rem;
     box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,0.50);
 }
+
 .timeline::after {
     content: "";
     position: absolute;
