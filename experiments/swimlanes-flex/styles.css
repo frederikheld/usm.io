@@ -3,7 +3,7 @@
     flex-direction: row;
 }
 
-.column {
+.step {
     display: flex;
     flex-direction: column;
 

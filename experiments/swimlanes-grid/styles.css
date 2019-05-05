@@ -1,0 +1,60 @@
+/* STATIC */
+
+.map {
+    display: grid;
+    grid-auto-columns: min-content;
+    grid-auto-rows: min-content;
+}
+
+.card {
+    width: 100px;
+    height: 80px;
+    border: 1px solid black;
+    margin: 10px;
+}
+
+/* DYNAMIC */
+
+.step-1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.step-2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.step-3 {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+.release-1 {
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.release-2 {
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.release-3 {
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+/* DEBUG */
+
+.release-1 .card {
+    background-color: #f90;
+}
+
+.release-2 .card {
+    background-color: #0a0;
+}
+
+.release-3 .card {
+    background-color: #0af;
+}
