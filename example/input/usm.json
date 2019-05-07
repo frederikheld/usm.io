@@ -1,4 +1,18 @@
 {
+    "releases": [
+        {
+            "key": "mvp",
+            "title": "Minimal Viable Product"
+        },
+        {
+            "key": "release-1",
+            "title": "Release 1"
+        },
+        {
+            "key": "release-2",
+            "title": "Release 2"
+        }
+    ],
     "activities": [
         {
             "title": "Getting inspiration",
@@ -10,15 +24,18 @@
                     "stories": [
                         {
                             "title": "Receive from FilmFinder",
-                            "description": "Receive a message from FilmFinder about a movie on my watch list available to see"
+                            "description": "Receive a message from FilmFinder about a movie on my watch list available to see",
+                            "inRelease": "mvp"
                         },
                         {
                             "title": "Receive from Friend",
-                            "description": "Receive a message from a Friend with direct link to a movie"
+                            "description": "Receive a message from a Friend with direct link to a movie",
+                            "inRelease": "release-1"
                         },
                         {
                             "title": "See ad on another site",
-                            "description": "See banner ad on another site"
+                            "description": "See banner ad on another site",
+                            "inRelease": "release-2"
                         }
                     ]
                 }
@@ -33,11 +50,13 @@
                     "stories": [
                         {
                             "title": "See splash screen",
-                            "description": "See a cool splash screen telling me what I can do"
+                            "description": "See a cool splash screen telling me what I can do",
+                            "inRelease": "mvp"
                         },
                         {
                             "title": "See an ad from sponsor",
-                            "description": "See an ad from sponsor (wheter I want or not)"
+                            "description": "See an ad from sponsor (wheter I want or not)",
+                            "inRelease": "mvp"
                         },
                         {
                             "title": "Sign in",
@@ -51,17 +70,21 @@
                     "stories": [
                         {
                             "title": "Enter personal info",
-                            "description": "Enter my basic personal info like name, post code, and email address"
+                            "description": "Enter my basic personal info like name, post code, and email address",
+                            "inRelease": "mvp"
                         },
                         {
                             "title": "Describe proferences",
-                            "description": "Describe my movie proferences"
+                            "description": "Describe my movie proferences",
+                            "inRelease": "mvp"
                         },
                         {
-                            "package": "story-connect-to-social-networks"
+                            "package": "story-connect-to-social-networks",
+                            "inRelease": "release-1"
                         },
                         {
-                            "package": "story-connect-to-streaming-accounts"
+                            "package": "story-connect-to-streaming-accounts",
+                            "inRelease": "release-2"
                         }
                     ]
                 }

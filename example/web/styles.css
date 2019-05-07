@@ -10,25 +10,13 @@ body {
 
 .usm {
     display: block;
-    padding: 0.4rem;
+    margin: 0.4rem;
+    padding-left: 1.8rem;
+    padding-bottom: 0.4rem;
     position: absolute;
     /* left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0%); */
-}
-
-
-/* -- CARD -- */
-
-.card {
-    width: 9rem;
-    height: 6rem;
-    margin: 0.4rem ;
-    padding: 0.6rem;
-    box-sizing: border-box;
-    background-color: #ee9;
-    box-shadow: 0.2rem 0.2rem 0.2rem rgba(0,0,0,0.50);
-    cursor: pointer;
 }
 
 
@@ -87,12 +75,98 @@ body {
 
 .stories {
     display: grid;
+    column-gap: 0;
+    row-gap: 1rem;
 }
 
 
-/* -- CARD in general -- */
+/* -- RELEASE BLOCK -- */
+
+.release {
+    margin: 0;
+}
+
+
+/* -- RELEASE SEPARATORS -- */
+
+.release::after {
+    content: "";
+    display: block;
+    position: absolute;
+    margin: -0.4rem;
+    width: 200%;
+    margin-left: -100%;
+    border-bottom: 1px solid black;
+}
+
+.release:first-child::after {
+    display: none;
+}
+
+.usm {
+    overflow: hidden;
+}
+
+/* 
+    ^-- Absolutely rotten hack. Despicable. Regrettably it works.
+        
+        "width: 200%; margin-left: -100%;" in combination with
+        "overflow: hidden;" for .usm makes sure that even if only
+        the last step in the map has a div.release defined for the
+        given release, the release separator still goes through
+        all steps from the first to the last.
+*/
+
+
+/* -- RELEASE NAMES -- */
+
+.release::before {
+    display: block;
+    position: absolute;
+
+    text-align: center;
+    font-size: 0.8rem;
+
+    transform: rotate(-90deg);
+
+    /* background: red; */
+
+}
+
+/* 
+    ^-- Another rotten hack that should be burnt with fire.
+
+        This displays release names in front of _all_ release
+        blocks in each step!
+        So for each release you have as many release names as
+        there are steps in the map.
+        With some calc magic for the position from the left
+        (see styles-dynamic.css) they are all displayed on top
+        of each others on the left edge of the map.
+*/
+
+
+/* -- STORY -- */
+
+.story > .card {
+    position: relative;
+    float: left;
+    clear: both;
+}
+
+
+/* -- CARD -- */
 
 .card {
+    width: 9rem;
+    height: 6rem;
+    margin: 0.4rem ;
+    padding: 0.6rem;
+    box-sizing: border-box;
+    background-color: #ee9;
+    box-shadow: 0.2rem 0.2rem 0.2rem rgba(0,0,0,0.50);
+    cursor: pointer;
+
     /* background-image: linear-gradient(340deg, rgba(0,0,0,0.30) 0%,rgba(0,0,0,0) 20%); */
     background-image: linear-gradient(340deg, rgba(255,255,255,0.50) 0%,rgba(255,255,255,0) 30%);
 }
@@ -175,14 +249,16 @@ body {
     visibility: visible;
 }
 
-/* -- timeline -- */
+
+/* -- TIMELINE -- */
 
 .timeline {
     height: 0.2rem;
-    width: calc(100% - 1.2rem);
+    width: calc(100% - 0.4rem);
     background: #000;
     position: absolute;
-    top: 14.3rem;
+    top: 13.9rem;
+    margin-left: -1.8rem;
     box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,0.50);
 }
 .timeline::after {
