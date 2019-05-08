@@ -193,7 +193,7 @@ function __generateReleasesCSS (jsonUsm, indentBlanks) {
     // position release names:
 
     for (let i = 0; i < releases.length; i++) {
-        result += '\n' + blanks + '.release-' + releases[i].key + '::before {'
+        result += '\n' + blanks + '.activity:first-child .step:first-child .release-' + releases[i].key + '::before {'
         result += '\n' + blanks + '    content: "' + releases[i].title + '";'
         result += '\n' + blanks + '    margin-top: calc(6.8rem * ' + (maxCardsInRelease[releaseKeys[i]]) + '/2 - 0.4rem);'
         result += '\n' + blanks + '    width: calc(6.8rem * ' + (maxCardsInRelease[releaseKeys[i]]) + ');'
