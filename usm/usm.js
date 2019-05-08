@@ -92,9 +92,11 @@ Usm.prototype.renderMap = async function (config) {
         }
     }
 
-    result += '\n    <style>'
-    result += __generateReleasesCSS(this.jsonUsm, 8)
-    result += '\n    </style>'
+    if (this.jsonUsm.releases) {
+        result += '\n    <style>'
+        result += __generateReleasesCSS(this.jsonUsm, 8)
+        result += '\n    </style>'
+    }
 
     result += '\n</head>\n'
     result += '\n<body>'

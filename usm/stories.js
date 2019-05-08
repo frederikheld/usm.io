@@ -59,23 +59,27 @@ Stories.prototype.render = function () {
                 storiesPerRelease.__future.push(this.stories[i])
             }
         }
-    } else {
-        storiesPerRelease.__future = []
-        for (let i = 0; i < this.stories.length; i++) {
-            storiesPerRelease.__future.push(this.stories[i])
-        }
     }
 
     // -- Render Stories insid release containers
 
     let result = '<div class="stories">'
 
-    for (let releaseKey in storiesPerRelease) {
-        result += '\n    <div class="release release-' + releaseKey + '">'
-        for (let j = 0; j < storiesPerRelease[releaseKey].length; j++) {
-            result += '\n        ' + storiesPerRelease[releaseKey][j].render()
+    if (this.context.releases) {
+        for (let releaseKey in storiesPerRelease) {
+            result += '\n    <div class="release release-' + releaseKey + '">'
+            for (let j = 0; j < storiesPerRelease[releaseKey].length; j++) {
+                result += '\n        ' + storiesPerRelease[releaseKey][j].render()
+            }
+            result += '\n    </div>'
         }
-        result += '\n    </div>'
+    } else {
+        if (this.stories.length > 0) {
+            for (let i = 0; i < this.stories.length; i++) {
+                result += '\n    ' + this.stories[i].render()
+            }
+            result += '\n'
+        }
     }
 
     result += '</div>'
