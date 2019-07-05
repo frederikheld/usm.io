@@ -1,7 +1,7 @@
 {
   "name": "usm.io",
   "version": "2.1.0",
-  "description": "Represents an User Story Map and it's sub-components and can render it in HTML.",
+  "description": "Represents an User Story Map and its sub-components and can render it in HTML.",
   "main": "usm/usm.js",
   "scripts": {
     "test": "node -v && node node_modules/mocha/bin/mocha */tests/*.test.js",
@@ -20,7 +20,7 @@
     "user-story-mapping",
     "usm"
   ],
-  "author": "Frederik S. Held (konten@frederikheld.de)",
+  "author": "Frederik S. Held (kontakt@frederikheld.de)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/frederikheld/usm.io/issues"
