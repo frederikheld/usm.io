@@ -16,11 +16,12 @@ Data representation (meta information) is done with JSON, for content descriptio
 The entry point for your User Story Map is the Usm object. It expects a context object as parameter, that contains all information about where to look for sources and where to put the rendered output:
 
 ```javascript
+const Usm = require('usm.io')
 const path = require('path')
 
 const context = {
-    inputDir: path.join(__dirname, 'root', 'input-directory'),
-    outputDir: path.join(__dirname, 'root', 'output-directory')
+    inputDir: path.join(__dirname, 'input'),
+    outputDir: path.join(__dirname, 'output')
 }
 const usm = new Usm(context)
 ```
@@ -50,8 +51,8 @@ The expected directory tree is as follows:
 
 For each rendering feature there's an asynchronous function:
 ```javascript
-await usm.renderUsm()
-await usm.renderAllCards()
+await usm.renderMap()
+await usm.renderCards()
 ```
 
 ### Cards
