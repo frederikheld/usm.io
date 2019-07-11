@@ -16,7 +16,6 @@ const fs = require('fs-extra')
 const RenderEngine = require('../render-engine')
 
 describe('render-engine', function () {
-
     let tempDir = path.join(process.cwd(), 'temp', 'render-engine.test')
     let outputDirectory = path.join(tempDir)
 
@@ -27,7 +26,6 @@ describe('render-engine', function () {
     })
     describe('renderAllCards()', function () {
         it('renders all card packages into html websites', async function () {
-
             // check pre-condition:
             expect(dir(outputDirectory)).to.be.empty
 
@@ -40,8 +38,12 @@ describe('render-engine', function () {
             expect(dir(path.join(outputDirectory, 'another-card'))).to.exist
 
             // check for some files if they were created:
-            expect(file(path.join(outputDirectory, 'markdown-card', 'index.html'))).to.exist
-            expect(file(path.join(outputDirectory, 'another-card', 'index.html'))).to.exist
+            expect(
+                file(path.join(outputDirectory, 'markdown-card', 'index.html'))
+            ).to.exist
+            expect(
+                file(path.join(outputDirectory, 'another-card', 'index.html'))
+            ).to.exist
         })
     })
 })

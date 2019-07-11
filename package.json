@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node -v && node node_modules/mocha/bin/mocha */tests/*.test.js",
     "watch-test": "mocha --reporter=min --watch */tests/*.test.js",
-    "coverage": "node node_modules/nyc/bin/nyc npm test"
+    "coverage": "node node_modules/nyc/bin/nyc npm test",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "repository": {
     "type": "git",

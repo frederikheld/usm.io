@@ -18,7 +18,8 @@ const Card = require('../card')
 describe('card', function () {
     const cardContext = {
         inputDir: path.join(__dirname, 'mock-data', 'card', 'input'),
-        outputDir: path.join(__dirname, 'temp')
+        outputDir: path.join(__dirname, 'temp'),
+        cardsWebroot: 'cards/'
     }
     describe('the constructor Card(jsonCard, context)', function () {
         describe('the first parameter "jsonCard"', function () {
@@ -172,7 +173,7 @@ describe('card', function () {
             })
 
             context('the card object passed to the constructor contains a field "package"', async function () {
-                it('renders a button that links to "index.html" in the card\'s package directory generated in "context.outputDir"', async function () {
+                it('renders a button that links to "index.html" in the card\'s package directory generated in "context.cardsWebroot"', async function () {
                     const jsonCard = {
                         package: 'card-package'
                     }
@@ -180,7 +181,7 @@ describe('card', function () {
                     const card = new Card(jsonCard, cardContext)
 
                     let htmlRendered = card.render()
-                    let htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'' + cardContext.outputDir + '/cards/' + jsonCard.package + '/index.html\'">Open Package</button>'
+                    let htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/' + jsonCard.package + '/index.html\'">Open Package</button>'
 
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetExpected)).should.be.true
                 })
@@ -193,7 +194,7 @@ describe('card', function () {
                     }, {})
 
                     let htmlRendered = card.render()
-                    let htmlSnippetNotExpected1 = '<button class="open-package" onclick="window.location.href=\'' + cardContext.outputDir + '/cards/'
+                    let htmlSnippetNotExpected1 = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/'
                     let htmlSnippetNotExpected2 = '/index.html\'">Open Package</button>'
 
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected1)).should.be.false
