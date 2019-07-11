@@ -16,13 +16,17 @@ const fs = require('fs-extra')
 const RenderEngine = require('../render-engine')
 
 describe('render-engine', function () {
+
+    let tempDir = path.join(process.cwd(), 'temp', 'render-engine.test')
+    let outputDirectory = path.join(tempDir)
+
+    let cardsDirectory = path.join(__dirname, 'cards')
+
     beforeEach(async function () {
-        await fs.emptyDir(path.join(__dirname, 'dist'))
+        await fs.emptyDir(path.join(tempDir))
     })
     describe('renderAllCards()', function () {
         it('renders all card packages into html websites', async function () {
-            let cardsDirectory = path.join(__dirname, 'cards')
-            let outputDirectory = path.join(__dirname, 'dist')
 
             // check pre-condition:
             expect(dir(outputDirectory)).to.be.empty

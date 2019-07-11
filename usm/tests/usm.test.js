@@ -21,10 +21,12 @@ describe('usm', function () {
     // describe('the constructor Usm(context)', function () {
     // })
 
+    let tempDir = path.join(process.cwd(), 'temp', 'usm.test')
+
     describe('Usm.prototype.getContext(field)', function () {
         const context = {
             inputDir: path.join(__dirname, 'mock-data', 'usm.getContext', 'input'),
-            outputDir: path.join(__dirname, 'temp', 'output')
+            outputDir: path.join(tempDir, 'output')
         }
 
         it('returns the whole context object if "field" is not given', function () {
@@ -50,7 +52,7 @@ describe('usm', function () {
     describe('Usm.prototype.getUsm()', function () {
         const context = {
             inputDir: path.join(__dirname, 'mock-data', 'usm.getUsm', 'input'),
-            outputDir: path.join(__dirname, 'temp', 'output')
+            outputDir: path.join(tempDir, 'output')
         }
 
         it('returns the usm object that was loaded from "usm.json" in the "inputDir"', async function () {
@@ -64,7 +66,7 @@ describe('usm', function () {
     describe('Usm.prototype.getActivities()', function () {
         const context = {
             inputDir: path.join(__dirname, 'mock-data', 'usm.getActivities', 'input'),
-            outputDir: path.join(__dirname, 'temp', 'output')
+            outputDir: path.join(tempDir, 'output')
         }
 
         it('returns the Activities object generated from the json usm object', function () {
@@ -76,7 +78,7 @@ describe('usm', function () {
     describe('Usm.prototype.renderCards(config)', function () {
         const context = {
             inputDir: path.join(__dirname, 'mock-data', 'usm.renderCards', 'input'),
-            outputDir: path.join(__dirname, 'temp', 'output')
+            outputDir: path.join(tempDir, 'output')
         }
 
         beforeEach(async function () {
@@ -105,7 +107,7 @@ describe('usm', function () {
 
     describe('Usm.prototype.renderMap(config)', function () {
         const inputBaseDir = path.join(__dirname, 'mock-data', 'usm.renderMap')
-        const outputDir = path.join(__dirname, 'temp', 'output')
+        const outputDir = path.join(tempDir, 'output')
 
         context('the given context object is valid', function () {
             beforeEach(async function () {

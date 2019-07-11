@@ -12,13 +12,16 @@ const helpers = require('./helpers')
 const Usm = require('../usm')
 
 describe('integration', function () {
+
+    let tempDir = path.join(process.cwd(), 'temp', 'integration.test')
+
     beforeEach(async function () {
-        await helpers.cleanUpDir(path.join(__dirname, 'temp', 'output'))
+        await helpers.cleanUpDir(path.join(tempDir, 'output'))
     })
 
     const usmContext = {
         inputDir: path.join(__dirname, 'mock-data', 'integration', 'input'),
-        outputDir: path.join(__dirname, 'temp', 'output')
+        outputDir: path.join(tempDir, 'output')
     }
 
     it('can render an user story map with all of its elements', async function () {
