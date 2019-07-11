@@ -86,6 +86,20 @@ body {
     margin: 0;
 }
 
+/* debug */
+
+/* .release-mvp {
+    background-color: #ccc;
+}
+
+.release-release-1 {
+    background-color: #999;
+}
+
+.release-release-2 {
+    background-color: #666;
+} */
+
 
 /* -- RELEASE SEPARATORS -- */
 
@@ -154,7 +168,6 @@ body {
     clear: both;
 }
 
-
 /* -- CARD -- */
 
 .card {
@@ -166,7 +179,7 @@ body {
     background-color: #ee9;
     box-shadow: 0.2rem 0.2rem 0.2rem rgba(0,0,0,0.50);
     cursor: pointer;
-
+    
     /* background-image: linear-gradient(340deg, rgba(0,0,0,0.30) 0%,rgba(0,0,0,0) 20%); */
     background-image: linear-gradient(340deg, rgba(255,255,255,0.50) 0%,rgba(255,255,255,0) 30%);
 }
@@ -249,8 +262,7 @@ body {
     visibility: visible;
 }
 
-
-/* -- TIMELINE -- */
+/* -- timeline -- */
 
 .timeline {
     height: 0.2rem;
@@ -261,6 +273,7 @@ body {
     margin-left: -1.8rem;
     box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,0.50);
 }
+
 .timeline::after {
     content: "";
     position: absolute;

@@ -8,7 +8,7 @@ Run
 
     $ node generator.js
 
-to render `input/usm-example.json` into `web/usm-example.html`. Open the html file in your browser to see the result.
+to render `input/usm.json` into `web/index.html`. Open the html file in your browser to see the result.
 
 Edit the json file, run the generatore again and refresh your browser to see how changes in the json file are rendered to html.
 

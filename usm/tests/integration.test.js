@@ -12,13 +12,16 @@ const helpers = require('./helpers')
 const Usm = require('../usm')
 
 describe('integration', function () {
+    let tempDir = path.join(process.cwd(), 'temp', 'integration.test')
+
     beforeEach(async function () {
-        await helpers.cleanUpDir(path.join(__dirname, 'temp', 'output'))
+        await helpers.cleanUpDir(path.join(tempDir, 'output'))
     })
 
     const usmContext = {
         inputDir: path.join(__dirname, 'mock-data', 'integration', 'input'),
-        outputDir: path.join(__dirname, 'temp', 'output')
+        outputDir: path.join(tempDir, 'output'),
+        cardsWebroot: 'cards'
     }
 
     it('can render an user story map with all of its elements', async function () {
@@ -31,10 +34,24 @@ describe('integration', function () {
 
         await usm.renderMap(mapOptions)
 
-        let htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'index.html'), 'utf-8')
-        let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'integration', 'expected-output', 'index.html'), 'utf8')
+        let htmlRendered = await fs.readFile(
+            path.join(usmContext.outputDir, 'index.html'),
+            'utf-8'
+        )
+        let htmlExpected = await fs.readFile(
+            path.join(
+                __dirname,
+                'mock-data',
+                'integration',
+                'expected-output',
+                'index.html'
+            ),
+            'utf8'
+        )
 
-        helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+        helpers
+            .stripWhitespaces(htmlRendered)
+            .should.equal(helpers.stripWhitespaces(htmlExpected))
     })
 
     // TODO: Rendering card packages is already tested in usm.test.js but might better be tested here?

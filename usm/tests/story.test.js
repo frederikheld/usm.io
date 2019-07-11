@@ -99,4 +99,33 @@ describe('story', function () {
 
         // })
     })
+
+    describe('Story.prototype.getRelease()', function () {
+        it('returns the release the Story is mapped to', function () {
+            const story = new Story({
+                title: 'Awesome Story',
+                description: 'Lorem ipsum dolor sit amet ...',
+                inRelease: 'mvp'
+            }, {})
+
+            story.getRelease().should.equal('mvp')
+
+            const story2 = new Story({
+                title: 'Another awesome Story',
+                description: 'Lorem ipsum dolor sit amet ...',
+                inRelease: 'release-1'
+            }, {})
+
+            story2.getRelease().should.equal('release-1')
+        })
+
+        it('returns "undefined" if the Story isn\'t mapped to any release', function () {
+            const story = new Story({
+                title: 'Awesome Story',
+                description: 'Lorem ipsum dolor sit amet ...'
+            }, {})
+
+            expect(story.getRelease()).to.equal(undefined)
+        })
+    })
 })

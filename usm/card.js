@@ -7,10 +7,12 @@ const path = require('path')
 
 function Card (jsonCard, context) {
     if (jsonCard === undefined) {
-        throw new ReferenceError('Card information missing! Please pass json object!')
+        throw new ReferenceError(
+            'Card information missing! Please pass json object!'
+        )
     }
 
-    if ((!(jsonCard instanceof Object)) || Array.isArray(jsonCard)) {
+    if (!(jsonCard instanceof Object) || Array.isArray(jsonCard)) {
         throw new TypeError('Card information is not a json object!')
     }
 
@@ -44,20 +46,33 @@ function Card (jsonCard, context) {
 
 Card.prototype._load = function () {
     if (this.jsonData.package) {
-        const jsonCardPath = path.join(this.context.inputDir, 'cards', this.jsonData.package, 'card.json')
+        const jsonCardPath = path.join(
+            this.context.inputDir,
+            'cards',
+            this.jsonData.package,
+            'card.json'
+        )
 
         let cardRaw
         try {
             cardRaw = fsSync.readFileSync(jsonCardPath)
         } catch (err) {
-            throw new ReferenceError('Could not read from "card.json" in package "' + this.jsonData.package + '"')
+            throw new ReferenceError(
+                'Could not read from "card.json" in package "' +
+                    this.jsonData.package +
+                    '"'
+            )
         }
 
         let cardJson
         try {
             cardJson = JSON.parse(cardRaw)
         } catch (err) {
-            throw new SyntaxError('Object in "card.json" in package "' + this.jsonData.package + '" is malformed')
+            throw new SyntaxError(
+                'Object in "card.json" in package "' +
+                    this.jsonData.package +
+                    '" is malformed'
+            )
         }
 
         this.jsonData = Object.assign(cardJson, this.jsonData)
@@ -79,7 +94,12 @@ Card.prototype.render = function () {
     }
 
     if (this.jsonData.package) {
-        result += '\n    <button class="open-package" onclick="window.location.href=\'' + this.context.outputDir + '/cards/' + this.jsonData.package + '/index.html\'">Open Package</button>'
+        result +=
+            '\n    <button class="open-package" onclick="window.location.href=\'' +
+            this.context.cardsWebroot +
+            '/' +
+            this.jsonData.package +
+            '/index.html\'">Open Package</button>'
     }
 
     if (result !== compareForEmptyTag) {

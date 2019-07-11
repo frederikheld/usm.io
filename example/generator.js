@@ -12,7 +12,8 @@ const Usm = require('../usm/usm')
 
 const context = {
     inputDir: path.join(__dirname, 'input'),
-    outputDir: path.join(__dirname, 'web')
+    outputDir: path.join(__dirname, 'web'),
+    cardsWebroot: 'cards'
 }
 
 // -- main
@@ -22,9 +23,9 @@ let main = async function () {
     //       exactly as they are given here.
     //       So they need to be relative to the output file!
     const options = {
-        'css': './styles.css',
-        'js': './scripts.js',
-        'timeline': true
+        css: './styles.css',
+        js: './scripts.js',
+        timeline: true
     }
 
     const usm = new Usm(context)
@@ -35,7 +36,11 @@ let main = async function () {
     // render card packages.
     await usm.renderCards()
 
-    console.log('json data was rendered and written into a html file in the "' + context.outputDir + '" folder.')
+    console.log(
+        'json data was rendered and written into a html file in the "' +
+            context.outputDir +
+            '" folder.'
+    )
     console.log('Open it in your browser to see the result!')
 }
 main()

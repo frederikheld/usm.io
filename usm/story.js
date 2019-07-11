@@ -36,3 +36,7 @@ Story.prototype.render = function () {
 
     return result
 }
+
+Story.prototype.getRelease = function () {
+    return this.jsonData.inRelease
+}

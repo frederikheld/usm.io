@@ -1,0 +1,122 @@
+/* STATIC */
+
+/* layout */
+
+.usm {
+    display: grid;
+    grid-auto-columns: min-content;
+    grid-auto-rows: min-content;
+}
+
+.card {
+    width: 100px;
+    height: 80px;
+    margin: 10px;
+}
+
+.activity {
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.step {
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+/* card coloring */
+
+.activity {
+    background-color: #9d9;
+}
+
+.step {
+    background-color: #9ae;
+    /* display: contents; */
+}
+
+.story {
+    background-color: #ee9;
+    /* display: contents; */
+}
+
+.card {
+    border: 1px solid black;
+}
+
+/* text styling */
+
+.card h1 {
+    font-size: 0.8rem;
+}
+
+.card {
+    font-size: 0.6rem;
+}
+
+.release {
+    padding: 4px 8px;
+}
+
+.activity, .step {
+    margin: 8px 18px;
+}
+
+.release {
+    border-bottom: 1px solid black;
+}
+
+
+/* DYNAMIC */
+
+.activity-1.step-1.release {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+.activity-2.step-1.release {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.activity-2.step-2.release {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+.release-1 {
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+.release-2 {
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+.release-3 {
+    grid-row-start: 5;
+    grid-row-end: 6;
+}
+
+/* DEBUG */
+
+.release-1 .card {
+    border-color: red;
+}
+
+.release-2 .card {
+    border-color: green;
+}
+
+.release-3 .card {
+    border-color: blue;
+}
+
+.card button {
+    display: none;
+}
+
+.release {
+    background-color: #ccc;
+}
