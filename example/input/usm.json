@@ -1,94 +1,497 @@
 {
-    "releases": [
+  "releases": [
+    {
+      "key": "mvp",
+      "title": "MVP"
+    },
+    {
+      "key": "search_and_info",
+      "title": "Search & Information"
+    },
+    {
+      "key": "social",
+      "title": "Social Features"
+    },
+    {
+      "key": "cinemas",
+      "title": "Cinemas"
+    },
+    {
+      "key": "streaming",
+      "title": "Streaming"
+    },
+    {
+      "key": "friends",
+      "title": "Plans with friends"
+    },
+    {
+      "key": "cinemas-2",
+      "title": "Make cinemas more attractive"
+    }
+  ],
+  "activities": [
+    {
+      "title": "Getting inspiration",
+      "description": "Getting inspiration",
+      "steps": [
         {
-            "key": "mvp",
-            "title": "Minimal Viable Product"
-        },
-        {
-            "key": "release-1",
-            "title": "Release 1"
-        },
-        {
-            "key": "release-2",
-            "title": "Release 2"
+          "title": "Getting the idea",
+          "description": "Getting the idea to watch a movie",
+          "stories": [
+            {
+              "title": "Receive message from FilmFinder",
+              "description": "Receive a message from FilmFinder about a movie on my watch list available to see",
+              "inRelease": "mvp"
+            },
+            {
+              "title": "See ad on another site",
+              "description": "See banner ad on another site",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "Receive message from Friend",
+              "description": "Receive a message from a Friend with direct link to a movie",
+              "inRelease": "friends"
+            }
+          ]
         }
-    ],
-    "activities": [
+      ]
+    },
+    {
+      "title": "Getting started",
+      "description": "Getting started with the software",
+      "steps": [
         {
-            "title": "Getting inspiration",
-            "description": "Getting inspiration",
-            "steps": [
-                {
-                    "title": "Getting the idea",
-                    "description": "Getting the idea to watch a movie",
-                    "stories": [
-                        {
-                            "title": "Receive from FilmFinder",
-                            "description": "Receive a message from FilmFinder about a movie on my watch list available to see",
-                            "inRelease": "mvp"
-                        },
-                        {
-                            "title": "Receive from Friend",
-                            "description": "Receive a message from a Friend with direct link to a movie",
-                            "inRelease": "release-1"
-                        },
-                        {
-                            "title": "See ad on another site",
-                            "description": "See banner ad on another site",
-                            "inRelease": "release-2"
-                        }
-                    ]
-                }
-            ]
+          "package": "step-orienting-myself",
+          "stories": [
+            {
+              "title": "See splash screen",
+              "description": "See a cool splash screen telling me what I can do",
+              "inRelease": "mvp"
+            },
+            {
+              "title": "See ad from sponsor",
+              "description": "See an ad from sponsor (wheter I want or not)",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "Sign in",
+              "description": "Sign in",
+              "inRelease": "social"
+            }
+          ]
         },
         {
-            "title": "Getting started",
-            "description": "Getting started with the software",
-            "steps": [
-                {
-                    "package": "step-orienting-myself",
-                    "stories": [
-                        {
-                            "title": "See splash screen",
-                            "description": "See a cool splash screen telling me what I can do",
-                            "inRelease": "mvp"
-                        },
-                        {
-                            "title": "See an ad from sponsor",
-                            "description": "See an ad from sponsor (wheter I want or not)",
-                            "inRelease": "mvp"
-                        },
-                        {
-                            "title": "Sign in",
-                            "description": "Sign in"
-                        }
-                    ]
-                },
-                {
-                    "title": "Managing profile",
-                    "description": "Managing my profile and preferences",
-                    "stories": [
-                        {
-                            "title": "Enter personal info",
-                            "description": "Enter my basic personal info like name, post code, and email address",
-                            "inRelease": "mvp"
-                        },
-                        {
-                            "title": "Describe proferences",
-                            "description": "Describe my movie proferences",
-                            "inRelease": "mvp"
-                        },
-                        {
-                            "package": "story-connect-to-social-networks",
-                            "inRelease": "release-1"
-                        },
-                        {
-                            "package": "story-connect-to-streaming-accounts",
-                            "inRelease": "release-2"
-                        }
-                    ]
-                }
-            ]
+          "title": "Managing my profile",
+          "description": "Managing my profile and preferences",
+          "stories": [
+            {
+              "title": "Enter personal info",
+              "description": "Enter my basic personal info like name, post code, and email address",
+              "inRelease": "mvp"
+            },
+            {
+              "title": "Describe my proferences",
+              "description": "Describe my movie proferences",
+              "inRelease": "search_and_info"
+            },
+            {
+              "package": "story-connect-to-social-networks",
+              "inRelease": "social"
+            },
+            {
+              "package": "story-connect-to-streaming-accounts",
+              "inRelease": "streaming"
+            }
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "title": "Finding a movie to see",
+      "description": "Finding a movie to see",
+      "steps": [
+        {
+          "title": "Starting search",
+          "description": "Starting my search for a movie",
+          "stories": [
+            {
+              "title": "Search by title",
+              "description": "Search for a movie by title",
+              "inRelease": "mvp"
+            },
+            {
+              "title": "Browse by genre",
+              "description": "Browse movies by genre",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "Browse current releases",
+              "description": "Browse current releases",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "Browse box-office leads",
+              "description": "Browse box-office leads",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "Browse theaters near me",
+              "description": "Browser theaters near me",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "Browse upcoming releases",
+              "description": "Browse upcoming releases",
+              "inRelease": "streaming"
+            },
+            {
+              "title": "Browse 'top lists'",
+              "description": "Browse 'top lists' of all time - top 100? How many is good?",
+              "inRelease": "streaming"
+            }
+          ]
+        },
+        {
+          "title": "Browsing list of movies",
+          "description": "Browsing list of movies (I see after seearching out choosing a list like 'current releases'",
+          "stories": [
+            {
+              "title": "Look at basic movie stuff",
+              "description": "Look at basic movie stuff in a list: poster, title, release date, MPAA rating",
+              "inRelease": "mvp"
+            },
+            {
+              "title": "See 'distance from me'",
+              "description": "See 'distance from me' if it's playing at a theater close by",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See critic ratings",
+              "description": "See critic ratings in the list",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See user ratings",
+              "description": "See user ratings in the list",
+              "inRelease": "social"
+            },
+            {
+              "title": "See if streamable",
+              "description": "See if the movie is streamable and from where in the list",
+              "inRelease": "streaming"
+            }
+          ]
+        },
+        {
+          "title": "Refine list of movies",
+          "description": "Refine a list of movies",
+          "stories": [
+            {
+              "title": "See only movies of specific MPAA rating",
+              "description": "See only movies of a specific MPAA rating",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "Sort by release date",
+              "description": "Sort by release date",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "See only what's playing now",
+              "description": "See only what's playing now",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See only what's playing near me",
+              "description": "See only what's playing near me",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See only what's streamable online",
+              "description": "See only what's streamable online",
+              "inRelease": "streaming"
+            }
+          ]
+        },
+        {
+          "title": "Researching specific movie details",
+          "description": "Researching specific movie details",
+          "stories": [
+            {
+              "title": "See basics in a movie page",
+              "description": "See the basics in a movie page: title, poster, MPAA rating, release date, lead actors, director",
+              "inRelease": "mvp"
+            },
+            {
+              "title": "See whole cast",
+              "description": "See the whole cast: actors and character names",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "See similar movies",
+              "description": "See similar movies (if you like this, you'll like these movies)",
+              "inRelease": "search_and_info"
+            },
+            {
+              "title": "Watch previews",
+              "description": "Watch previews",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See critics ratings and reviews",
+              "description": "See critics ratings and reviews",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See user ratings and reviews",
+              "description": "See user/crowd rating and reviews",
+              "inRelease": "social"
+            },
+            {
+              "title": "See discussions",
+              "description": "See discussions about the movie",
+              "inRelease": "social"
+            }
+          ]
+        },
+        {
+          "title": "Indicate interest",
+          "description": "Indicate interest in a specific movie",
+          "stories": [
+            {
+              "title": "Tell the world",
+              "description": "Tell the world: Tweet about it or put on my facebook wall",
+              "inRelease": "social"
+            },
+            {
+              "title": "Indicate that I'm interested in this movie",
+              "description": "Indicate that this is a movie I'm interested in seeing",
+              "inRelease": "streaming"
+            },
+            {
+              "title": "Notify me when available to stream",
+              "description": "Notify me when this movie is available to stream",
+              "inRelease": "streaming"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Making plans",
+      "description": "Making plans to see something specific",
+      "steps": [
+        {
+          "title": "Finding theater and time",
+          "description": "Finding theater and time",
+          "stories": [
+            {
+              "title": "See show times for moive",
+              "description": "See specific show times for movie",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See thaters where movie is showing",
+              "description": "See theaters where movie is showing",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See theaters nearby using a post code",
+              "description": "See theaters nearby using a post code",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "See theaters nearby using GPS",
+              "description": "See theaters nearby using GPS position",
+              "inRelease": "cinemas-2"
+            },
+            {
+              "title": "See show times for future dates",
+              "description": "See show times for futures dates",
+              "inRelease": "cinemas-2"
+            },
+            {
+              "title": "See theater details",
+              "description": "See theater details including address & amenities",
+              "inRelease": "cinemas-2"
+            }
+          ]
+        },
+        {
+          "title": "Finding a site to stream movie",
+          "description": "Finding a site to stream movie",
+          "stories": [
+            {
+              "title": "See a list of sources",
+              "description": "See a list of online sources to stream a movie - like Netflix, Hulu, Amazon, ...",
+              "inRelease": "streaming"
+            },
+            {
+              "title": "Add to queue in outside service",
+              "description": "Add to a queue in an outside service - like Netflix, Hulu, Amazon, ...",
+              "inRelease": "streaming"
+            },
+            {
+              "title": "Watch instantly",
+              "description": "Watch instantly via another service like Netflix, Hulu, Amazon, ...",
+              "inRelease": "streaming"
+            }
+          ]
+        },
+        {
+          "title": "Coordinating with others",
+          "description": "Coordinating with others",
+          "stories": [
+            {
+              "title": "Sending message to friend",
+              "description": "Sending a message with a link to a friend",
+              "inRelease": "friends"
+            },
+            {
+              "title": "Sending message to group of friends",
+              "description": "Sending a message to a group of friends",
+              "inRelease": "friends"
+            },
+            {
+              "title": "Send invitation to friend",
+              "description": "Send an invitation to a movie message my friends can respond to (RSVP)",
+              "inRelease": "friends"
+            },
+            {
+              "title": "Send list of possible movies to friends",
+              "description": "Send a list of possible movies for a 'party' or group of friends",
+              "inRelease": "friends"
+            },
+            {
+              "title": "Vote on favorite in list sent by friend",
+              "description": "Vote on favorite movie in a list sent by a friend",
+              "inRelease": "friends"
+            }
+          ]
+        },
+        {
+          "title": "Buying tickets",
+          "description": "Buying tickets",
+          "stories": [
+            {
+              "title": "Connect to theater's site to buy tickets",
+              "description": "Connect to theater's site to buy tickets",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "Buy tickets online",
+              "description": "Buy tickets online using credit cards or paypal",
+              "inRelease": "cinemas"
+            },
+            {
+              "title": "Reserve specific seats",
+              "description": "Reserve specific seats (for theaters that support it)",
+              "inRelease": "cinemas-2"
+            },
+            {
+              "title": "Pre-purchase snacks",
+              "description": "Pre-purchase snacks",
+              "inRelease": "cinemas-2"
+            },
+            {
+              "title": "See discount offer",
+              "description": "See discount offer based on my purchase amount"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Seeing a movie",
+      "description": "Seeing a movie",
+      "steps": [
+        {
+          "title": "Watch a movie",
+          "description": "Watch a movie",
+          "stories": [
+            {
+              "title": "Tweet in real time",
+              "description": "Tweet in real time (dim the screen & kill the sound so other movie watchers don't get bugged)",
+              "inRelease": "cinemas-2"
+            },
+            {
+              "title": "Make note about movie",
+              "description": "Make a note about the movie - favorite quote or scene"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Talking about the movie",
+      "description": "Talking about the movie",
+      "steps": [
+        {
+          "title": "Giving reviews",
+          "description": "Giving reviews on movies",
+          "stories": [
+            {
+              "title": "Enter my rating",
+              "description": "Enter my rating",
+              "inRelease": "social"
+            },
+            {
+              "title": "Enter my review",
+              "description": "Enter my review",
+              "inRelease": "social"
+            },
+            {
+              "title": "Share review or rating on social networks",
+              "description": "Share review or rating on social networks like Twitter or Facebook",
+              "inRelease": "social"
+            }
+          ]
+        },
+        {
+          "title": "Discussing movies with others",
+          "description": "Discussing movies with others",
+          "stories": [
+            {
+              "title": "Post discussion topic",
+              "description": "Post a discussion topic about a movie",
+              "inRelease": "social"
+            },
+            {
+              "title": "Reply to a post",
+              "description": "Reply to a post",
+              "inRelease": "social"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Planning for movies in the future",
+      "description": "Planning for movies in the future",
+      "steps": [
+        {
+          "title": "Managing my watch lists",
+          "description": "Managing my watch lists",
+          "stories": [
+            {
+              "title": "Add movies to my watchlist",
+              "description": "Add movies to my watchlist",
+              "inRelease": "streaming"
+            },
+            {
+              "title": "Remove movies from my watchlist",
+              "description": "Remove movies from my watchlist",
+              "inRelease": "streaming"
+            },
+            {
+              "title": "Reorder movies in my watchlist",
+              "description": "Reorder movies in my watchlist",
+              "inRelease": "streaming"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
