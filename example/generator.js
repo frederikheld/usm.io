@@ -18,7 +18,7 @@ const context = {
 
 // -- main
 
-let main = async function () {
+const main = async function () {
     // NOTE: usm.io will put the links to css and js files into the respective tags
     //       exactly as they are given here.
     //       So they need to be relative to the output file!

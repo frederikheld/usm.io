@@ -28,10 +28,12 @@ cardRenderer.prototype.processFile = async function (file) {
     // render or copy & paste files:
     if (file.extension === 'md') {
         // read markdown from file
-        let markdownInput = await fs.readFile(file.pathAbsolute, { encoding: 'utf-8' })
+        let markdownInput = await fs.readFile(file.pathAbsolute, {
+            encoding: 'utf-8'
+        })
 
         // replace all .md file extensions in relative links with .html:
-        const regex = /(\[.*\]\((?!.*:\/\/).*)(\.md)(.*\))/gmi
+        const regex = /(\[.*\]\((?!.*:\/\/).*)(\.md)(.*\))/gim
         markdownInput = markdownInput.replace(regex, '$1.html$3')
 
         // render markdown to html:
@@ -39,7 +41,11 @@ cardRenderer.prototype.processFile = async function (file) {
 
         // write into file:
         let outputFileName = file.name.split('.').shift() + '.html'
-        let outputPath = path.join(this.outputDir, file.parentDirRelative, outputFileName)
+        let outputPath = path.join(
+            this.outputDir,
+            file.parentDirRelative,
+            outputFileName
+        )
         // try {
         await fs.writeFile(outputPath, htmlOutput)
         // console.log("RENDERED '" + file.pathAbsolute + "' to '" + outputPath + "'")
@@ -47,7 +53,11 @@ cardRenderer.prototype.processFile = async function (file) {
         //     throw err
         // }
     } else {
-        let outputPath = path.join(this.outputDir, file.parentDirRelative, file.name)
+        let outputPath = path.join(
+            this.outputDir,
+            file.parentDirRelative,
+            file.name
+        )
         // try {
         await fs.copy(file.pathAbsolute, outputPath)
         // console.log("COPIED '" + file.pathAbsolute + "' to '" + outputPath + "'")
@@ -89,22 +99,21 @@ cardRenderer.prototype.render = async function () {
  */
 async function readdirRecursive (dir) {
     let readdirpSettings = {
-        root: dir,
-        entryType: 'files'
+        type: 'files'
     }
 
     var allFilePaths = []
 
     return new Promise((resolve, reject) => {
-        readdirp(readdirpSettings)
+        readdirp(dir, readdirpSettings)
             .on('data', (entry) => {
                 allFilePaths.push({
-                    'name': entry.name,
-                    'extension': entry.name.split('.').pop(),
-                    'pathRelative': entry.path,
-                    'pathAbsolute': entry.fullPath,
-                    'parentDirRelative': entry.parentDir,
-                    'parentDirAbsolute': entry.fullParentDir
+                    name: entry.basename,
+                    extension: entry.basename.split('.').pop(),
+                    pathRelative: entry.path,
+                    pathAbsolute: entry.fullPath,
+                    parentDirRelative: path.dirname(entry.path),
+                    parentDirAbsolute: path.dirname(entry.fullPath)
                 })
             })
             // .on('warn', (warning) => {

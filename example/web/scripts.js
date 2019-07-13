@@ -1,49 +1,48 @@
 window.onload = function () {
-    let cards = document.querySelectorAll('.card')
-    let modal
+    const cards = document.querySelectorAll('.card')
 
     function createModal () {
-        let body = document.querySelector('body')
+        const body = document.querySelector('body')
 
-        let modal = document.createElement('div')
+        const modal = document.createElement('div')
         modal.classList.add('modal')
         body.appendChild(modal)
 
         modal.addEventListener('click', hideModal)
 
-        let modalCard = document.createElement('div')
+        const modalCard = document.createElement('div')
         modalCard.classList.add('modal-card')
         modal.appendChild(modalCard)
 
         return modal
     }
-    modal = createModal()
+    const modal = createModal()
 
     function showModal () {
         hideModal()
 
         // empty modal card:
-        let modalCard = modal.querySelector('.modal-card')
+        const modalCard = modal.querySelector('.modal-card')
         while (modalCard.firstChild) {
             modalCard.removeChild(modalCard.firstChild)
         }
 
         // fill modal card:
-        let title = this.querySelector('h1')
+        const title = this.querySelector('h1')
         if (title) {
-            let titleClone = title.cloneNode(true)
+            const titleClone = title.cloneNode(true)
             modalCard.appendChild(titleClone)
         }
 
-        let description = this.querySelector('.description')
+        const description = this.querySelector('.description')
         if (description) {
-            let descriptionClone = description.cloneNode(true)
+            const descriptionClone = description.cloneNode(true)
             modalCard.appendChild(descriptionClone)
         }
 
-        let button = this.querySelector('.open-package')
+        const button = this.querySelector('.open-package')
         if (button) {
-            let buttonClone = button.cloneNode(true)
+            const buttonClone = button.cloneNode(true)
             modalCard.appendChild(buttonClone)
         }
 
