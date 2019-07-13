@@ -12,7 +12,7 @@ const helpers = require('./helpers')
 const Usm = require('../usm')
 
 describe('integration', function () {
-    let tempDir = path.join(process.cwd(), 'temp', 'integration.test')
+    const tempDir = path.join(process.cwd(), 'temp', 'integration.test')
 
     beforeEach(async function () {
         await helpers.cleanUpDir(path.join(tempDir, 'output'))
@@ -34,11 +34,11 @@ describe('integration', function () {
 
         await usm.renderMap(mapOptions)
 
-        let htmlRendered = await fs.readFile(
+        const htmlRendered = await fs.readFile(
             path.join(usmContext.outputDir, 'index.html'),
             'utf-8'
         )
-        let htmlExpected = await fs.readFile(
+        const htmlExpected = await fs.readFile(
             path.join(
                 __dirname,
                 'mock-data',

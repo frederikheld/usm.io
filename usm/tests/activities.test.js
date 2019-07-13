@@ -68,8 +68,8 @@ describe('activities', function () {
             it('can render an empty Activities container', async function () {
                 const activities = new Activities([], {})
 
-                let htmlRendered = activities.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activities', 'mock-activities-empty.html'), 'utf8')
+                const htmlRendered = activities.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activities', 'mock-activities-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -81,8 +81,8 @@ describe('activities', function () {
                     {}
                 ], {})
 
-                let htmlRendered = activities.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activities', 'mock-activities-multiple-empty.html'), 'utf8')
+                const htmlRendered = activities.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activities', 'mock-activities-multiple-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })

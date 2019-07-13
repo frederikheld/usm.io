@@ -72,8 +72,8 @@ describe('steps', function () {
             it('can render an empty Steps container', async function () {
                 const steps = new Steps([], {})
 
-                let htmlRendered = steps.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'steps', 'mock-steps-empty.html'), 'utf8')
+                const htmlRendered = steps.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'steps', 'mock-steps-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -85,8 +85,8 @@ describe('steps', function () {
                     {}
                 ], {})
 
-                let htmlRendered = steps.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'steps', 'mock-steps-multiple-empty.html'), 'utf8')
+                const htmlRendered = steps.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'steps', 'mock-steps-multiple-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })

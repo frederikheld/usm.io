@@ -35,11 +35,11 @@ function Stories (jsonStories, context) {
 Stories.prototype.render = function () {
     // -- Sort Stories into releases
 
-    let storiesPerRelease = {}
+    const storiesPerRelease = {}
 
     if (this.context.releases) {
         // Extract release keys:
-        let releaseKeys = []
+        const releaseKeys = []
         for (let i = 0; i < this.context.releases.length; i++) {
             releaseKeys.push(this.context.releases[i].key)
         }
@@ -52,7 +52,7 @@ Stories.prototype.render = function () {
 
         // Sort stories into releases:
         for (let i = 0; i < this.stories.length; i++) {
-            let currentReleaseKey = this.stories[i].getRelease()
+            const currentReleaseKey = this.stories[i].getRelease()
             if (releaseKeys.includes(currentReleaseKey)) {
                 storiesPerRelease[currentReleaseKey].push(this.stories[i])
             } else {
@@ -66,7 +66,7 @@ Stories.prototype.render = function () {
     let result = '<div class="stories">'
 
     if (this.context.releases) {
-        for (let releaseKey in storiesPerRelease) {
+        for (const releaseKey in storiesPerRelease) {
             result += '\n    <div class="release release-' + releaseKey + '">'
             for (let j = 0; j < storiesPerRelease[releaseKey].length; j++) {
                 result += '\n        ' + storiesPerRelease[releaseKey][j].render()
