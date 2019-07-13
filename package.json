@@ -42,6 +42,6 @@
   "dependencies": {
     "fs-extra": "^7.0.1",
     "markdown-it": "^9.0.1",
-    "readdirp": "^2.2.1"
+    "readdirp": "^3.1.1"
   }
 }
