@@ -71,8 +71,8 @@ describe('stories', function () {
             it('can render an empty Stories container', async function () {
                 const stories = new Stories([], {})
 
-                let htmlRendered = stories.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-empty.html'), 'utf8')
+                const htmlRendered = stories.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -84,8 +84,8 @@ describe('stories', function () {
                     {}
                 ], {})
 
-                let htmlRendered = stories.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-multiple-empty.html'), 'utf8')
+                const htmlRendered = stories.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-multiple-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })

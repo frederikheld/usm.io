@@ -134,14 +134,14 @@ function __generateReleasesCSS (jsonUsm, indentBlanks) {
 
     // extract release keys:
 
-    let releaseKeys = []
+    const releaseKeys = []
     for (let i = 0; i < releases.length; i++) {
         releaseKeys.push(releases[i].key)
     }
 
     // count max number of cards per release within a step:
 
-    let maxCardsInRelease = {}
+    const maxCardsInRelease = {}
     for (let i = 0; i < releaseKeys.length; i++) {
         maxCardsInRelease[releaseKeys[i]] = 0
     }
@@ -149,7 +149,7 @@ function __generateReleasesCSS (jsonUsm, indentBlanks) {
     for (let aI = 0; aI < activities.length; aI++) {
         for (let sI = 0; sI < activities[aI].steps.length; sI++) {
             // prepare collection:
-            let maxCardsInReleaseInStep = {}
+            const maxCardsInReleaseInStep = {}
             for (let i = 0; i < releaseKeys.length; i++) {
                 maxCardsInReleaseInStep[releaseKeys[i]] = 0
             }
@@ -162,7 +162,7 @@ function __generateReleasesCSS (jsonUsm, indentBlanks) {
             }
 
             // update global collection:
-            for (let key in maxCardsInReleaseInStep) {
+            for (const key in maxCardsInReleaseInStep) {
                 if (maxCardsInReleaseInStep[key] > maxCardsInRelease[key]) {
                     maxCardsInRelease[key] = maxCardsInReleaseInStep[key]
                 }

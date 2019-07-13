@@ -21,7 +21,7 @@ describe('usm', function () {
     // describe('the constructor Usm(context)', function () {
     // })
 
-    let tempDir = path.join(process.cwd(), 'temp', 'usm.test')
+    const tempDir = path.join(process.cwd(), 'temp', 'usm.test')
 
     describe('Usm.prototype.getContext(field)', function () {
         const context = {
@@ -58,7 +58,7 @@ describe('usm', function () {
         it('returns the usm object that was loaded from "usm.json" in the "inputDir"', async function () {
             const usm = new Usm(context)
 
-            let usmObjectExpected = JSON.parse(await fs.readFile(path.join(context.inputDir, 'usm.json')))
+            const usmObjectExpected = JSON.parse(await fs.readFile(path.join(context.inputDir, 'usm.json')))
             usm.getUsm().should.eql(usmObjectExpected)
         })
     })
@@ -90,7 +90,7 @@ describe('usm', function () {
 
             const usm = new Usm(context)
 
-            let options = {}
+            const options = {}
             await usm.renderCards(options)
 
             expect(dir(path.join(context.outputDir, 'package-1'))).to.exist
@@ -124,7 +124,7 @@ describe('usm', function () {
                     const usm = new Usm(context)
                     await usm.renderMap()
 
-                    let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                    const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                     let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                     htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -142,7 +142,7 @@ describe('usm', function () {
                     const usm = new Usm(context)
                     await usm.renderMap()
 
-                    let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                    const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                     let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                     htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-activities-empty', 'mocked-output', 'index.html'), 'utf8')
@@ -162,13 +162,13 @@ describe('usm', function () {
                     it('renders a <link rel="stylesheet" /> tag with the calue of "css" as the value of "href", if the field "css" contains a string', async function () {
                         const usm = new Usm(context)
 
-                        let config = {
+                        const config = {
                             css: './path/to/stylesheet.css'
                         }
 
                         await usm.renderMap(config)
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-with-stylesheet.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -185,7 +185,7 @@ describe('usm', function () {
 
                         const usm = new Usm(context)
 
-                        let config = {
+                        const config = {
                             css: 5
                         }
 
@@ -199,11 +199,11 @@ describe('usm', function () {
                         }
                         const usm = new Usm(context)
 
-                        let config = {}
+                        const config = {}
 
                         await usm.renderMap(config)
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -217,13 +217,13 @@ describe('usm', function () {
                     it('renders a <script /> tag with the given value of "js" as the value of "src" if the field "js" contains a string', async function () {
                         const usm = new Usm(context)
 
-                        let config = {
+                        const config = {
                             js: './path/to/script.js'
                         }
 
                         await usm.renderMap(config)
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-with-script.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -235,7 +235,7 @@ describe('usm', function () {
                     it('throws a TypeError if field "js" is defined but doesn\'t contain a string', async function () {
                         const usm = new Usm(context)
 
-                        let config = {
+                        const config = {
                             js: 5
                         }
 
@@ -247,7 +247,7 @@ describe('usm', function () {
 
                         await usm.renderMap({})
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -261,11 +261,11 @@ describe('usm', function () {
                     it('has to be boolean', async function () {
                         const usm = new Usm(context)
 
-                        await usm.renderMap({ 'timeline': true }).should.be.fulfilled
+                        await usm.renderMap({ timeline: true }).should.be.fulfilled
 
-                        await usm.renderMap({ 'timeline': 'blah' }).should.be.rejected
+                        await usm.renderMap({ timeline: 'blah' }).should.be.rejected
 
-                        await usm.renderMap({ 'timeline': [] }).should.be.rejected
+                        await usm.renderMap({ timeline: [] }).should.be.rejected
                     })
 
                     it('doesn\'t render an arrow if value is "false"', async function () {
@@ -277,7 +277,7 @@ describe('usm', function () {
 
                         await usm.renderMap(config)
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -295,7 +295,7 @@ describe('usm', function () {
 
                         await usm.renderMap(config)
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm-with-timeline.html'), 'utf8')
@@ -313,7 +313,7 @@ describe('usm', function () {
 
                         await usm.renderMap(config)
 
-                        let htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
+                        const htmlRendered = await fs.readFile(path.join(context.outputDir, 'index.html'), 'utf-8')
 
                         let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-standard.html'), 'utf8')
                         htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
@@ -327,7 +327,7 @@ describe('usm', function () {
             it('throws a TypeError if the passed parameter is not an object', async function () {
                 const usm = new Usm(context)
 
-                let config = 3
+                const config = 3
 
                 await usm.renderMap(config).should.be.rejectedWith(TypeError, 'Configuration object has to be an object!')
             })

@@ -16,10 +16,10 @@ const fs = require('fs-extra')
 const CardRenderer = require('../card-renderer')
 
 describe('card-renderer', function () {
-    let tempDir = path.join(process.cwd(), 'temp', 'card-renderer.test')
-    let outputDirectory = path.join(tempDir, 'markdown-card')
+    const tempDir = path.join(process.cwd(), 'temp', 'card-renderer.test')
+    const outputDirectory = path.join(tempDir, 'markdown-card')
 
-    let cardDirectory = path.join(__dirname, 'cards', 'markdown-card')
+    const cardDirectory = path.join(__dirname, 'cards', 'markdown-card')
 
     describe('render() renders a card package into a html website', function () {
         beforeEach(async function () {
@@ -75,17 +75,17 @@ describe('card-renderer', function () {
             await re.render()
 
             // compare contents of created files with expected content:
-            let htmlRendered = await fs.readFile(
+            const htmlRendered = await fs.readFile(
                 path.join(outputDirectory, 'index.html'),
                 'utf8'
             )
-            let htmlExpected = await fs.readFile(
+            const htmlExpected = await fs.readFile(
                 path.join(__dirname, 'mocks', 'markdown-card', 'index.html'),
                 'utf8'
             )
             htmlRendered.should.equal(htmlExpected)
 
-            let htmlRendered2 = await fs.readFile(
+            const htmlRendered2 = await fs.readFile(
                 path.join(
                     outputDirectory,
                     'more-ressources',
@@ -93,7 +93,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            let htmlExpected2 = await fs.readFile(
+            const htmlExpected2 = await fs.readFile(
                 path.join(
                     __dirname,
                     'mocks',
@@ -116,7 +116,7 @@ describe('card-renderer', function () {
             await re.render()
 
             // compare contents of created files with expected content:
-            let htmlRendered2 = await fs.readFile(
+            const htmlRendered2 = await fs.readFile(
                 path.join(
                     outputDirectory,
                     'more-ressources',
@@ -124,7 +124,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            let htmlExpected2 = await fs.readFile(
+            const htmlExpected2 = await fs.readFile(
                 path.join(
                     __dirname,
                     'mocks',

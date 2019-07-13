@@ -76,8 +76,8 @@ describe('activity', function () {
             it('renders a Activity with empt Card if the object is empty', async function () {
                 const activity = new Activity({}, {})
 
-                let htmlRendered = activity.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-empty.html'), 'utf8')
+                const htmlRendered = activity.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -87,8 +87,8 @@ describe('activity', function () {
                     steps: []
                 }, {})
 
-                let htmlRendered = activity.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-steps-empty.html'), 'utf8')
+                const htmlRendered = activity.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-steps-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -100,8 +100,8 @@ describe('activity', function () {
                     steps: []
                 }, {})
 
-                let htmlRendered = activity.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-all-features.html'), 'utf8')
+                const htmlRendered = activity.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'activity', 'mock-activity-all-features.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })

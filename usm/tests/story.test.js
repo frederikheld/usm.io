@@ -75,8 +75,8 @@ describe('story', function () {
             it('renders a Story with an empty Card if the object is empty', async function () {
                 const story = new Story({}, {})
 
-                let htmlRendered = story.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'story', 'mock-story-empty.html'), 'utf8')
+                const htmlRendered = story.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'story', 'mock-story-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -88,8 +88,8 @@ describe('story', function () {
                     stories: []
                 }, {})
 
-                let htmlRendered = activity.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'story', 'mock-story-all-features.html'), 'utf8')
+                const htmlRendered = activity.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'story', 'mock-story-all-features.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })

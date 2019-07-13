@@ -14,10 +14,10 @@ function renderEngine (cardsDir, outputDir) {
 
 renderEngine.prototype.renderAllCards = async function () {
     // find all cards in input directory:
-    let cardDirsRaw = await fs.readdir(this.cardsDir, { withFileTypes: true })
+    const cardDirsRaw = await fs.readdir(this.cardsDir, { withFileTypes: true })
 
     // reduce to directories only:
-    let cardDirs = cardDirsRaw
+    const cardDirs = cardDirsRaw
         .filter((entry) => {
             // console.log('entry', entry)
             return entry.isDirectory()
@@ -27,7 +27,7 @@ renderEngine.prototype.renderAllCards = async function () {
         })
 
     // prepare paths for each card:
-    let allCards = cardDirs.map((card) => {
+    const allCards = cardDirs.map((card) => {
         return {
             cardDir: path.join(this.cardsDir, card),
             outputDir: path.join(this.outputDir, card)

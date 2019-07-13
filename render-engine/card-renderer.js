@@ -40,8 +40,8 @@ cardRenderer.prototype.processFile = async function (file) {
         var htmlOutput = md.render(markdownInput)
 
         // write into file:
-        let outputFileName = file.name.split('.').shift() + '.html'
-        let outputPath = path.join(
+        const outputFileName = file.name.split('.').shift() + '.html'
+        const outputPath = path.join(
             this.outputDir,
             file.parentDirRelative,
             outputFileName
@@ -53,7 +53,7 @@ cardRenderer.prototype.processFile = async function (file) {
         //     throw err
         // }
     } else {
-        let outputPath = path.join(
+        const outputPath = path.join(
             this.outputDir,
             file.parentDirRelative,
             file.name
@@ -98,7 +98,7 @@ cardRenderer.prototype.render = async function () {
  * @param {path} dir
  */
 async function readdirRecursive (dir) {
-    let readdirpSettings = {
+    const readdirpSettings = {
         type: 'files'
     }
 

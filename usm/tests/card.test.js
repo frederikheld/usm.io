@@ -132,8 +132,8 @@ describe('card', function () {
             it('renders an empty Card container, if the object is empty', async function () {
                 const card = new Card({}, {})
 
-                let htmlRendered = card.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-empty.html'), 'utf8')
+                const htmlRendered = card.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -143,8 +143,8 @@ describe('card', function () {
                     title: 'This is the title'
                 }, {})
 
-                let htmlRendered = card.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-title-only.html'), 'utf8')
+                const htmlRendered = card.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-title-only.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -154,8 +154,8 @@ describe('card', function () {
                     description: 'AS developer\nI WANT TO have the description field rendered nicely\nSO THAT I can sleep well'
                 }, {})
 
-                let htmlRendered = card.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-description-only.html'), 'utf8')
+                const htmlRendered = card.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-description-only.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -166,8 +166,8 @@ describe('card', function () {
                     title: 'This is the title'
                 }, {})
 
-                let htmlRendered = card.render()
-                let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-title-and-description.html'), 'utf8')
+                const htmlRendered = card.render()
+                const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'card', 'expected-output', 'card-title-and-description.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
             })
@@ -180,8 +180,8 @@ describe('card', function () {
 
                     const card = new Card(jsonCard, cardContext)
 
-                    let htmlRendered = card.render()
-                    let htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/' + jsonCard.package + '/index.html\'">Open Package</button>'
+                    const htmlRendered = card.render()
+                    const htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/' + jsonCard.package + '/index.html\'">Open Package</button>'
 
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetExpected)).should.be.true
                 })
@@ -193,9 +193,9 @@ describe('card', function () {
                         title: 'This is the title'
                     }, {})
 
-                    let htmlRendered = card.render()
-                    let htmlSnippetNotExpected1 = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/'
-                    let htmlSnippetNotExpected2 = '/index.html\'">Open Package</button>'
+                    const htmlRendered = card.render()
+                    const htmlSnippetNotExpected1 = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/'
+                    const htmlSnippetNotExpected2 = '/index.html\'">Open Package</button>'
 
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected1)).should.be.false
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected2)).should.be.false
