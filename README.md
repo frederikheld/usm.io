@@ -217,11 +217,12 @@ const usm = new Usm(context);
 ```
 
 The context object can take the following parameters:
-| parameter | type | description | mandatory |
-| - | - | - | - |
-| `inputDir` | path in file system | Where to look for sources | yes |
-| `outputDir` | path in file system | where to put rendered results | yes |
-| `cardsWebroot` | weblink | This can be an absolute or relative link to the cards, which is used for the link in usm cards | yes |
+
+| parameter      | type                | description                                                                                    | mandatory |
+| -------------- | ------------------- | ---------------------------------------------------------------------------------------------- | --------- |
+| `inputDir`     | path in file system | Where to look for sources                                                                      | yes       |
+| `outputDir`    | path in file system | where to put rendered results                                                                  | yes       |
+| `cardsWebroot` | weblink             | This can be an absolute or relative link to the cards, which is used for the link in usm cards | yes       |
 
 > Note: There's no sanity check if the data given in the context object is correct. So make sure your paths and links are valid!
 
