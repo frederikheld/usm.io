@@ -78,10 +78,23 @@ Usm.prototype.renderMap = async function (config) {
         }
 
         if (config.css) {
-            if (typeof (config.css) !== 'string') {
-                throw new TypeError('Value of field "css" in configuration object has to be a string!')
+            if (typeof (config.css) !== 'string' && !Array.isArray(config.css)) {
+                throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings!')
             }
-            result += '\n    <link rel="stylesheet" type="text/css" href="' + config.css + '">'
+
+            let stylesheets = []
+            if (typeof (config.css) === 'string') {
+                stylesheets[0] = config.css
+            } else {
+                stylesheets = config.css
+            }
+
+            for (let i = 0; i < stylesheets.length; i++) {
+                if (typeof (stylesheets[i]) !== 'string') {
+                    throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings! Found element in array that is not a string.')
+                }
+                result += '\n    <link rel="stylesheet" type="text/css" href="' + stylesheets[i] + '">'
+            }
         }
 
         if (config.js) {
