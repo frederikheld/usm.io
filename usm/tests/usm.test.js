@@ -159,22 +159,24 @@ describe('usm', function () {
                 }
 
                 describe('the field "css"', function () {
-                    it('renders a <link rel="stylesheet" /> tag with the value of "css" as the value of "href", if the field "css" contains a string', async function () {
-                        const usm = new Usm(usmContext)
+                    context('field "css" is a string', function () {
+                        it('renders a <link rel="stylesheet" /> tag with the value of "css" as the value of "href", if the field "css" contains a string', async function () {
+                            const usm = new Usm(usmContext)
 
-                        const config = {
-                            css: './path/to/stylesheet.css'
-                        }
+                            const config = {
+                                css: './path/to/stylesheet.css'
+                            }
 
-                        await usm.renderMap(config)
+                            await usm.renderMap(config)
 
-                        const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'index.html'), 'utf-8')
+                            const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'index.html'), 'utf-8')
 
-                        let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-with-stylesheet.html'), 'utf8')
-                        htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
-                        htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'), 'utf8')
+                            let htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-header-with-stylesheet.html'), 'utf8')
+                            htmlExpected += await fs.readFile(path.join(inputBaseDir, 'usm-empty', 'mocked-output', 'usm.html'), 'utf8')
+                            htmlExpected += await fs.readFile(path.join(__dirname, 'mock-data', 'mock-usm-footer-standard.html'), 'utf8')
 
-                        helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+                            helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+                        })
                     })
 
                     context('field "css" is an array', function () {
