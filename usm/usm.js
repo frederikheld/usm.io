@@ -59,9 +59,9 @@ Usm.prototype.getUsm = function () {
 /**
  * Renders all Cards in inputDir to outputDir.
  */
-Usm.prototype.renderCards = async function (options) {
+Usm.prototype.renderCards = async function (config) {
     const re = new RenderEngine(this.context.inputDir, this.context.outputDir)
-    await re.renderAllCards()
+    await re.renderAllCards(config)
 }
 
 Usm.prototype.renderMap = async function (config) {

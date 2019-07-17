@@ -12,7 +12,7 @@ function renderEngine (cardsDir, outputDir) {
     this.outputDir = outputDir
 }
 
-renderEngine.prototype.renderAllCards = async function () {
+renderEngine.prototype.renderAllCards = async function (config) {
     // find all cards in input directory:
     const cardDirsRaw = await fs.readdir(this.cardsDir, { withFileTypes: true })
 
@@ -37,7 +37,7 @@ renderEngine.prototype.renderAllCards = async function () {
     // render each card:
     const promises = allCards.map(async (card) => {
         const re = new CardRenderer(card.cardDir, card.outputDir)
-        await re.render()
+        await re.render(config)
     }, this)
     await Promise.all(promises)
 }
