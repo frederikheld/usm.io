@@ -21,19 +21,6 @@ cardRenderer.prototype.processFile = async function (file, config) {
     // create target file tree in ouputDir:
     await fs.mkdirp(path.join(this.outputDir, file.parentDirRelative))
 
-    // just copy and paste files that are not to be rendered:
-    if (!['md', 'html'].includes(file.extension)) {
-        const outputPath = path.join(
-            this.outputDir,
-            file.parentDirRelative,
-            file.name
-        )
-
-        await fs.copy(file.pathAbsolute, outputPath)
-
-        return
-    }
-
     // render files:
     let htmlOutput = ''
 
@@ -61,6 +48,17 @@ cardRenderer.prototype.processFile = async function (file, config) {
         // TODO: Do HTML sanitation here?
 
         htmlOutput += htmlInput
+    } else {
+        // just copy and paste files that are not to be rendered:
+        const outputPath = path.join(
+            this.outputDir,
+            file.parentDirRelative,
+            file.name
+        )
+
+        await fs.copy(file.pathAbsolute, outputPath)
+
+        return
     }
 
     // add footer:
@@ -99,15 +97,31 @@ cardRenderer.prototype.__generateHeader = function (config) {
 `
 
     if (config) {
+        if (typeof (config) !== 'object') {
+            throw new TypeError('Configuration object has to be an object!')
+        }
+
         if (config.css) {
+            let stylesheets = []
             if (typeof (config.css) === 'string') {
-                html += '       <link rel="stylesheet" href="' + config.css + '">'
+                stylesheets[0] = config.css
+            } else if (Array.isArray(config.css)) {
+                stylesheets = config.css
+            } else {
+                throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings!')
+            }
+
+            for (let i = 0; i < stylesheets.length; i++) {
+                if (typeof (stylesheets[i]) === 'string') {
+                    html += '        <link rel="stylesheet" type="text/css" href="' + stylesheets[i] + '">\n'
+                } else {
+                    throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings! Found element in array that is not a string.')
+                }
             }
         }
     }
 
-    html += `
-    </head>
+    html += `    </head>
     <body>
 `
 

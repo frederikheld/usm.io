@@ -1,3 +1,4 @@
 web/
 !web/scripts.js
 !web/styles.css
+!web/cards-styles.css
