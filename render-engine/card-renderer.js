@@ -12,20 +12,21 @@ function cardRenderer (cardDir, outputDir) {
     this.outputDir = outputDir
 }
 
-cardRenderer.prototype.processFile = async function (file) {
+cardRenderer.prototype.processFile = async function (file, config) {
     // skip card.json as this file contains only meta data of the card:
     if (file.name === 'card.json') {
         return
     }
 
     // create target file tree in ouputDir:
-    // try {
     await fs.mkdirp(path.join(this.outputDir, file.parentDirRelative))
-    // } catch (err) {
-    //     throw err
-    // }
 
-    // render or copy & paste files:
+    // render files:
+    let htmlOutput = ''
+
+    // add header:
+    htmlOutput += this.__generateHeader(config)
+
     if (file.extension === 'md') {
         // read markdown from file
         let markdownInput = await fs.readFile(file.pathAbsolute, {
@@ -37,55 +38,103 @@ cardRenderer.prototype.processFile = async function (file) {
         markdownInput = markdownInput.replace(regex, '$1.html$3')
 
         // render markdown to html:
-        var htmlOutput = md.render(markdownInput)
+        htmlOutput += md.render(markdownInput)
+    } else if (file.extension === 'html') {
+        // read html from file
+        const htmlInput = await fs.readFile(file.pathAbsolute, {
+            encoding: 'utf-8'
+        })
 
-        // write into file:
-        const outputFileName = file.name.split('.').shift() + '.html'
-        const outputPath = path.join(
-            this.outputDir,
-            file.parentDirRelative,
-            outputFileName
-        )
-        // try {
-        await fs.writeFile(outputPath, htmlOutput)
-        // console.log("RENDERED '" + file.pathAbsolute + "' to '" + outputPath + "'")
-        // } catch (err) {
-        //     throw err
-        // }
+        // TODO: Do HTML sanitation here?
+
+        htmlOutput += htmlInput
     } else {
+        // just copy and paste files that are not to be rendered:
         const outputPath = path.join(
             this.outputDir,
             file.parentDirRelative,
             file.name
         )
-        // try {
+
         await fs.copy(file.pathAbsolute, outputPath)
-        // console.log("COPIED '" + file.pathAbsolute + "' to '" + outputPath + "'")
-        // } catch (err) {
-        //     throw err
-        // }
+
+        return
     }
+
+    // add footer:
+    htmlOutput += this.__generateFooter(config)
+
+    // write into file:
+    const outputFileName = file.name.split('.').shift() + '.html'
+    const outputPath = path.join(
+        this.outputDir,
+        file.parentDirRelative,
+        outputFileName
+    )
+
+    await fs.writeFile(outputPath, htmlOutput)
 }
 
-cardRenderer.prototype.render = async function () {
+cardRenderer.prototype.render = async function (config) {
     let allFiles = []
 
     // find all files in input directory tree:
-    // try {
     allFiles = await readdirRecursive(this.cardDir)
-    // } catch (err) {
-    //     throw err
-    // }
-
-    // console.log(this.inputDir)
-    // console.log(this.outputDir)
-    // console.log('from card.render()', allFiles)
 
     // await processFiles(allFiles)
 
     // render all files:
-    const promises = allFiles.map(this.processFile, this)
+    const promises = allFiles.map((file) => { return this.processFile(file, config) }, this)
     await Promise.all(promises)
+}
+
+cardRenderer.prototype.__generateHeader = function (config) {
+    let html = `
+<!doctype html>
+
+<html>
+    <head>
+`
+
+    if (config) {
+        if (typeof (config) !== 'object') {
+            throw new TypeError('Configuration object has to be an object!')
+        }
+
+        if (config.css) {
+            let stylesheets = []
+            if (typeof (config.css) === 'string') {
+                stylesheets[0] = config.css
+            } else if (Array.isArray(config.css)) {
+                stylesheets = config.css
+            } else {
+                throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings!')
+            }
+
+            for (let i = 0; i < stylesheets.length; i++) {
+                if (typeof (stylesheets[i]) === 'string') {
+                    html += '        <link rel="stylesheet" type="text/css" href="' + stylesheets[i] + '">\n'
+                } else {
+                    throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings! Found element in array that is not a string.')
+                }
+            }
+        }
+    }
+
+    html += `    </head>
+    <body>
+`
+
+    return html
+}
+
+cardRenderer.prototype.__generateFooter = function (config) {
+    const html = `
+    </body>
+</html>
+`
+
+    return html
 }
 
 /**

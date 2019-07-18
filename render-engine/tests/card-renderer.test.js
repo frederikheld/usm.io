@@ -79,11 +79,11 @@ describe('card-renderer', function () {
                 path.join(outputDirectory, 'index.html'),
                 'utf8'
             )
-            const htmlExpected = await fs.readFile(
+            const htmlExpectedSnippet = await fs.readFile(
                 path.join(__dirname, 'mocks', 'markdown-card', 'index.html'),
                 'utf8'
             )
-            htmlRendered.should.equal(htmlExpected)
+            htmlRendered.should.include(htmlExpectedSnippet)
 
             const htmlRendered2 = await fs.readFile(
                 path.join(
@@ -93,7 +93,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            const htmlExpected2 = await fs.readFile(
+            const htmlExpectedSnippet2 = await fs.readFile(
                 path.join(
                     __dirname,
                     'mocks',
@@ -103,7 +103,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            htmlRendered2.should.equal(htmlExpected2)
+            htmlRendered2.should.include(htmlExpectedSnippet2)
         })
 
         // TODO: this test should be done with re.processFile(), not the whole re.render!
@@ -124,7 +124,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            const htmlExpected2 = await fs.readFile(
+            const htmlExpectedSnippet2 = await fs.readFile(
                 path.join(
                     __dirname,
                     'mocks',
@@ -134,7 +134,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            htmlRendered2.should.equal(htmlExpected2)
+            htmlRendered2.should.include(htmlExpectedSnippet2)
         })
     })
 })

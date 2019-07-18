@@ -59,9 +59,9 @@ Usm.prototype.getUsm = function () {
 /**
  * Renders all Cards in inputDir to outputDir.
  */
-Usm.prototype.renderCards = async function (options) {
+Usm.prototype.renderCards = async function (config) {
     const re = new RenderEngine(this.context.inputDir, this.context.outputDir)
-    await re.renderAllCards()
+    await re.renderAllCards(config)
 }
 
 Usm.prototype.renderMap = async function (config) {
@@ -78,22 +78,21 @@ Usm.prototype.renderMap = async function (config) {
         }
 
         if (config.css) {
-            if (typeof (config.css) !== 'string' && !Array.isArray(config.css)) {
-                throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings!')
-            }
-
             let stylesheets = []
             if (typeof (config.css) === 'string') {
                 stylesheets[0] = config.css
-            } else {
+            } else if (Array.isArray(config.css)) {
                 stylesheets = config.css
+            } else {
+                throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings!')
             }
 
             for (let i = 0; i < stylesheets.length; i++) {
-                if (typeof (stylesheets[i]) !== 'string') {
+                if (typeof (stylesheets[i]) === 'string') {
+                    result += '\n    <link rel="stylesheet" type="text/css" href="' + stylesheets[i] + '">'
+                } else {
                     throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings! Found element in array that is not a string.')
                 }
-                result += '\n    <link rel="stylesheet" type="text/css" href="' + stylesheets[i] + '">'
             }
         }
 

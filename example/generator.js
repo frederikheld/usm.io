@@ -22,19 +22,23 @@ const main = async function () {
     // NOTE: usm.io will put the links to css and js files into the respective tags
     //       exactly as they are given here.
     //       So they need to be relative to the output file!
-    const options = {
+    const mapOptions = {
         css: './styles.css',
         js: './scripts.js',
         timeline: true
     }
 
+    const cardsOptions = {
+        css: './../../cards-styles.css'
+    }
+
     const usm = new Usm(context)
 
     // render usm:
-    await usm.renderMap(options)
+    await usm.renderMap(mapOptions)
 
     // render card packages.
-    await usm.renderCards()
+    await usm.renderCards(cardsOptions)
 
     console.log(
         'json data was rendered and written into a html file in the "' +
