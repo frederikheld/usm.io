@@ -65,7 +65,7 @@ The json file that represents the User Story Map, has to be structured as follow
       "key": "mvp",
       "title": "MVP"
     },
-    // <...>
+    <...>
   ],
   "activities": [
     {
@@ -81,13 +81,13 @@ The json file that represents the User Story Map, has to be structured as follow
               "description": "Receive a message from FilmFinder about a movie on my watch list available to see",
               "inRelease": "mvp"
             },
-            // <...>
+            <...>
           ]
         },
-        // <...>
+        <...>
       ]
     },
-    // <...>
+    <...>
   ]
 }
 ```
@@ -113,7 +113,7 @@ A card can described directly in `usm.json`. This is the quickest way to begin w
       "title": "My first Story",
       "description": "This is my first Story. \o/ <( Yay! )"
     },
-    // <...>
+    <...>
   ]
 }
 ```
