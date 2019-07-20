@@ -42,8 +42,8 @@ const main = async function () {
 
     console.log(
         'json data was rendered and written into a html file in the "' +
-            context.outputDir +
-            '" folder.'
+        context.outputDir +
+        '" folder.'
     )
     console.log('Open it in your browser to see the result!')
 }
