@@ -137,7 +137,7 @@ This card can be linked from `usm.json` via the `package` field.
     {
       "package": "my-first-story"
     },
-    // <...>
+    <...>
   ]
 }
 ```
@@ -149,7 +149,7 @@ This is how `card.json` in the package `my-first-story` will look like:
 ```javascript
 {
   "title": "My first Story",
-  "description": "This is my first Story. \\o/ <( Yay! )"
+  "description": "This is my first Story. \o/ <( Yay! )"
 }
 ```
 
