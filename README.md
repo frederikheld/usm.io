@@ -65,7 +65,7 @@ The json file that represents the User Story Map, has to be structured as follow
       "key": "mvp",
       "title": "MVP"
     },
-    <...>
+    // <...>
   ],
   "activities": [
     {
@@ -81,13 +81,13 @@ The json file that represents the User Story Map, has to be structured as follow
               "description": "Receive a message from FilmFinder about a movie on my watch list available to see",
               "inRelease": "mvp"
             },
-            <...>
+            // <...>
           ]
         },
-        <...>
+        // <...>
       ]
     },
-    <...>
+    // <...>
   ]
 }
 ```
@@ -111,9 +111,9 @@ A card can described directly in `usm.json`. This is the quickest way to begin w
   "stories": [
     {
       "title": "My first Story",
-      "description": "This is my first Story. o/ <( Yay! )"
+      "description": "This is my first Story. \o/ <( Yay! )"
     },
-    <...>
+    // <...>
   ]
 }
 ```
@@ -137,7 +137,7 @@ This card can be linked from `usm.json` via the `package` field.
     {
       "package": "my-first-story"
     },
-    <...>
+    // <...>
   ]
 }
 ```
@@ -149,7 +149,7 @@ This is how `card.json` in the package `my-first-story` will look like:
 ```json
 {
   "title": "My first Story",
-  "description": "This is my first Story. o/ <( Yay! )"
+  "description": "This is my first Story. \o/ <( Yay! )"
 }
 ```
 
@@ -189,31 +189,47 @@ The simplest User Story Map is just an `usm.json` in `input-directory` and a `ou
 
 ### Supported markup languages
 
-Supported markup languages are right now:
+Pages that are written in one of the supported markup languages will be rendered into websites. Supported markup lanuages are:
 
-| Language | Extension | Processor                                                 |
-| -------- | --------- | --------------------------------------------------------- |
-| Markdown | .md       | [markdown-it](https://github.com/markdown-it/markdown-it) |
-| HTML     | .html     | \<not being processed\>                                   |
+| Language | Extension | Specification                                  | Processor                                                 |
+| -------- | --------- | ---------------------------------------------- | --------------------------------------------------------- |
+| Markdown | .md       | [CommonMark](https://commonmark.org/)          | [markdown-it](https://github.com/markdown-it/markdown-it) |
+| HTML     | .html     | [HTML5](https://dev.w3.org/html5/html-author/) | no processing, will be used "as is"                       |
 
-Starting from `index`, you can add additional pages and ressources as you like. Everything that is not supported as a markdown language will just copied & pasted into the target directory. The directory tree in the target directroy will be the same as in your package. Links to other markup files will be converted automatically into links to the generated html file. This way you are free to add content as you like.
+You can add additional pages and ressources as you like. The directory tree in the target directroy will be the same as in your package.
+
+Links to other markup files will be converted automatically into links to the generated html file.
+
+Everything that is not one of the supported markup languages will just be copied & pasted into the target directory.
+
+#### Markdown
+
+Markdown files need to comply to the [CommonMark](https://commonmark.org/) specification to be processed correctly.
+
+#### HTML
+
+HTML files should only contain what can be put into the `<body>` of a HTML document. The markup needs to comply to the [HTML5](https://dev.w3.org/html5/html-author/) standard.
+
+#### Anything else
+
+Besides the markup languages that will be rendered into websites you can put any filetype into the sources that can be served via a website. Don't forget to embed or link it somewhere, otherwise it's just dead weight ;-)
 
 ## Integrate _usm.io_ into your app
 
-The [example](example) that comes with this package the usage of _usm.io_. It also includes stylesheets and scripts that bring the generated html map to life. They are a good starter for your own project.
+The [example](example) that comes with this package demonstrates the usage of _usm.io_. It also includes stylesheets and scripts that bring the generated html map to life. They are a good starter for your own project.
 
 The entry point for your User Story Map is the Usm object. It expects a context object as parameter:
 
 ```javascript
-const Usm = require("usm.io");
-const path = require("path");
+const Usm = require('usm.io')
 
 const context = {
-  inputDir: path.join(__dirname, "input"),
-  outputDir: path.join(__dirname, "output"),
-  cardsWebroot: "cards"
-};
-const usm = new Usm(context);
+  inputDir: 'input-directory',
+  outputDir: 'output-directory',
+  cardsWebroot: 'cards'
+}
+
+const usm = new Usm(context)
 ```
 
 The context object can take the following parameters:
@@ -229,8 +245,8 @@ The context object can take the following parameters:
 For each rendering feature there's an asynchronous function that takes the input from the `inputDirectory` and writes the rendered output to the `outputDirectory`:
 
 ```javascript
-await usm.renderMap();
-await usm.renderCards();
+await usm.renderMap()
+await usm.renderCards()
 ```
 
 ## Learn more
@@ -239,31 +255,9 @@ To understand how the User Story Map and the cards packages can be done, look in
 
 For more detailled information on the features of _usm.io_ read the tests. [usm/tests/usm.test.js](usm/tests/usm.test.js) is good for a start.
 
-## Next Steps in Development
 
-### Features
+## Contribute
 
-- [ ] Provide more useful error messages.
+I'm happy for any help with _usm.io_. If you would like to contribute, please [look into the issues](https://github.com/frederikheld/usm.io/issues) to [see which new features are already in the backlog](https://github.com/frederikheld/usm.io/milestone/1) and [which chores need to be done](https://github.com/frederikheld/usm.io/labels/chores).
 
-  Example: If "stories" is missing, error says "UnhandledPromiseRejectionWarning: TypeError: Cannot read property 'length' of undefined".
-
-  Solution: This message should be more specific and help to find the error. E. g. "Field 'stories' missing in ...". It should also help to fix/avoid the error, e. g. "Field 'stories' is mandatory for a step."
-
-  Also make renderer more flexible. This specific example shouldn't lead to an error at all. It should be allowed to leave fields undefined.
-
-- [x] Implement releases in map
-
-### Styling & Usability
-
-- [ ] Stylesheet for rendered packages
-- [ ] Package title in title of web page (at least for md which doesn't allow to define meta data)
-- [ ] Common footer & header for packages and map. Package header should have a link back to the USM.
-- [ ] Make Releases sticky on left side of the viewport
-- [ ] Make Activities and Steps sticky on top of the viewport
-
-### Under the hood
-
-- [ ] Improve test coverage (a lot of cases aren't testet yet)
-- [ ] Clean up test suites (make structure more suitable as a documentation)
-- [ ] Remove duplication: There's a lot of duplication in all the modules. There should be one generic module for containers and one for card representations. All the specific modules should extend one of those two basic modules.
-- [x] Remove unused mocks
+If you have a good idea for a new feature or improvement, feel free to [file a new issue](https://github.com/frederikheld/usm.io/issues/new) or submit a pull request.

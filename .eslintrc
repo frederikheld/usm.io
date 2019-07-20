@@ -7,10 +7,19 @@
     "node": true,
     "mocha": true
   },
-  "extends": ["standard"],
-  "plugins": ["standard", "mocha", "chai-friendly", "markdown"],
+  "extends": [
+    "standard"
+  ],
+  "plugins": [
+    "standard",
+    "mocha",
+    "chai-friendly"
+  ],
   "rules": {
-    "indent": ["warn", 4],
+    "indent": [
+      "warn",
+      4
+    ],
     "arrow-parens": 1,
     "new-cap": [
       2,
@@ -24,16 +33,16 @@
   },
   "overrides": [
     {
-      "files": ["*/tests/*.test.js"],
+      "files": [
+        "*/tests/*.test.js"
+      ],
       "rules": {
         "mocha/handle-done-callback": "error",
         "mocha/no-identical-title": "warn",
         "mocha/no-exclusive-tests": "error",
         "mocha/no-skipped-tests": "error",
-
         "no-unused-expressions": 0,
         "chai-friendly/no-unused-expressions": "error",
-
         "no-new": 0
       }
     }
