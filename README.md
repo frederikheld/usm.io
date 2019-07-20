@@ -104,7 +104,7 @@ Simple cards can be described in `usm.json`. For more elaborate cards you can pu
 
 A card can described directly in `usm.json`. This is the quickest way to begin with a map.
 
-```json
+```javascript
 {
   "title": "foo",
   "description": "bar",
