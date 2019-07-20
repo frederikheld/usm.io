@@ -1,4 +1,61 @@
 body {
-    margin: 2rem;
     padding: 0;
+    margin: 0;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 1rem;
+    background: #ccc;
+    box-shadow: 0 0.1rem 0.2rem #666;
+}
+
+#header .logo {
+    font-style: oblique;
+    font-size: 1.4rem;
+    float: left;
+}
+
+#header nav {
+    float: left;
+    margin-right: 1rem;
+}
+
+#header nav button {
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+#main {
+    margin: 1rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+    float: left;
+}
+
+#footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    background: #ccc;
+    box-shadow: 0 -0.1rem 0.2rem #666;
+}
+
+#footer {
+    float: right;
+    font-size: 0.6rem;
+}
+
+#footer span {
+    float: right;
+}
+
+#footer .separator {
+    margin: 0 0.4rem;
 }

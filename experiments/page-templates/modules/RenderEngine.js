@@ -3,9 +3,10 @@
 module.exports = RenderEngine
 
 const fs = require('fs')
+const path = require('path')
 const mustache = require('mustache')
 
-function RenderEngine() {
+function RenderEngine () {
 
 }
 
@@ -16,7 +17,7 @@ RenderEngine.prototype.render = function (renderOptions) {
         output += this.__renderTemplate(renderOptions.header.template, renderOptions.header.props)
     }
 
-    output += "\nThis is my usm.io stuff. Awesome, isn't it!?\n"
+    output += fs.readFileSync(path.join('input', 'main-content.html'))
 
     if (renderOptions && renderOptions.footer) {
         output += this.__renderTemplate(renderOptions.footer.template, renderOptions.footer.props)

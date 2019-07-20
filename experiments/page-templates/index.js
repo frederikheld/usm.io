@@ -16,7 +16,8 @@ const renderOptions = {
     footer: {
         template: './templates/footer.html',
         props: {
-            version: '0.1'
+            version: '0.1',
+            rendertime: new Date().toISOString().replace('T', ' ').substr(0, 19)
         }
     }
 }
