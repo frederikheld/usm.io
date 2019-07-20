@@ -43,6 +43,7 @@
   "dependencies": {
     "fs-extra": "^8.1.0",
     "markdown-it": "^9.0.1",
+    "mustache": "^3.0.1",
     "readdirp": "^3.1.1"
   }
 }
