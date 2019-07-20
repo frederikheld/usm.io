@@ -58,7 +58,7 @@ This brings us to the two main features of _usm.io_:
 
 The json file that represents the User Story Map, has to be structured as follows:
 
-```json
+```javascript
 {
   "releases": [
     {
@@ -129,7 +129,7 @@ If you want to create elaborate cards that are backed by some content, you can c
 
 This card can be linked from `usm.json` via the `package` field.
 
-```json
+```javascript
 {
   "title": "foo",
   "description": "bar",
@@ -146,10 +146,10 @@ The Card description now has to be done in `card.json` in the respective package
 
 This is how `card.json` in the package `my-first-story` will look like:
 
-```json
+```javascript
 {
   "title": "My first Story",
-  "description": "This is my first Story. \o/ <( Yay! )"
+  "description": "This is my first Story. \\o/ <( Yay! )"
 }
 ```
 
