@@ -3,7 +3,7 @@
 module.exports = cardRenderer
 
 const md = require('markdown-it')()
-const fs = require('fs-extra')
+const fsExtra = require('fs-extra')
 const path = require('path')
 const readdirp = require('readdirp')
 
@@ -19,7 +19,7 @@ cardRenderer.prototype.processFile = async function (file, config) {
     }
 
     // create target file tree in ouputDir:
-    await fs.mkdirp(path.join(this.outputDir, file.parentDirRelative))
+    await fsExtra.mkdirp(path.join(this.outputDir, file.parentDirRelative))
 
     // render files:
     let htmlOutput = ''
@@ -29,7 +29,7 @@ cardRenderer.prototype.processFile = async function (file, config) {
 
     if (file.extension === 'md') {
         // read markdown from file
-        let markdownInput = await fs.readFile(file.pathAbsolute, {
+        let markdownInput = await fsExtra.readFile(file.pathAbsolute, {
             encoding: 'utf-8'
         })
 
@@ -41,7 +41,7 @@ cardRenderer.prototype.processFile = async function (file, config) {
         htmlOutput += md.render(markdownInput)
     } else if (file.extension === 'html') {
         // read html from file
-        const htmlInput = await fs.readFile(file.pathAbsolute, {
+        const htmlInput = await fsExtra.readFile(file.pathAbsolute, {
             encoding: 'utf-8'
         })
 
@@ -56,7 +56,7 @@ cardRenderer.prototype.processFile = async function (file, config) {
             file.name
         )
 
-        await fs.copy(file.pathAbsolute, outputPath)
+        await fsExtra.copy(file.pathAbsolute, outputPath)
 
         return
     }
@@ -72,7 +72,7 @@ cardRenderer.prototype.processFile = async function (file, config) {
         outputFileName
     )
 
-    await fs.writeFile(outputPath, htmlOutput)
+    await fsExtra.writeFile(outputPath, htmlOutput)
 }
 
 cardRenderer.prototype.render = async function (config) {

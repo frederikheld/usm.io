@@ -5,11 +5,12 @@ const fsSync = require('fs')
 const path = require('path')
 
 const ActivitiesContainer = require('./activities')
-const RenderEngine = require('../render-engine/render-engine')
+const RenderEngine = require('../render-engine')
+const PageRenderer = require('../render-engine/page-renderer')
 
 module.exports = Usm
 
-function Usm (context) {
+function Usm(context) {
     this.context = context
 
     // -- load usm object from "usm.json" in context.inputDir
@@ -60,87 +61,45 @@ Usm.prototype.getUsm = function () {
  * Renders all Cards in inputDir to outputDir.
  */
 Usm.prototype.renderCards = async function (config) {
-    const re = new RenderEngine(this.context.inputDir, this.context.outputDir)
-    await re.renderAllCards(config)
+    const re = new RenderEngine(config)
+    await re.renderAllCards(this.context.inputDir, this.context.outputDir)
 }
 
-Usm.prototype.renderMap = async function (config) {
-    // render header:
-    let result = '<!DOCTYPE html>\n'
-    result += '\n<html>\n'
-    result += '\n<head>'
-    result += '\n    <meta charset="utf-8">'
-    result += '\n    <title>usm.io</title>'
+Usm.prototype.renderMap = async function (renderOptions) {
+    // render releases css and pass it to PageRenderer:
+    let releasesCss = this.__generateReleasesCSS(this.jsonUsm)
+    releasesCss = '<style type="text/css">\n' + releasesCss + '\n</style>\n'
+    renderOptions.header.props['releases-css'] = releasesCss // this will now be available as {{& releases-css }} in the template!
 
-    if (config) {
-        if (typeof (config) !== 'object') {
-            throw new TypeError('Configuration object has to be an object!')
-        }
-
-        if (config.css) {
-            let stylesheets = []
-            if (typeof (config.css) === 'string') {
-                stylesheets[0] = config.css
-            } else if (Array.isArray(config.css)) {
-                stylesheets = config.css
-            } else {
-                throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings!')
-            }
-
-            for (let i = 0; i < stylesheets.length; i++) {
-                if (typeof (stylesheets[i]) === 'string') {
-                    result += '\n    <link rel="stylesheet" type="text/css" href="' + stylesheets[i] + '">'
-                } else {
-                    throw new TypeError('Value of field "css" in configuration object has to be a string or an array of strings! Found element in array that is not a string.')
-                }
-            }
-        }
-
-        if (config.js) {
-            if (typeof (config.js) !== 'string') {
-                throw new TypeError('Value of field "js" in configuration object has to be a string!')
-            }
-            result += '\n    <script src="' + config.js + '"></script>'
-        }
-    }
-
-    if (this.jsonUsm.releases) {
-        result += '\n    <style>'
-        result += __generateReleasesCSS(this.jsonUsm, 8)
-        result += '\n    </style>'
-    }
-
-    result += '\n</head>\n'
-    result += '\n<body>'
+    let usmHTML = ''
 
     // render usm:
-    result += '<div class="usm">'
+    usmHTML += '<div class="usm">'
     if (this.activities) {
-        result += '\n    ' + this.activities.render() + '\n'
+        usmHTML += '\n    ' + this.activities.render() + '\n'
     }
 
     let doRenderTimeline = false
-    if (config) {
-        if (config.timeline) {
-            if (typeof (config.timeline) !== 'boolean') {
+    if (renderOptions) {
+        if (renderOptions.timeline) {
+            if (typeof (renderOptions.timeline) !== 'boolean') {
                 throw new TypeError('Key "timeline" of configuration object has to be a boolean!')
             }
-            doRenderTimeline = config.timeline
+            doRenderTimeline = renderOptions.timeline
         }
     }
     if (doRenderTimeline) {
-        result += '\n    <div class="timeline"></div>\n'
+        usmHTML += '\n    <div class="timeline"></div>\n'
     }
-    result += '</div>'
+    usmHTML += '</div>'
 
-    // render footer:
-    result += '\n</body>\n'
-    result += '\n</html>'
+    const pr = new PageRenderer(renderOptions)
+    const result = await pr.render(usmHTML)
 
     await fs.writeFile(path.join(this.context.outputDir, 'index.html'), result)
 }
 
-function __generateReleasesCSS (jsonUsm, indentBlanks) {
+Usm.prototype.__generateReleasesCSS = function (jsonUsm, indentBlanks = 0) {
     const releases = jsonUsm.releases
     const activities = jsonUsm.activities
 

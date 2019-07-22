@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>{{ title }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{{& stylesheet-global }}">
+    <link rel="stylesheet" type="text/css" href="{{& stylesheet-specific }}">
+    {{& releases-css }}
+
+    <script type="text/javascript" src="{{& scripts-specific }}"></script>
+</head>
+
+<body>
+
+    <div id="header">
+        <nav>
+            <a href="{{& link-home }}"><button>🏠</button></a>
+        </nav>
+        <span class="logo">usm.io</span>
+    </div>
+
+    <div id="main">

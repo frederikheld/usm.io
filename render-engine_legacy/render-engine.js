@@ -2,7 +2,7 @@
 
 module.exports = renderEngine
 
-const fs = require('fs-extra')
+const fsExtra = require('fs-extra')
 const path = require('path')
 
 const CardRenderer = require('./card-renderer')
@@ -14,12 +14,11 @@ function renderEngine (cardsDir, outputDir) {
 
 renderEngine.prototype.renderAllCards = async function (config) {
     // find all cards in input directory:
-    const cardDirsRaw = await fs.readdir(this.cardsDir, { withFileTypes: true })
+    const cardDirsRaw = await fsExtra.readdir(this.cardsDir, { withFileTypes: true })
 
     // reduce to directories only:
     const cardDirs = cardDirsRaw
         .filter((entry) => {
-            // console.log('entry', entry)
             return entry.isDirectory()
         })
         .map((dirent) => {

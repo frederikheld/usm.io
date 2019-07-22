@@ -11,7 +11,7 @@ chai.use(chaiFiles)
 const file = chaiFiles.file
 const dir = chaiFiles.dir
 
-const fs = require('fs-extra')
+const fsExtra = require('fs-extra')
 
 const CardRenderer = require('../card-renderer')
 
@@ -23,7 +23,7 @@ describe('card-renderer', function () {
 
     describe('render() renders a card package into a html website', function () {
         beforeEach(async function () {
-            await fs.emptyDir(path.join(tempDir))
+            await fsExtra.emptyDir(path.join(tempDir))
         })
 
         it('creates all directories and files as expected', async function () {
@@ -39,27 +39,9 @@ describe('card-renderer', function () {
             expect(file(path.join(outputDirectory, 'index.html'))).to.exist
 
             expect(dir(path.join(outputDirectory, 'more-ressources'))).to.exist
-            expect(
-                file(
-                    path.join(
-                        outputDirectory,
-                        'more-ressources',
-                        'another-text.html'
-                    )
-                )
-            ).to.exist
-            expect(
-                file(path.join(outputDirectory, 'more-ressources', 'image.jpg'))
-            ).to.exist
-            expect(
-                file(
-                    path.join(
-                        outputDirectory,
-                        'more-ressources',
-                        'replace-md-examples.html'
-                    )
-                )
-            ).to.exist
+            expect(file(path.join(outputDirectory, 'more-ressources', 'another-text.html'))).to.exist
+            expect(file(path.join(outputDirectory, 'more-ressources', 'image.jpg'))).to.exist
+            expect(file(path.join(outputDirectory, 'more-ressources', 'replace-md-examples.html'))).to.exist
 
             // verify that card.json wasn't copied over:
             expect(file(path.join(outputDirectory, 'card.json')))
@@ -75,17 +57,17 @@ describe('card-renderer', function () {
             await re.render()
 
             // compare contents of created files with expected content:
-            const htmlRendered = await fs.readFile(
+            const htmlRendered = await fsExtra.readFile(
                 path.join(outputDirectory, 'index.html'),
                 'utf8'
             )
-            const htmlExpectedSnippet = await fs.readFile(
+            const htmlExpectedSnippet = await fsExtra.readFile(
                 path.join(__dirname, 'mocks', 'markdown-card', 'index.html'),
                 'utf8'
             )
             htmlRendered.should.include(htmlExpectedSnippet)
 
-            const htmlRendered2 = await fs.readFile(
+            const htmlRendered2 = await fsExtra.readFile(
                 path.join(
                     outputDirectory,
                     'more-ressources',
@@ -93,7 +75,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            const htmlExpectedSnippet2 = await fs.readFile(
+            const htmlExpectedSnippet2 = await fsExtra.readFile(
                 path.join(
                     __dirname,
                     'mocks',
@@ -116,7 +98,7 @@ describe('card-renderer', function () {
             await re.render()
 
             // compare contents of created files with expected content:
-            const htmlRendered2 = await fs.readFile(
+            const htmlRendered2 = await fsExtra.readFile(
                 path.join(
                     outputDirectory,
                     'more-ressources',
@@ -124,7 +106,7 @@ describe('card-renderer', function () {
                 ),
                 'utf8'
             )
-            const htmlExpectedSnippet2 = await fs.readFile(
+            const htmlExpectedSnippet2 = await fsExtra.readFile(
                 path.join(
                     __dirname,
                     'mocks',

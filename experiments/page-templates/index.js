@@ -6,15 +6,18 @@ const path = require('path')
 const RenderEngine = require('./modules/render-engine')
 
 /**
- * prepares     reads file and                 adds                   decides which
- *  output      meta info from              header and               markup language
- *   dir          input dir                   footer                    to render
+ *                                         reads header
+ *                                          and footer
+ *                                          from file
+ * prepares     reads file and                  |                      decides which
+ *  output      meta info from                  v                     markup language
+ *   dir          input dir               mustache.render()              to render
  *    |               |                         |                           |
  *    v               v                         v                           v
- *  index --> RenderEngine.render() --> PageRenderer.render() --> MarkupRenderer.render() --> MarkdownIt.render()
- *                    |                                                                   --> unprocessed html
- *                    v                                                                   --> ASCIIdoc?
- *                write to
+ *  index --> RenderEngine.render() <-> PageRenderer.render() <-> MarkupRenderer.render() <-> MarkdownIt.render()
+ *                    |                                                                   <-> unprocessed html
+ *                    v                                                                   <-> ASCIIdoc?
+ *                writes to
  *               output file
  */
 
