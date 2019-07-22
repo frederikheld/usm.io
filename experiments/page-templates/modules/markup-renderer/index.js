@@ -4,16 +4,16 @@ module.exports = MarkupRenderer
 
 const md = require('markdown-it')()
 
-function MarkupRenderer (renderOptions) {
+function MarkupRenderer(renderOptions) {
     this.renderOptions = renderOptions
 }
 
 MarkupRenderer.prototype.render = function (input, filetype) {
-    if (filetype === 'md') {
-        return this.renderMarkdown(input)
-    } else if (filetype === 'html') {
-        return input
-    } else { }
+    // if (filetype === 'md') {
+    return this.renderMarkdown(input)
+    // } else if (filetype === 'html') {
+    // return input
+    // } else { }
 }
 
 MarkupRenderer.prototype.renderMarkdown = function (input) {
