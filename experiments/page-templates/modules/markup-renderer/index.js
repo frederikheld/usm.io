@@ -8,12 +8,12 @@ function MarkupRenderer(renderOptions) {
     this.renderOptions = renderOptions
 }
 
-MarkupRenderer.prototype.render = function (input, filetype) {
-    // if (filetype === 'md') {
-    return this.renderMarkdown(input)
-    // } else if (filetype === 'html') {
-    // return input
-    // } else { }
+MarkupRenderer.prototype.render = function (input, fileExtension) {
+    if (fileExtension === 'md') {
+        return this.renderMarkdown(input)
+    } else if (fileExtension === 'html') {
+        return input
+    } else { }
 }
 
 MarkupRenderer.prototype.renderMarkdown = function (input) {

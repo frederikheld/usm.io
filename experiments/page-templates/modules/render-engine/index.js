@@ -1,5 +1,6 @@
 'use strict'
 
+const fs = require('fs').promises
 const fsExtra = require('fs-extra')
 const readdirp = require('readdirp')
 const path = require('path')
@@ -12,27 +13,35 @@ function RenderEngine (renderOptions) {
     this.renderOptions = renderOptions
 }
 
-RenderEngine.prototype.render = async function (filePath) {
-    const pages = await this.__getAllPages(this.renderOptions.inputDir)
+RenderEngine.prototype.render = async function (inputDir, outputDir) {
+    const pages = await this.__getAllPages(inputDir)
 
-    const cr = new PageRenderer(this.renderOptions)
-    const promises = pages.map(async (page) => {
-        const outputDir = path.join(
-            this.renderOptions.outputDir,
-            page.parentDirRelative
-        )
-        fsExtra.mkdirp(outputDir)
-
-        const outputFile = path.join(outputDir, page.name + '.html')
-        cr.render(page.pathAbsolute, outputFile)
-        // ^- Noteworthy: Those render() calls run in parallel through map().
+    const promises = pages.map(async (pageMeta) => {
+        this.renderFile(pageMeta, outputDir)
+        // ^- Noteworthy: Those calls run in parallel through map().
         //    Promise.all() will wait for all of them to resolve.
-        //    If you add await in front of the render() call, this will await
+        //    If you add await in front of the call, this will await
         //    each call individually and thus run dem sequentially.
         //    This will slow down execution dramatically. Try it!
     })
 
     await Promise.all(promises)
+}
+
+RenderEngine.prototype.renderFile = async function (pageMeta, outputDir) {
+    const pr = new PageRenderer(this.renderOptions)
+
+    const pageOutputDir = path.join(outputDir, pageMeta.parentDirRelative)
+    const outputFilePath = path.join(pageOutputDir, pageMeta.name + '.html')
+
+    const [, input] = await Promise.all([
+        fsExtra.mkdirp(pageOutputDir),
+        fs.readFile(pageMeta.pathAbsolute, { encoding: 'utf-8' })
+    ])
+
+    const output = await pr.render(input, pageMeta)
+
+    fs.writeFile(path.join(outputFilePath), output)
 }
 
 RenderEngine.prototype.__getAllPages = async function (inputDir) {
@@ -53,9 +62,9 @@ RenderEngine.prototype.__getAllPages = async function (inputDir) {
         readdirp(inputDir, readdirpSettings)
             .on('data', (entry) => {
                 allFilePaths.push({
-                    file: entry.basename,
+                    fileName: entry.basename,
                     name: entry.basename.split('.').shift(),
-                    extension: entry.basename.split('.').pop(),
+                    fileExtension: entry.basename.split('.').pop(),
                     pathRelative: entry.path,
                     pathAbsolute: entry.fullPath,
                     parentDirRelative: path.dirname(entry.path),

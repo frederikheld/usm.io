@@ -5,9 +5,20 @@ const path = require('path')
 
 const RenderEngine = require('./modules/render-engine')
 
+/**
+ * prepares     reads file and                 adds                   decides which
+ *  output      meta info from              header and               markup language
+ *   dir          input dir                   footer                    to render
+ *    |               |                         |                           |
+ *    v               v                         v                           v
+ *  index --> RenderEngine.render() --> PageRenderer.render() --> MarkupRenderer.render() --> MarkdownIt.render()
+ *                    |                                                                   --> unprocessed html
+ *                    v                                                                   --> ASCIIdoc?
+ *                write to
+ *               output file
+ */
+
 const renderOptions = {
-    inputDir: path.join(__dirname, 'input'),
-    outputDir: path.join(__dirname, 'output'),
     header: {
         template: path.join(__dirname, 'templates', 'header.html'),
         props: {
@@ -30,34 +41,24 @@ const renderOptions = {
 }
 // Note: For nested pages only absolute links will work :-(
 
-/**
- * prepares       reads all                    adds                    translates
- *  output      file info from              header and                 markup into
- *   dir          input dir                   footer                      html
- *    |               |                         |                           |
- *    v               v                         v                           v
- *  index --> RenderEngine.render() --> PageRenderer.render() --> MarkupRenderer.render() --> MarkdownIt.render()
- *                    |             --> copy & paste                                      --> unprocessed html
- *                    v                 to outputDir                                      --> ASCIIdoc?
- *                write to
- *               output file
- */
+const inputDir = path.join(__dirname, 'input')
+const outputDir = path.join(__dirname, 'output')
 
-async function main() {
+async function main () {
     const startTime = new Date()
 
-    await fsExtra.mkdirp(renderOptions.outputDir)
-    await fsExtra.emptyDir(renderOptions.outputDir)
+    await fsExtra.mkdirp(outputDir)
+    await fsExtra.emptyDir(outputDir)
 
     const re = new RenderEngine(renderOptions)
-    await re.render()
+    await re.render(inputDir, outputDir)
 
     const executionTime = new Date() - startTime
 
     console.log('Rendered cards from')
-    console.log('    ' + renderOptions.inputDir)
+    console.log('    ' + inputDir)
     console.log('to')
-    console.log('    ' + renderOptions.outputDir)
+    console.log('    ' + outputDir)
     console.log('This took ' + executionTime + 'ms')
 }
 main()
