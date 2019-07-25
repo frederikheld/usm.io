@@ -14,7 +14,7 @@ const fsExtra = require('fs-extra')
 
 const RenderEngine = require('../index.js')
 
-describe.only('RenderEngine', () => {
+describe('RenderEngine', () => {
     const inputDirSuite = path.join(__dirname, 'mock-data')
     const outputDirSuite = path.join(process.cwd(), 'temp', 'render-engine.test')
 

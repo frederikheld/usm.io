@@ -4,20 +4,22 @@ module.exports = MarkupRenderer
 
 const md = require('markdown-it')()
 
-function MarkupRenderer (renderOptions) {
+function MarkupRenderer(renderOptions) {
     this.renderOptions = renderOptions
 }
 
-MarkupRenderer.prototype.render = function (input, fileExtension) {
-    if (fileExtension) {
-        if (fileExtension === 'md') {
+MarkupRenderer.prototype.render = function (input, markupLanguage) {
+    if (markupLanguage) {
+        if (markupLanguage === 'md') {
             return this.renderMarkdown(input)
-        } else if (fileExtension === 'html') {
+        } else if (markupLanguage === 'html') {
             return input
+        } else {
+            throw new TypeError('"' + markupLanguage + '" is not a supported markup language!')
         }
-    } else {
-        return input
     }
+
+    return input
 }
 
 MarkupRenderer.prototype.renderMarkdown = function (input) {

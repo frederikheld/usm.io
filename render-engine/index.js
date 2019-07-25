@@ -9,7 +9,23 @@ const PageRenderer = require('./page-renderer')
 
 module.exports = RenderEngine
 
-function RenderEngine(renderOptions) {
+/**
+ *                                         reads header
+ *                                          and footer
+ *                                          from file
+ * prepares     reads file and                  |                      decides which
+ *  output      meta info from                  v                     markup language
+ *   dir          input dir               mustache.render()              to render
+ *    |               |                         |                           |
+ *    v               v                         v                           v
+ *  index <-- RenderEngine.render() <-- PageRenderer.render() <-- MarkupRenderer.render() <-- MarkdownIt.render()
+ *                    |                                                                   <-- unprocessed html
+ *                    v
+ *                writes to
+ *               output file
+ */
+
+function RenderEngine (renderOptions) {
     this.renderOptions = renderOptions
 }
 
@@ -18,7 +34,7 @@ RenderEngine.prototype.renderAllCards = async function (inputDir, outputDir) {
 
     const promises = pages.map(async (pageMeta) => {
         this.renderFile(pageMeta, outputDir)
-        // ^- Noteworthy: Those calls run in parallel through map().
+        // ^- Noteworthy: Those calls started in parallel through map().
         //    Promise.all() will wait for all of them to resolve.
         //    If you add await in front of the call, this will await
         //    each call individually and thus run dem sequentially.
