@@ -10,7 +10,7 @@ const PageRenderer = require('../render-engine/page-renderer')
 
 module.exports = Usm
 
-function Usm(context) {
+function Usm (context) {
     this.context = context
 
     // -- load usm object from "usm.json" in context.inputDir
@@ -60,8 +60,8 @@ Usm.prototype.getUsm = function () {
 /**
  * Renders all Cards in inputDir to outputDir.
  */
-Usm.prototype.renderCards = async function (config) {
-    const re = new RenderEngine(config)
+Usm.prototype.renderCards = async function (renderOptions) {
+    const re = new RenderEngine(renderOptions)
     await re.renderAllCards(this.context.inputDir, this.context.outputDir)
 }
 
