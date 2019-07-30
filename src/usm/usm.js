@@ -61,29 +61,44 @@ Usm.prototype.getUsm = function () {
  * Renders all Cards in inputDir to outputDir.
  */
 Usm.prototype.renderCards = async function (renderOptions) {
+    if (renderOptions) {
+        if (!(renderOptions instanceof Object)) {
+            throw new TypeError('"renderOptions" has to be an object!')
+        }
+    }
     const re = new RenderEngine(renderOptions)
     await re.renderAllCards(this.context.inputDir, this.context.outputDir)
 }
 
 Usm.prototype.renderMap = async function (renderOptions) {
     // render releases css and pass it to PageRenderer:
-    let releasesCss = this.__generateReleasesCSS(this.jsonUsm)
-    releasesCss = '<style type="text/css">\n' + releasesCss + '\n</style>\n'
-    renderOptions.header.props['releases-css'] = releasesCss // this will now be available as {{& releases-css }} in the template!
-
-    let usmHTML = ''
+    if (this.jsonUsm.releases) {
+        let releasesCss = this.__generateReleasesCSS(this.jsonUsm)
+        releasesCss = '<style type="text/css">\n' + releasesCss + '\n</style>\n'
+        if (!renderOptions.header) {
+            renderOptions.header = {}
+        }
+        if (!renderOptions.header.props) {
+            renderOptions.header.props = {}
+        }
+        renderOptions.header.props['releases-css'] = releasesCss // this will now be available as {{& releases-css }} in the template!
+    }
 
     // render usm:
-    usmHTML += '<div class="usm">'
+    let usmHTML = '<div class="usm">'
     if (this.activities) {
         usmHTML += '\n    ' + this.activities.render() + '\n'
     }
 
     let doRenderTimeline = false
     if (renderOptions) {
+        if (!(renderOptions instanceof Object)) {
+            throw new TypeError('"renderOptions" has to be an object!')
+        }
+
         if (renderOptions.timeline) {
             if (typeof (renderOptions.timeline) !== 'boolean') {
-                throw new TypeError('Key "timeline" of configuration object has to be a boolean!')
+                throw new TypeError('"renderOptions.timeline" has to be of type boolean!')
             }
             doRenderTimeline = renderOptions.timeline
         }

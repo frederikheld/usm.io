@@ -8,6 +8,7 @@ const chaiFiles = require('chai-files')
 chai.use(chaiFiles)
 
 const fs = require('fs').promises
+const fsExtra = require('fs-extra')
 const path = require('path')
 
 const Usm = require('../usm')
@@ -18,6 +19,14 @@ describe('usm', function () {
     // })
 
     const tempDir = path.join(process.cwd(), 'temp', 'usm.test')
+
+    before(async () => {
+        await fsExtra.emptyDir(tempDir)
+    })
+
+    after(async () => {
+        await fsExtra.remove(tempDir)
+    })
 
     describe('Usm.prototype.getContext(field)', function () {
         const usmContext = {
@@ -55,7 +64,7 @@ describe('usm', function () {
             const usm = new Usm(usmContext)
 
             const usmObjectExpected = JSON.parse(await fs.readFile(path.join(usmContext.inputDir, 'usm.json')))
-            usm.getUsm().should.eql(usmObjectExpected)
+            usm.getUsm().should.deep.equal(usmObjectExpected)
         })
     })
 

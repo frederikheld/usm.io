@@ -13,7 +13,8 @@
   "plugins": [
     "standard",
     "mocha",
-    "chai-friendly"
+    "chai-friendly",
+    "html"
   ],
   "rules": {
     "indent": [
@@ -34,15 +35,15 @@
   "overrides": [
     {
       "files": [
-        "*/tests/*.test.js"
+        "src/**/tests/*.test.js"
       ],
       "rules": {
-        "mocha/handle-done-callback": "error",
-        "mocha/no-identical-title": "warn",
-        "mocha/no-exclusive-tests": "error",
-        "mocha/no-skipped-tests": "error",
+        "mocha/handle-done-callback": 2,
+        "mocha/no-identical-title": 2,
+        "mocha/no-exclusive-tests": 2,
+        "mocha/no-skipped-tests": 2,
         "no-unused-expressions": 0,
-        "chai-friendly/no-unused-expressions": "error",
+        "chai-friendly/no-unused-expressions": 2,
         "no-new": 0
       }
     }

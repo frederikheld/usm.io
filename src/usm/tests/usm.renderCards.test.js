@@ -40,11 +40,11 @@ describe('usm.renderCards', function () {
                 await usm.renderCards({})
 
                 expect(dir(path.join(usmContext.outputDir, 'package-1'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-1', 'card.json'))).to.not.exist
+                expect(file(path.join(usmContext.outputDir, 'package-1', 'card.json'))).to.exist
                 expect(file(path.join(usmContext.outputDir, 'package-1', 'index.html'))).to.exist
 
                 expect(dir(path.join(usmContext.outputDir, 'package-2'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-2', 'card.json'))).to.not.exist
+                expect(file(path.join(usmContext.outputDir, 'package-2', 'card.json'))).to.exist
                 expect(file(path.join(usmContext.outputDir, 'package-2', 'index.html'))).to.exist
                 expect(dir(path.join(usmContext.outputDir, 'package-2', 'more-files-to-copy'))).to.exist
                 expect(file(path.join(usmContext.outputDir, 'package-2', 'more-files-to-copy', 'another-file.html'))).to.exist
@@ -83,93 +83,18 @@ describe('usm.renderCards', function () {
             })
         })
 
-        context('with a configuration object for rendering', function () {
+        context('with a "renderOptions" object for rendering', function () {
             const usmContext = {
                 inputDir: path.join(inputBaseDir, 'input-2'),
                 outputDir: outputDir
             }
-            describe('the field "css"', function () {
-                context('field "css" is a string', function () {
-                    it('renders a <link rel="stylesheet"> tag with the value of "css" as the value of "href"', async function () {
-                        const usm = new Usm(usmContext)
 
-                        const config = {
-                            css: './path/to/stylesheet.css'
-                        }
+            it('throws a TypeError if "renderOptions" is not an object', async function () {
+                const usm = new Usm(usmContext)
 
-                        await usm.renderCards(config)
+                const renderOptions = 3
 
-                        const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'package-1', 'index.html'), 'utf-8')
-
-                        htmlRendered.should.include('<link rel="stylesheet" type="text/css" href="' + config.css + '">')
-                    })
-                })
-
-                context('field "css" is an array', function () {
-                    it('renders a <link rel="stylesheet"> tag with the value of every string in the array as the value of "href", if the field contains a array of strings', async function () {
-                        const usm = new Usm(usmContext)
-
-                        const config = {
-                            css: [
-                                './path/to/stylesheet.css',
-                                './path/to/another/stylesheet.css',
-                                './yet_another_stylesheet.css'
-                            ]
-                        }
-
-                        await usm.renderCards(config)
-
-                        const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'package-1', 'index.html'), 'utf-8')
-
-                        htmlRendered.should.include('<link rel="stylesheet" type="text/css" href="' + config.css[0] + '">')
-                        htmlRendered.should.include('<link rel="stylesheet" type="text/css" href="' + config.css[1] + '">')
-                        htmlRendered.should.include('<link rel="stylesheet" type="text/css" href="' + config.css[2] + '">')
-                    })
-
-                    it('throws a TypeError, if the array contains a value that is not of type string', async function () {
-                        const usm = new Usm(usmContext)
-
-                        const config = {
-                            css: [
-                                'a string',
-                                5
-                            ]
-                        }
-
-                        await usm.renderCards(config).should.be.rejectedWith(TypeError, 'Value of field "css" in configuration object has to be a string or an array of strings! Found element in array that is not a string.')
-                    })
-
-                    it('throws a TypeError, if the field "css" is defined but neither contains a string nor an array', async function () {
-                        const usm = new Usm(usmContext)
-
-                        const config = {
-                            css: 5
-                        }
-
-                        await usm.renderCards(config).should.be.rejectedWith(TypeError, 'Value of field "css" in configuration object has to be a string or an array of strings!')
-                    })
-
-                    it('doesn\'t render a <link rel="stylesheet"> tag if field "css" is not defined', async function () {
-                        const usm = new Usm(usmContext)
-
-                        const config = {}
-
-                        await usm.renderCards(config).should.not.throw
-                        await usm.renderCards(config)
-
-                        const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'package-1', 'index.html'), 'utf-8')
-
-                        htmlRendered.should.not.contain('<link rel="stylesheet"')
-                    })
-                })
-
-                it('throws a TypeError if the passed parameter is not an object', async function () {
-                    const usm = new Usm(usmContext)
-
-                    const config = 3
-
-                    await usm.renderCards(config).should.be.rejectedWith(TypeError, 'Configuration object has to be an object!')
-                })
+                await usm.renderCards(renderOptions).should.be.rejectedWith(TypeError, '"renderOptions" has to be an object!')
             })
         })
     })

@@ -10,19 +10,19 @@ const PageRenderer = require('./page-renderer')
 module.exports = RenderEngine
 
 /**
- *                                         reads header
- *                                          and footer
- *                                          from file
- * prepares     reads file and                  |                      decides which
- *  output      meta info from                  v                     markup language
- *   dir          input dir               mustache.render()              to render
- *    |               |                         |                           |
- *    v               v                         v                           v
- *  index <-- RenderEngine.render() <-- PageRenderer.render() <-- MarkupRenderer.render() <-- MarkdownIt.render()
- *                    |                                                                   <-- unprocessed html
- *                    v
- *                writes to
- *               output file
+ *                               reads header
+ *                                and footer
+ *                                from file
+ *    reads file and                  |                      decides which
+ *    meta info from                  v                     markup language
+ *      input dir               mustache.render()              to render
+ *          |                         |                           |
+ *          v                         v                           v
+ *  RenderEngine.render() <-- PageRenderer.render() <-- MarkupRenderer.render() <-- MarkdownIt.render()
+ *          |                                                                   <-- unprocessed html
+ *          v
+ *      writes to
+ *     output file
  */
 
 function RenderEngine (renderOptions) {
@@ -30,37 +30,61 @@ function RenderEngine (renderOptions) {
 }
 
 RenderEngine.prototype.renderAllCards = async function (inputDir, outputDir) {
-    const pages = await this.__getAllPages(inputDir)
+    try {
+        await fs.stat(inputDir)
+    } catch (e) {
+        throw new ReferenceError('"inputDir" "' + inputDir + '" does not exist!')
+    }
+
+    try {
+        await fs.stat(outputDir)
+    } catch (e) {
+        throw new ReferenceError('"outputDir" "' + outputDir + '" does not exist!')
+    }
+
+    const pages = await this.__getAllFiles(inputDir)
 
     const promises = pages.map(async (pageMeta) => {
-        this.renderFile(pageMeta, outputDir)
-        // ^- Noteworthy: Those calls started in parallel through map().
-        //    Promise.all() will wait for all of them to resolve.
-        //    If you add await in front of the call, this will await
-        //    each call individually and thus run dem sequentially.
-        //    This will slow down execution dramatically. Try it!
+        return this.processFile(pageMeta, outputDir)
     })
 
     await Promise.all(promises)
 }
 
-RenderEngine.prototype.renderFile = async function (pageMeta, outputDir) {
+RenderEngine.prototype.processFile = async function (pageMeta, outputDir) {
+    const fileOutputDir = path.join(outputDir, pageMeta.parentDirRelative)
+
+    try {
+        await this.__renderFile(pageMeta, fileOutputDir)
+    } catch (e) {
+        return this.__copyFile(pageMeta, fileOutputDir)
+    }
+}
+
+RenderEngine.prototype.__renderFile = async function (pageMeta, fileOutputDir) {
     const pr = new PageRenderer(this.renderOptions)
 
-    const pageOutputDir = path.join(outputDir, pageMeta.parentDirRelative)
-    const outputFilePath = path.join(pageOutputDir, pageMeta.name + '.html')
+    const outputFilePath = path.join(fileOutputDir, pageMeta.name + '.html')
 
     const [, input] = await Promise.all([
-        fsExtra.mkdirp(pageOutputDir),
+        fsExtra.mkdirp(fileOutputDir),
         fs.readFile(pageMeta.pathAbsolute, { encoding: 'utf-8' })
     ])
 
     const output = await pr.render(input, pageMeta)
 
-    fs.writeFile(path.join(outputFilePath), output)
+    return fs.writeFile(path.join(outputFilePath), output)
 }
 
-RenderEngine.prototype.__getAllPages = async function (inputDir) {
+RenderEngine.prototype.__copyFile = async function (pageMeta, fileOutputDir) {
+    const inputFilePath = pageMeta.pathAbsolute
+    const outputFilePath = path.join(fileOutputDir, pageMeta.fileName)
+
+    await fsExtra.mkdirp(fileOutputDir)
+    return fsExtra.copyFile(inputFilePath, outputFilePath)
+}
+
+RenderEngine.prototype.__getAllFiles = async function (inputDir) {
     /**
      * Reads a directory recursively and returns a
      * list of objects that contain different representations
@@ -77,7 +101,9 @@ RenderEngine.prototype.__getAllPages = async function (inputDir) {
     return new Promise((resolve, reject) => {
         readdirp(inputDir, readdirpSettings)
             .on('data', (entry) => {
-                if (!this.renderOptions.filesToOmit.includes(entry.basename)) {
+                try {
+                    this.renderOptions.filesToOmit.includes(entry.basename)
+                } catch (e) {
                     allFilePaths.push({
                         fileName: entry.basename,
                         name: entry.basename.split('.').shift(),

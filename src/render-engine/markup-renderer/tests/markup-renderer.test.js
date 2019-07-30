@@ -5,13 +5,12 @@ chai.should()
 const expect = chai.expect
 
 const fs = require('fs').promises
-const fsSync = require('fs')
 
 const path = require('path')
 
 const MarkupRenderer = require('../index.js')
 
-describe.only('MarkupRenderer', () => {
+describe('MarkupRenderer', () => {
     describe('render()', () => {
         describe('the parameter "markdownLanguage"', () => {
             context('is "md"', () => {
@@ -28,7 +27,6 @@ describe.only('MarkupRenderer', () => {
                 })
 
                 describe('field "renderOptions.markdown.replaceLinks" passed with contructor', () => {
-
                     let input
                     before(async () => {
                         input = await fs.readFile(path.join(__dirname, 'mock-data', 'link-replacement', 'input.md'), { encoding: 'utf-8' })
@@ -44,7 +42,7 @@ describe.only('MarkupRenderer', () => {
 
                             const expectedResult = await fs.readFile(path.join(__dirname, 'mock-data', 'link-replacement', 'expected-output-with-replacement.html'), { encoding: 'utf-8' })
                             const result = mr.render(input, 'md')
-                            result.should.contains(expectedResult)
+                            result.should.contain(expectedResult)
                         })
                     })
 
@@ -58,7 +56,7 @@ describe.only('MarkupRenderer', () => {
 
                             const expectedResult = await fs.readFile(path.join(__dirname, 'mock-data', 'link-replacement', 'expected-output-without-replacement.html'), { encoding: 'utf-8' })
                             const result = mr.render(input, 'md')
-                            result.should.contains(expectedResult)
+                            result.should.contain(expectedResult)
                         })
                     })
 
@@ -72,10 +70,9 @@ describe.only('MarkupRenderer', () => {
 
                             const expectedResult = await fs.readFile(path.join(__dirname, 'mock-data', 'link-replacement', 'expected-output-without-replacement.html'), { encoding: 'utf-8' })
                             const result = mr.render(input, 'md')
-                            result.should.contains(expectedResult)
+                            result.should.contain(expectedResult)
                         })
                     })
-
                 })
             })
 
@@ -108,6 +105,7 @@ describe.only('MarkupRenderer', () => {
                     const mr = new MarkupRenderer({})
 
                     const input = '<h1>This is a heading</h1><p>Hello World!</p>'
+
                     expect(() => { mr.render(input, 'foo') }).to.throw(TypeError, '"foo" is not a supported markup language!')
                     expect(() => { mr.render(input, 42) }).to.throw(TypeError, '"42" is not a supported markup language!')
                 })

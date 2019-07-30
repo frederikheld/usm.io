@@ -1,2 +1,1 @@
-usm/tests/mock-data/
-render-engine/tests/mocks/
+/src/**/tests/mock-data/**

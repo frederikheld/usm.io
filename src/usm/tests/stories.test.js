@@ -67,7 +67,7 @@ describe('stories', function () {
     })
 
     describe('Stories.prototype.render()', function () {
-        context('this.jsonData is valid', function () {
+        context('"this.jsonData" is valid', function () {
             it('can render an empty Stories container', async function () {
                 const stories = new Stories([], {})
 
@@ -88,6 +88,74 @@ describe('stories', function () {
                 const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-multiple-empty.html'), 'utf8')
 
                 helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+            })
+
+            context('"this.jsonData" has a field "releases"', () => {
+                it('renders a release container for each release within the stories container', async () => {
+                    const jsonStories = [
+                        {
+                            inRelease: 'a'
+                        },
+                        {
+                            inRelease: 'a'
+                        },
+                        {
+                            inRelease: 'b'
+                        }
+                    ]
+
+                    const context = {
+                        releases: [
+                            {
+                                key: 'a',
+                                title: 'release a'
+                            },
+                            {
+                                key: 'b',
+                                title: 'release b'
+                            }
+                        ]
+                    }
+
+                    const stories = new Stories(jsonStories, context)
+
+                    const htmlRendered = stories.render()
+                    const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-in-releases.html'), 'utf8')
+
+                    helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+                })
+
+                it('renders all cards that have no release specified into the "future" release at the very bottom of the map', async () => {
+                    const jsonStories = [
+                        {
+                            inRelease: 'a'
+                        },
+                        { },
+                        {
+                            inRelease: 'b'
+                        }
+                    ]
+
+                    const context = {
+                        releases: [
+                            {
+                                key: 'a',
+                                title: 'release a'
+                            },
+                            {
+                                key: 'b',
+                                title: 'release b'
+                            }
+                        ]
+                    }
+
+                    const stories = new Stories(jsonStories, context)
+
+                    const htmlRendered = stories.render()
+                    const htmlExpected = await fs.readFile(path.join(__dirname, 'mock-data', 'stories', 'mock-stories-in-releases-future.html'), 'utf8')
+
+                    helpers.stripWhitespaces(htmlRendered).should.equal(helpers.stripWhitespaces(htmlExpected))
+                })
             })
         })
 
