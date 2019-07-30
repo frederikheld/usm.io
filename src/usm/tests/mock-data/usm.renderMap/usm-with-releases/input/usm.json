@@ -1,0 +1,13 @@
+{
+    "releases": [
+        {
+            "key": "a",
+            "title": "Release A"
+        },
+        {
+            "key": "b",
+            "title": "Release B"
+        }
+    ],
+    "activities": []
+}

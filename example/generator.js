@@ -4,7 +4,7 @@
 
 const path = require('path')
 
-const Usm = require('../usm/usm')
+const Usm = require('../src/usm/usm')
 // If you have installed this package via npm, you do
 //      const Usm = require('usm.io')
 
@@ -16,22 +16,52 @@ const context = {
     cardsWebroot: 'cards'
 }
 
+const templateFooter = {
+    template: path.join(__dirname, 'templates', 'footer.html'),
+    props: {
+        version: '0.1',
+        rendertime: new Date().toISOString().replace('T', ' ').substr(0, 19)
+    }
+}
+
+const mapOptions = {
+    header: {
+        template: path.join(__dirname, 'templates', 'header.html'),
+        props: {
+            title: 'Hello World!',
+            'stylesheet-global': path.join(__dirname, '/web/assets/styles-global.css'),
+            'stylesheet-specific': path.join(__dirname, '/web/assets/styles-map.css'),
+            'scripts-specific': path.join(__dirname, '/web/assets/scripts-map.js'),
+            'link-home': path.join(__dirname, '/web/index.html')
+        }
+    },
+    footer: templateFooter,
+    timeline: true
+}
+
+const cardsOptions = {
+    header: {
+        template: path.join(__dirname, 'templates', 'header.html'),
+        props: {
+            title: 'Hello World!',
+            'stylesheet-global': path.join(__dirname, '/web/assets/styles-global.css'),
+            'stylesheet-specific': path.join(__dirname, '/web/assets/styles-cards.css'),
+            'link-home': path.join(__dirname, '/web/index.html')
+        }
+    },
+    footer: templateFooter,
+    markdown: {
+        replaceLinks: true
+    },
+    filesToOmit: [
+        'usm.json',
+        'card.json'
+    ]
+}
+
 // -- main
 
 const main = async function () {
-    // NOTE: usm.io will put the links to css and js files into the respective tags
-    //       exactly as they are given here.
-    //       So they need to be relative to the output file!
-    const mapOptions = {
-        css: './styles.css',
-        js: './scripts.js',
-        timeline: true
-    }
-
-    const cardsOptions = {
-        css: './../../cards-styles.css'
-    }
-
     const usm = new Usm(context)
 
     // render usm:
