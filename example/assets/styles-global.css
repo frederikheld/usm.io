@@ -1,0 +1,72 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+}
+
+#header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0.6rem 1rem;
+    background: #fff;
+    box-shadow: 0 0.1rem 0.4rem #ccc;
+    border-bottom: 1px solid #ccc;
+    z-index: 999;
+    line-height: 1.4rem;
+}
+
+.logo {
+    font-style: oblique;
+    font-size: 1.4rem;
+    float: left;
+}
+
+#header nav {
+    float: left;
+    margin-right: 1rem;
+}
+
+#header nav button {
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+#main {
+    box-sizing: border-box;
+    margin: 1rem;
+    margin-top: calc(17px + 2.8rem);
+    margin-bottom: 2.2rem;
+    width: 100%;
+}
+
+#footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 0.6rem 1rem;
+    background: #fff;
+    box-shadow: 0 -0.1rem 0.4rem  #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+#footer {
+    float: right;
+    font-size: 0.8rem;
+}
+
+#footer .align-right {
+    float: right;
+}
+
+#footer .align-left {
+    float: left;
+}
+
+#footer .separator {
+    margin: 0 0.4rem;
+}

@@ -96,14 +96,19 @@ RenderEngine.prototype.__getAllFiles = async function (inputDir) {
         type: 'files'
     }
 
-    var allFilePaths = []
+    const allFilePaths = []
 
     return new Promise((resolve, reject) => {
         readdirp(inputDir, readdirpSettings)
             .on('data', (entry) => {
-                try {
+                let omit = false
+                if (this.renderOptions &&
+                    this.renderOptions.filesToOmit &&
                     this.renderOptions.filesToOmit.includes(entry.basename)
-                } catch (e) {
+                ) {
+                    omit = true
+                }
+                if (!omit) {
                     allFilePaths.push({
                         fileName: entry.basename,
                         name: entry.basename.split('.').shift(),

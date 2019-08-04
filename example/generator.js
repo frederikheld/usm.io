@@ -2,6 +2,7 @@
 
 // -- imports
 
+const fsExtra = require('fs-extra')
 const path = require('path')
 
 const Usm = require('../src/usm/usm')
@@ -12,9 +13,10 @@ const Usm = require('../src/usm/usm')
 
 const context = {
     inputDir: path.join(__dirname, 'input'),
-    outputDir: path.join(__dirname, 'web'),
-    cardsWebroot: 'cards'
+    outputDir: path.join(__dirname, 'web')
 }
+
+// cardsWebroot can be relative to the map (index.html) or absolute.
 
 const templateFooter = {
     template: path.join(__dirname, 'templates', 'footer.html'),
@@ -62,19 +64,37 @@ const cardsOptions = {
 // -- main
 
 const main = async function () {
+    // prepare output directory:
+    await cleanupDirectory(context.outputDir)
+
+    // render usm and cards:
     const usm = new Usm(context)
+    await Promise.all([
+        usm.renderMap(mapOptions),
+        usm.renderCards(cardsOptions)
+    ])
 
-    // render usm:
-    await usm.renderMap(mapOptions)
-
-    // render card packages.
-    await usm.renderCards(cardsOptions)
-
-    console.log(
-        'json data was rendered and written into a html file in the "' +
-        context.outputDir +
-        '" folder.'
+    // copy stylesheets and scripts to output directory:
+    await fsExtra.mkdir(path.join(context.outputDir, 'assets'))
+    await fsExtra.copy(
+        path.join(__dirname, 'assets'),
+        path.join(context.outputDir, 'assets')
     )
+
+    console.log('json data was rendered and written into a html file in the "' + context.outputDir + '" folder.')
     console.log('Open it in your browser to see the result!')
 }
 main()
+
+async function cleanupDirectory (dirPath) {
+    try {
+        await fsExtra.emptyDir(dirPath)
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            // directory doesn't exist yet. That's okay, we will create it some lines below.
+        } else {
+            throw err
+        }
+    }
+    await fsExtra.mkdirp(dirPath)
+}

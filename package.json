@@ -7,6 +7,7 @@
     "test": "node -v && node node_modules/mocha/bin/mocha \"src/**/tests/*.test.js\"",
     "watch-test": "mocha --reporter=min --watch \"src/**/tests/*.test.js\"",
     "coverage": "node node_modules/nyc/bin/nyc npm test",
+    "coverage-detail": "node node_modules/nyc/bin/nyc --reporter=lcov npm test",
     "lint": "./node_modules/.bin/eslint .",
     "lint-fix": "./node_modules/.bin/eslint --fix ."
   },

@@ -28,7 +28,7 @@ describe('usm.renderCards', function () {
 
         context('with standard settings for rendering', function () {
             const usmContext = {
-                inputDir: path.join(inputBaseDir, 'input-1'),
+                inputDir: path.join(__dirname, 'mock-data', 'usm.renderCards', 'input-1'),
                 outputDir: outputDir
             }
 
@@ -39,15 +39,15 @@ describe('usm.renderCards', function () {
 
                 await usm.renderCards({})
 
-                expect(dir(path.join(usmContext.outputDir, 'package-1'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-1', 'card.json'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-1', 'index.html'))).to.exist
+                expect(dir(path.join(usmContext.outputDir, 'cards', 'package-1'))).to.exist
+                expect(file(path.join(usmContext.outputDir, 'cards', 'package-1', 'card.json'))).to.exist
+                expect(file(path.join(usmContext.outputDir, 'cards', 'package-1', 'index.html'))).to.exist
 
-                expect(dir(path.join(usmContext.outputDir, 'package-2'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-2', 'card.json'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-2', 'index.html'))).to.exist
-                expect(dir(path.join(usmContext.outputDir, 'package-2', 'more-files-to-copy'))).to.exist
-                expect(file(path.join(usmContext.outputDir, 'package-2', 'more-files-to-copy', 'another-file.html'))).to.exist
+                expect(dir(path.join(usmContext.outputDir, 'cards', 'package-2'))).to.exist
+                expect(file(path.join(usmContext.outputDir, 'cards', 'package-2', 'card.json'))).to.exist
+                expect(file(path.join(usmContext.outputDir, 'cards', 'package-2', 'index.html'))).to.exist
+                expect(dir(path.join(usmContext.outputDir, 'cards', 'package-2', 'more-files-to-copy'))).to.exist
+                expect(file(path.join(usmContext.outputDir, 'cards', 'package-2', 'more-files-to-copy', 'another-file.html'))).to.exist
             })
 
             it('converts markdown into html', async function () {
@@ -57,7 +57,7 @@ describe('usm.renderCards', function () {
 
                 await usm.renderCards({})
 
-                const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'package-2', 'index.html'), 'utf-8')
+                const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'cards', 'package-2', 'index.html'), 'utf-8')
 
                 htmlRendered.should.include('<h1>This is a heading 1</h1>')
                 htmlRendered.should.include('<h2>This is a heading 2</h2>')
@@ -73,7 +73,7 @@ describe('usm.renderCards', function () {
 
                 await usm.renderCards({})
 
-                const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'package-1', 'index.html'), 'utf-8')
+                const htmlRendered = await fs.readFile(path.join(usmContext.outputDir, 'cards', 'package-1', 'index.html'), 'utf-8')
 
                 htmlRendered.should.include('<h1>This is a heading 1</h1>')
                 htmlRendered.should.include('<h2>This is a heading 2</h2>')

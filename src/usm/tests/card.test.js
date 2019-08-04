@@ -173,7 +173,7 @@ describe('card', function () {
             })
 
             context('the card object passed to the constructor contains a field "package"', async function () {
-                it('renders a button that links to "index.html" in the card\'s package directory generated in "context.cardsWebroot"', async function () {
+                it('renders a button that links to "index.html" in the card\'s package directory generated in "cards"', async function () {
                     const jsonCard = {
                         package: 'card-package'
                     }
@@ -181,7 +181,7 @@ describe('card', function () {
                     const card = new Card(jsonCard, cardContext)
 
                     const htmlRendered = card.render()
-                    const htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/' + jsonCard.package + '/index.html\'">Open Package</button>'
+                    const htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'cards/' + jsonCard.package + '/index.html\'">Open Package</button>'
 
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetExpected)).should.be.true
                 })

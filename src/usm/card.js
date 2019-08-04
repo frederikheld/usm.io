@@ -96,7 +96,7 @@ Card.prototype.render = function () {
     if (this.jsonData.package) {
         result +=
             '\n    <button class="open-package" onclick="window.location.href=\'' +
-            this.context.cardsWebroot +
+            'cards' +
             '/' +
             this.jsonData.package +
             '/index.html\'">Open Package</button>'

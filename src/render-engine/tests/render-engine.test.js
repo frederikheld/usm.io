@@ -105,5 +105,23 @@ describe('RenderEngine', () => {
             file(path.join(testOutputDir, 'dir-1', 'dummy-picture.gif')).should.exist
             file(path.join(testOutputDir, 'dir-2', 'subdir-1', 'dummy-picture.png')).should.exist
         })
+
+        it('does not copy nor render files with a name given in "filesToOmit"', async () => {
+            const testInputDir = path.join(inputDir, 'files-to-omit')
+            const testOutputDir = path.join(outputDir, 'files-to-omit')
+            await fsExtra.ensureDir(testOutputDir)
+            dir(testOutputDir).should.be.empty
+
+            const re = new RenderEngine({
+                filesToOmit: ['omit.txt', 'omit.html']
+            })
+            await re.renderAllCards(testInputDir, testOutputDir)
+
+            file(path.join(testOutputDir, 'dont-omit.txt')).should.exist
+            file(path.join(testOutputDir, 'omit.txt')).should.not.exist
+            file(path.join(testOutputDir, 'directory-1', 'dont-omit.txt')).should.exist
+            file(path.join(testOutputDir, 'directory-1', 'omit.html')).should.not.exist
+            file(path.join(testOutputDir, 'directory-1', 'omit.txt')).should.not.exist
+        })
     })
 })

@@ -39,7 +39,7 @@ describe('usm', function () {
             usm.getContext().should.equal(usmContext)
         })
 
-        it('returns the value fo the requested field', function () {
+        it('returns the value of the requested field', function () {
             const usm = new Usm(usmContext)
             usm.getContext('inputDir').should.equal(usmContext.inputDir)
         })

@@ -66,8 +66,11 @@ Usm.prototype.renderCards = async function (renderOptions) {
             throw new TypeError('"renderOptions" has to be an object!')
         }
     }
+
+    await fs.mkdir(path.join(this.context.outputDir, 'cards'))
+
     const re = new RenderEngine(renderOptions)
-    await re.renderAllCards(this.context.inputDir, this.context.outputDir)
+    return re.renderAllCards(path.join(this.context.inputDir, 'cards'), path.join(this.context.outputDir, 'cards'))
 }
 
 Usm.prototype.renderMap = async function (renderOptions) {
@@ -111,7 +114,7 @@ Usm.prototype.renderMap = async function (renderOptions) {
     const pr = new PageRenderer(renderOptions)
     const result = await pr.render(usmHTML)
 
-    await fs.writeFile(path.join(this.context.outputDir, 'index.html'), result)
+    return fs.writeFile(path.join(this.context.outputDir, 'index.html'), result)
 }
 
 Usm.prototype.__generateReleasesCSS = function (jsonUsm, indentBlanks = 0) {
