@@ -16,6 +16,10 @@ function Card (jsonCard, context) {
         throw new TypeError('Card information is not a json object!')
     }
 
+    if (jsonCard.tags && !Array.isArray(jsonCard.tags)) {
+        throw new TypeError('Value of field "tags" has to be an array!')
+    }
+
     this.jsonData = jsonCard
 
     if (context === undefined) {
@@ -80,7 +84,15 @@ Card.prototype._load = function () {
 }
 
 Card.prototype.render = function () {
-    let result = '<div class="card">'
+    let result = '<div class="card'
+
+    if (this.jsonData.tags) {
+        for (let i = 0; i < this.jsonData.tags.length; i++) {
+            result += ' tag-' + this.jsonData.tags[i]
+        }
+    }
+
+    result += '">'
     const compareForEmptyTag = result
 
     if (this.jsonData.title) {
