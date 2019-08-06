@@ -41,7 +41,8 @@
             {
               "title": "Receive message from FilmFinder",
               "description": "Receive a message from FilmFinder about a movie on my watch list available to see",
-              "inRelease": "mvp"
+              "inRelease": "mvp",
+              "tags": ["needs-attention"]
             },
             {
               "title": "See ad on another site",
@@ -51,7 +52,8 @@
             {
               "title": "Receive message from Friend",
               "description": "Receive a message from a Friend with direct link to a movie",
-              "inRelease": "friends"
+              "inRelease": "friends",
+              "tags": ["needs-attention"]
             }
           ]
         }
@@ -88,7 +90,8 @@
             {
               "title": "Enter personal info",
               "description": "Enter my basic personal info like name, post code, and email address",
-              "inRelease": "mvp"
+              "inRelease": "mvp",
+              "tags": ["needs-attention"]
             },
             {
               "title": "Describe my proferences",
@@ -169,12 +172,14 @@
             {
               "title": "See critic ratings",
               "description": "See critic ratings in the list",
-              "inRelease": "cinemas"
+              "inRelease": "cinemas",
+              "tags": ["needs-attention", "customer-1"]
             },
             {
               "title": "See user ratings",
               "description": "See user ratings in the list",
-              "inRelease": "social"
+              "inRelease": "social",
+              "tags": ["customer-1"]
             },
             {
               "title": "See if streamable",
