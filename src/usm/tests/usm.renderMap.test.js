@@ -7,6 +7,7 @@ const chaiFiles = require('chai-files')
 chai.use(chaiFiles)
 
 const fs = require('fs').promises
+const fsExtra = require('fs-extra')
 const path = require('path')
 
 const helpers = require('./helpers')
@@ -22,7 +23,7 @@ describe('usm.renderMap', function () {
 
         context('the given context object is valid', function () {
             beforeEach(async function () {
-                await helpers.cleanUpDir(outputDir)
+                await fsExtra.emptyDir(outputDir)
             })
 
             describe('default settings for rendering', function () {

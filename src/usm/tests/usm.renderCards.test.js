@@ -10,6 +10,7 @@ const file = chaiFiles.file
 const dir = chaiFiles.dir
 
 const fs = require('fs').promises
+const fsExtra = require('fs-extra')
 const path = require('path')
 
 const helpers = require('./helpers')
@@ -23,7 +24,7 @@ describe('usm.renderCards', function () {
 
     describe('Usm.prototype.renderCards(config)', function () {
         beforeEach(async function () {
-            await helpers.cleanUpDir(outputDir)
+            await fsExtra.emptyDir(outputDir)
         })
 
         context('with standard settings for rendering', function () {
