@@ -86,6 +86,10 @@ Card.prototype._load = function () {
 Card.prototype.render = function () {
     let result = '<div class="card'
 
+    if (this.jsonData.package) {
+        result += ' has-package'
+    }
+
     if (this.jsonData.tags) {
         for (let i = 0; i < this.jsonData.tags.length; i++) {
             result += ' tag-' + this.jsonData.tags[i]

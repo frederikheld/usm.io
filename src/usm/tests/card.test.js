@@ -184,21 +184,41 @@ describe('card', function () {
                     const htmlSnippetExpected = '<button class="open-package" onclick="window.location.href=\'cards/' + jsonCard.package + '/index.html\'">Open Package</button>'
 
                     helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetExpected)).should.be.true
-                })
-            })
 
-            context('the card object passed to the constructor doesn\'t contain a field "package"', function () {
-                it('doesn\'t render a button', async function () {
-                    const card = new Card({
+                    // cross-check:
+                    const card2 = new Card({
                         title: 'This is the title'
                     }, {})
 
-                    const htmlRendered = card.render()
+                    const htmlRendered2 = card2.render()
                     const htmlSnippetNotExpected1 = '<button class="open-package" onclick="window.location.href=\'' + cardContext.cardsWebroot + '/'
                     const htmlSnippetNotExpected2 = '/index.html\'">Open Package</button>'
 
-                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected1)).should.be.false
-                    helpers.stripWhitespaces(htmlRendered).includes(helpers.stripWhitespaces(htmlSnippetNotExpected2)).should.be.false
+                    helpers.stripWhitespaces(htmlRendered2).includes(helpers.stripWhitespaces(htmlSnippetNotExpected1)).should.be.false
+                    helpers.stripWhitespaces(htmlRendered2).includes(helpers.stripWhitespaces(htmlSnippetNotExpected2)).should.be.false
+                })
+
+                it('adds a class "has-package" to the card\'s container', () => {
+                    const jsonCard = {
+                        package: 'card-package'
+                    }
+
+                    const regex = /<div (.*)class="(.*)card (.*)has-package(.*)"/
+
+                    const card = new Card(jsonCard, cardContext)
+
+                    const htmlRendered = card.render()
+                    htmlRendered.should.match(regex)
+
+                    // cross-chec:
+                    const jsonCard2 = {
+                        title: 'test'
+                    }
+
+                    const card2 = new Card(jsonCard2, cardContext)
+                    const htmlRendered2 = card2.render()
+
+                    htmlRendered2.should.not.match(regex)
                 })
             })
         })

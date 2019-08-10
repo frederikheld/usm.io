@@ -157,6 +157,10 @@
   );
 }
 
+.card.has-package {
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.5), 0 0 0.2rem 0.2rem rgba(100, 255, 100, 0.5);
+}
+
 .card h1 {
   font-size: 0.8rem;
   line-height: 1.6em;

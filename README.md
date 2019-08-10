@@ -157,6 +157,26 @@ The advantage of this approach: You can now place content in this package that w
 
 The entrypoint for this webiste is the `index` file which, depending on the markup language you are going to use, needs to have the appropriate file name extension.
 
+#### Tagging
+
+Cards can be tagged. Tags are given as a list in the field _tags_ and will be rendered as classes into the card's container.
+
+```javascript
+{
+  "title": "My second Story",
+  "description": "Just another Story",
+  "tags": ["needs-refinement", "stakeholder-x"]
+}
+```
+
+This will render as:
+
+```html
+<div class="card tag-needs-refinement tag-stakeholder-x">...</div>
+```
+
+You can use the classes for CSS styling or to manipulate the card via JavaScript.
+
 ### The directory tree
 
 The simplest User Story Map is just an `usm.json` in `input-directory` and a `output-directory`. If you want to use the packages feature, you have to give your directory tree the following structure:
