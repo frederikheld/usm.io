@@ -1,4 +1,8 @@
 {
     "title": "Orienting myself",
-    "description": "Orienting myself in the new software"
+    "description": "Orienting myself in the new software",
+    "acceptanceCriteria": [
+        "I can navigate the interface",
+        "I know the main features"
+    ]
 }

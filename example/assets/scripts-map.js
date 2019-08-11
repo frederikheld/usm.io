@@ -40,6 +40,12 @@ window.onload = function () {
             modalCard.appendChild(descriptionClone)
         }
 
+        const acceptanceCriteria = this.querySelector('.acceptance-criteria')
+        if (acceptanceCriteria) {
+            const acceptanceCriteriaClone = acceptanceCriteria.cloneNode(true)
+            modalCard.appendChild(acceptanceCriteriaClone)
+        }
+
         const button = this.querySelector('.open-package')
         if (button) {
             const buttonClone = button.cloneNode(true)

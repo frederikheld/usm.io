@@ -6,7 +6,7 @@ const expect = chai.expect
 
 const Card = require('../card')
 
-describe('card feature "tagging"', () => {
+describe('Card feature "Tagging"', () => {
     context('Cards in usm.json', () => {
         it('can have a field "tags"', async () => {
             const card = new Card({
