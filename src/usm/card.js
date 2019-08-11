@@ -20,6 +20,10 @@ function Card (jsonCard, context) {
         throw new TypeError('Value of field "tags" has to be an array!')
     }
 
+    if (jsonCard.acceptanceCriteria && !Array.isArray(jsonCard.acceptanceCriteria)) {
+        throw new TypeError('Value of field "acceptanceCriteria" has to be an array!')
+    }
+
     this.jsonData = jsonCard
 
     if (context === undefined) {
@@ -106,6 +110,17 @@ Card.prototype.render = function () {
     if (this.jsonData.description) {
         result += '\n    <div class="description">'
         result += '\n' + this.jsonData.description
+        result += '\n    </div>'
+    }
+
+    if (this.jsonData.acceptanceCriteria) {
+        result += '\n    <div class="acceptance-criteria">'
+        result += '\n    <h2>Acceptance Criteria</h2>'
+        result += '\n        <ol>'
+        for (let i = 0; i < this.jsonData.acceptanceCriteria.length; i++) {
+            result += '\n            <li>' + this.jsonData.acceptanceCriteria[i] + '</li>'
+        }
+        result += '\n        </ol>'
         result += '\n    </div>'
     }
 

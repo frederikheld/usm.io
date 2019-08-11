@@ -167,10 +167,8 @@
   margin: 0;
 }
 
-.card .description {
-  visibility: hidden;
-}
-
+.card .description,
+.card .acceptance-criteria,
 .card .open-package {
   visibility: hidden;
 }

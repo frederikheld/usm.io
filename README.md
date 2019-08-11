@@ -157,19 +157,36 @@ The advantage of this approach: You can now place content in this package that w
 
 The entrypoint for this webiste is the `index` file which, depending on the markup language you are going to use, needs to have the appropriate file name extension.
 
+#### Acceptance Criteria
+
+Cards can have Acceptance Criteria (AC). AC are given as a list in the field _acceptanceCriteria_ and will be rendered as an unordered list below the description.
+
+```javascript
+{
+  "title": "Bake apple pie for Jenny's party",
+  "description": "AS Jenny who has invited you to her party I WANT you TO bring your famous apple pie SO THAT my guests can enjoy dessert",
+  "acceptanceCriteria": [
+    "Pie serves at least 4 people",
+    "Pie does not contain raisins",
+    "Pie is served on a platter",
+    "Pie comes with a knife to cut it"
+  ]
+}
+```
+
 #### Tagging
 
 Cards can be tagged. Tags are given as a list in the field _tags_ and will be rendered as classes into the card's container.
 
 ```javascript
 {
-  "title": "My second Story",
+  "title": "Another Story",
   "description": "Just another Story",
   "tags": ["needs-refinement", "stakeholder-x"]
 }
 ```
 
-This will render as:
+This will render the card container as:
 
 ```html
 <div class="card tag-needs-refinement tag-stakeholder-x">...</div>
