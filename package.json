@@ -1,8 +1,8 @@
 {
   "name": "usm.io",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Represents an User Story Map and its sub-components and can render it in HTML.",
-  "main": "usm/usm.js",
+  "main": "src/usm/usm.js",
   "scripts": {
     "test": "node -v && node node_modules/mocha/bin/mocha \"src/**/tests/*.test.js\"",
     "watch-test": "mocha --reporter=min --watch \"src/**/tests/*.test.js\"",
