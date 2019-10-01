@@ -17,7 +17,7 @@ describe('RenderEngine', () => {
     const inputDir = path.join(__dirname, 'mock-data')
     const outputDir = path.join(process.cwd(), 'temp', 'render-engine.test')
 
-    describe('render', () => {
+    describe('renderAllCards', () => {
         before(async () => {
             await fsExtra.emptyDir(outputDir)
         })
@@ -38,7 +38,7 @@ describe('RenderEngine', () => {
         })
 
         it('throws an ReferenceError if the given "outputDir" doesn\'t exist', async () => {
-            const testInputDir = path.join(inputDir, 'empty-directory')
+            const testInputDir = path.join(inputDir, 'dummy-directory')
             const testOutputDir = path.join(outputDir, 'non-existent-directory')
 
             dir(testOutputDir).should.not.exist
@@ -106,7 +106,7 @@ describe('RenderEngine', () => {
             file(path.join(testOutputDir, 'dir-2', 'subdir-1', 'dummy-picture.png')).should.exist
         })
 
-        it('does not copy nor render files with a name given in "filesToOmit"', async () => {
+        it('does neither copy nor render files with a name given in "filesToOmit"', async () => {
             const testInputDir = path.join(inputDir, 'files-to-omit')
             const testOutputDir = path.join(outputDir, 'files-to-omit')
             await fsExtra.ensureDir(testOutputDir)
@@ -122,6 +122,27 @@ describe('RenderEngine', () => {
             file(path.join(testOutputDir, 'directory-1', 'dont-omit.txt')).should.exist
             file(path.join(testOutputDir, 'directory-1', 'omit.html')).should.not.exist
             file(path.join(testOutputDir, 'directory-1', 'omit.txt')).should.not.exist
+        })
+
+        context('injected props', () => {
+            it('injects the source path of the current page relative to the "cards" directory as "{{ page-source-path }}" into the header.props and footer.props', async () => {
+                const renderOptions = {
+                    header: {
+                        template: path.join(__dirname, 'mock-data', 'injected-props', 'templates', 'template-header.html')
+                    },
+                    footer: {
+                        template: path.join(__dirname, 'mock-data', 'injected-props', 'templates', 'template-footer.html')
+                    }
+                }
+
+                const testInputDir = path.join(__dirname, 'mock-data', 'injected-props', 'input')
+                const testOutputDir = path.join(process.cwd(), 'temp', 'render-engine.test', 'injected-props')
+                await fsExtra.ensureDir(testOutputDir)
+                dir(testOutputDir).should.be.empty
+
+                const re = new RenderEngine(renderOptions)
+                await re.renderAllCards(testInputDir, testOutputDir)
+            })
         })
     })
 })
