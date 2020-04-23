@@ -24,6 +24,8 @@ const RenderEngine = require('./modules/render-engine')
 const renderOptions = {
     header: {
         template: path.join(__dirname, 'templates', 'header.html'),
+        /* eslint-disable no-path-concat */
+        /* As those are browser url's, not file paths */
         props: {
             title: 'Hello World!',
             'stylesheet-global': __dirname + '/assets/css-global.css',

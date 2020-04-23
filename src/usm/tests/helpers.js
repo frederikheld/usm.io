@@ -1,7 +1,5 @@
 'use strict'
 
-const fsExtra = require('fs-extra')
-
 // TODO: Move this to /lib/helpers/
 
 const helpers = {}

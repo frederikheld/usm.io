@@ -7,7 +7,7 @@ const mustache = require('mustache')
 
 const MarkupRenderer = require('../markup-renderer')
 
-function PageRenderer(renderOptions) {
+function PageRenderer (renderOptions) {
     this.renderOptions = renderOptions
 }
 

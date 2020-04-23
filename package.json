@@ -1,6 +1,6 @@
 {
   "name": "usm.io",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "Represents an User Story Map and its sub-components and can render it in HTML.",
   "main": "src/usm/usm.js",
   "scripts": {
@@ -33,19 +33,19 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-files": "^1.4.0",
-    "eslint": "^6.0.1",
-    "eslint-plugin-chai-friendly": "^0.4.1",
-    "eslint-plugin-html": "^6.0.0",
-    "eslint-plugin-mocha": "^5.3.0",
-    "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.1",
-    "standard": "^13.0.2"
+    "eslint": "^6.8.0",
+    "eslint-plugin-chai-friendly": "^0.5.0",
+    "eslint-plugin-html": "^6.0.2",
+    "eslint-plugin-mocha": "^6.3.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.1",
+    "standard": "^14.3.3"
   },
   "dependencies": {
     "fs-extra": "^8.1.0",
-    "markdown-it": "^9.0.1",
-    "mustache": "^3.0.1",
+    "markdown-it": "^10.0.0",
+    "mustache": "^4.0.1",
     "readdirp": "^3.1.1"
   }
 }

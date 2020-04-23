@@ -39,6 +39,8 @@ describe('RenderEngine', () => {
 
         it('throws an ReferenceError if the given "outputDir" doesn\'t exist', async () => {
             const testInputDir = path.join(inputDir, 'empty-directory')
+            await fsExtra.mkdirp(testInputDir) // needs to be created here as an empty directory can't be committed into a Git repo
+
             const testOutputDir = path.join(outputDir, 'non-existent-directory')
 
             dir(testOutputDir).should.not.exist

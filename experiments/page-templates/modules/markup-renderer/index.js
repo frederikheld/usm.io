@@ -4,7 +4,7 @@ module.exports = MarkupRenderer
 
 const md = require('markdown-it')()
 
-function MarkupRenderer(renderOptions) {
+function MarkupRenderer (renderOptions) {
     this.renderOptions = renderOptions
 }
 
