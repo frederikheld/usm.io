@@ -45,7 +45,7 @@ This will generate the webpages in [example/web](example/web). Open [example/out
 
 ### The User Story Map
 
-If you don't know the method of User Story Mapping yet, I recommend you to read [Jeff Pattons publications](https://www.jpattonassociates.com/user-story-mapping/).
+If you don't know the method of User Story Mapping yet, I recommend that you read [Jeff Pattons publications](https://www.jpattonassociates.com/user-story-mapping/) before continuing.
 
 To get started with _usm.io_ you only need to now the following: User Story Maps consist of Acitivties (the green cards in the example) that are broken down into Steps (blue). Each Step consists of User Stories (yellow) that are grouped into Releases (separated by horizontal lines).
 
