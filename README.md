@@ -68,7 +68,7 @@ See [example](./example/).
 
 ## How to provide the input
 
-See [The User Story Map](./docs/the-user-story-map.md) for details on how user story mapping works, the features of _ usm.io_ and how you need to structure your map to make it render correctly.
+See [The User Story Map](./docs/the-user-story-map.md) for details on how user story mapping works, the features of _usm.io_ and how you need to structure your map to make it render correctly.
 
 ## Contribute
 
