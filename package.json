@@ -38,13 +38,13 @@
     "eslint-plugin-html": "^6.0.2",
     "eslint-plugin-mocha": "^6.3.0",
     "eslint-plugin-standard": "^4.0.1",
-    "mocha": "^7.1.1",
+    "mocha": "^10.2.0",
     "nyc": "^15.0.1",
     "standard": "^14.3.3"
   },
   "dependencies": {
     "fs-extra": "^8.1.0",
-    "markdown-it": "^10.0.0",
+    "markdown-it": "^13.0.1",
     "mustache": "^4.0.1",
     "readdirp": "^3.1.1"
   }
