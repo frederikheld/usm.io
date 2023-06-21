@@ -64,20 +64,7 @@ If you're working in a team, a good practice is to integrate the generator into 
 
 This repository comes with an [example](./example) that shows how you can integrate the generator into your project. It also includes stylesheets and scripts that bring the generated html map to life. They are a good starter for your own project.
 
-> Please note that the example does not install the generator from _npm_ but imports it directly from the repository, which allows to test changes in development. 
-
-To get the example started, run `$ npm install` in the root of this repository.
-
-Then navigate into the `example` directory and run the generator:
-
-```sh
-$ cd example
-$ node generator.js
-```
-
-This will generate the user story map as web pages in [example/web](example/web). Open [example/output/index.html](example/output/index.html) in your favorite web browser to see the result.
-
-You can now make changes to [example/input/usm.json](./example/input/usm.json) or to one of the cards in [example/input/cards](./example/input/cards), run `$ node generator.js` again, refresh your browser and see how the visualization has changed.
+See [example](./example/).
 
 ## How to provide the input
 
